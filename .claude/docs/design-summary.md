@@ -22,7 +22,7 @@ spacing, depth, radius, motion, iconography and component sections are one-line 
 ## The cli surface
 - The verb set `Commands` declares (layout-templates §cli Primary screens enumerates it), line-oriented (clap + owo-colors + indicatif + comfy-table + inquire), ANSI TTY-gated per stream, NO_COLOR / `TERM=dumb` honored.
 - Status is never colour-alone: every per-P-ID line carries its bracket prefix (`[PASS]`/`[HOLD]`/`[FAIL]`/`[MANUAL]`/`[RESIDUAL]`/`[BLOCKED]`); the run-level captions sit outside the lamp column.
-- The coverage table is 4 columns with a roll-up caption; its `(N unbacked)` qualifies the auto term, never a fifth summand, omitted at zero.
+- Three table shapes, never conflated: the `run`/`suite` results table is 6 columns sized to their content (no terminal-width detection); `conductor coverage` is 4 columns sized to their content, with a roll-up caption whose `(N unbacked)` qualifies the auto term, never a fifth summand, omitted at zero; `conductor scenarios` is 3 columns (Scenario · P-IDs · SLO), no bracket prefix, the one table sized to the terminal width, ending in its `1 scenario` / `N scenarios` roll-up line. Never hardcode widths or wrap at arbitrary points.
 
 ## Universal bans
 - No KPI-card-grid "dashboard"; no colour purely for decoration (colour = Verdict/ReportState).

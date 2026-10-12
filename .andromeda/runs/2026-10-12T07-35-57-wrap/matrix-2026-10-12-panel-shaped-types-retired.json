@@ -1,0 +1,146 @@
+[
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-12T08:10:55Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.4.0",
+"--chunk",
+"2026-10-12-panel-shaped-types-retired",
+"--run-dir",
+".andromeda/runs/2026-10-12T07-35-57-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-12-panel-shaped-types-retired: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v4-01 → verified — The whole program builds and passes its full gate with the window toolkit absent… (2035 chars)",
+"dry-run: nothing written",
+"version: verified 1/24"
+],
+"stderr": null,
+"wrote": [],
+"before": [
+{
+"id": "v4-01",
+"chunk": "2026-10-12-panel-shaped-types-retired",
+"status": "implemented",
+"method": "unit",
+"ref": "bash scripts/agent-run.sh run (nextest ci profile + doctest + clippy -D warnings) with `cargo run -p conductor-cli -- sc… (1201 chars)",
+"acceptance": "The whole program builds and passes its full gate with the window toolkit absent from its dependency graph, and no check… (2035 chars)",
+"notes_chars": 2165
+}
+],
+"after": [
+{
+"id": "v4-01",
+"chunk": "2026-10-12-panel-shaped-types-retired",
+"status": "verified",
+"method": "unit",
+"ref": "bash scripts/agent-run.sh run (nextest ci profile + doctest + clippy -D warnings) with `cargo run -p conductor-cli -- sc… (1201 chars)",
+"acceptance": "The whole program builds and passes its full gate with the window toolkit absent from its dependency graph, and no check… (2035 chars)",
+"notes_chars": 2165
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-12T08:10:59Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.4.0",
+"--chunk",
+"2026-10-12-panel-shaped-types-retired",
+"--run-dir",
+".andromeda/runs/2026-10-12T07-35-57-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-12-panel-shaped-types-retired: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v4-01 → verified — The whole program builds and passes its full gate with the window toolkit absent… (2035 chars)",
+"wrote conductor-0.4.0/verification-matrix.json · 1 entry changed",
+"version: verified 1/24"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.4.0/verification-matrix.json"
+],
+"before": [
+{
+"id": "v4-01",
+"chunk": "2026-10-12-panel-shaped-types-retired",
+"status": "implemented",
+"method": "unit",
+"ref": "bash scripts/agent-run.sh run (nextest ci profile + doctest + clippy -D warnings) with `cargo run -p conductor-cli -- sc… (1201 chars)",
+"acceptance": "The whole program builds and passes its full gate with the window toolkit absent from its dependency graph, and no check… (2035 chars)",
+"notes_chars": 2165
+}
+],
+"after": [
+{
+"id": "v4-01",
+"chunk": "2026-10-12-panel-shaped-types-retired",
+"status": "verified",
+"method": "unit",
+"ref": "bash scripts/agent-run.sh run (nextest ci profile + doctest + clippy -D warnings) with `cargo run -p conductor-cli -- sc… (1201 chars)",
+"acceptance": "The whole program builds and passes its full gate with the window toolkit absent from its dependency graph, and no check… (2035 chars)",
+"notes_chars": 2165
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-12T08:10:59Z",
+"argv": [
+"note",
+"--dir",
+"conductor-0.4.0",
+"--id",
+"v4-01",
+"--text-file",
+".andromeda/runs/2026-10-12T07-35-57-wrap/note-v4-01.md",
+"--run-dir",
+".andromeda/runs/2026-10-12T07-35-57-wrap",
+"--marker",
+"2026-10-12-panel-shaped-types-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v4-01: +668 chars (total 2835) · status verified · ref/acceptance untouched",
+"wrote conductor-0.4.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.4.0/verification-matrix.json"
+],
+"before": {
+"id": "v4-01",
+"chunk": "2026-10-12-panel-shaped-types-retired",
+"status": "verified",
+"method": "unit",
+"ref": "bash scripts/agent-run.sh run (nextest ci profile + doctest + clippy -D warnings) with `cargo run -p conductor-cli -- sc… (1201 chars)",
+"acceptance": "The whole program builds and passes its full gate with the window toolkit absent from its dependency graph, and no check… (2035 chars)",
+"notes_chars": 2165
+},
+"after": {
+"id": "v4-01",
+"chunk": "2026-10-12-panel-shaped-types-retired",
+"status": "verified",
+"method": "unit",
+"ref": "bash scripts/agent-run.sh run (nextest ci profile + doctest + clippy -D warnings) with `cargo run -p conductor-cli -- sc… (1201 chars)",
+"acceptance": "The whole program builds and passes its full gate with the window toolkit absent from its dependency graph, and no check… (2035 chars)",
+"notes_chars": 2835
+}
+}
+]

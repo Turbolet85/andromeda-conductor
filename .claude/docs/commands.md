@@ -16,7 +16,7 @@ _Complete command reference from `.andromeda/architecture.md` + `Cargo.toml` + t
 ## Scenario runs (`conductor-cli`)
 - `conductor run <scenario|P-ID> --seed <s>` — drive one scenario, its gate evaluated under the scenario's declared L4 posture (a P-ID named by several scenarios is refused before any load — `error:` names them, `hint:` says to pass one; exit 1).
 - `conductor preconditions [--for <SCENARIO>] [--json]` — the non-mutating live-Pulse probe; `--for` grades the handles under that scenario's declared L4 posture (a P-ID is refused, exit 2).
-- `conductor suite --seed <s>` — drive the full catalog, over the SUT capability manifest's accepted set (preflight first).
+- `conductor suite --seed <s>` — drive the full catalog, over the SUT capability manifest's accepted set (preflight first). Ctrl-C stops it: the first interrupt sets the stop flag and the process lives, a stopped suite exits 130, and a second Ctrl-C exits 130 at once; a completed suite exits on the hard-Fail rule.
 - `conductor report <run_id>` — re-print a stored run report (pipe-friendly).
 - `conductor cleanup <run_id>` — remove one run's rows from all three `runs.db` tables in a single transaction (rusqlite bound parameters); idempotent, prints the removed row count. The teardown half of `agent-run.sh cleanup`.
 - Env: `CONDUCTOR_RUNS_DIR`, `CONDUCTOR_SCENARIOS_DIR`, `CONDUCTOR_CONTRACT_MANIFEST`, `CONDUCTOR_SEED`. Live read-back needs Pulse's `mcp-server` feature + `ANDROMEDA_PULSE_MCP_ENABLED` + matching `ANDROMEDA_PULSE_DATA_DIR`.
@@ -33,7 +33,7 @@ _Complete command reference from `.andromeda/architecture.md` + `Cargo.toml` + t
 - `cargo check --workspace` — type/compile check.
 
 ## Supply chain
-- `cargo audit` — RustSec advisory gate; the BARE form is the gate (`.github/workflows/ci.yml`). `--deny warnings` exits 1 by construction against the `deny.toml`-adjudicated allowed set (17 as of 2026-09-07: 16 `unmaintained` + 1 `unsound`) — never add it.
+- `cargo audit` — RustSec advisory gate; the BARE form is the gate (`.github/workflows/ci.yml`). `--deny warnings` exits 1 by construction against the `deny.toml`-adjudicated allowed set (empty as measured at the `2026-10-11-conductors-window-retired` gate: `deny.toml` ignores no advisory and `cargo audit` reports no allowed warning) — never add it.
 - `cargo deny check advisories bans sources licenses` — superset gate (`deny.toml`).
 - `cargo update` — refresh `Cargo.lock` (review major bumps); keep it committed + un-drifted.
 

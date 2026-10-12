@@ -1,0 +1,1 @@
+Panel-shaped types retired — the channel payload, picker guard, window log sink, webview fixtures and seed-dir reader leave, the checklist limit re-framed for the CLI hold; four functions get a command-line entry

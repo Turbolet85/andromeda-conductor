@@ -1,0 +1,60 @@
+# Cascade step-2 sweep — every amendment of this pass, its retired wording and its mechanism's phrasing.
+[[pattern]]
+id = 'tauri-sink'
+regex = 'conductor-tauri|Tauri backend|tauri_log_path|window log sink'
+ignore_case = true
+
+[[pattern]]
+id = 'seed-dir'
+regex = 'E2E_SEED|seeding test|seeder test|seed dir'
+ignore_case = true
+
+[[pattern]]
+id = 'webview-fx'
+regex = 'lamps_fixture|envelope_fixture|lamps-journal|over-envelope|webview fixture'
+ignore_case = true
+
+[[pattern]]
+id = 'run-fx-tree'
+fixed = 'conductor-run/tests/fixtures'
+
+[[pattern]]
+id = 'persist-side'
+regex = 'persist-side|production WRITER'
+
+[[pattern]]
+id = 'live-counter'
+regex = 'live[- ]counter|abort flag|stop button'
+ignore_case = true
+
+[[pattern]]
+id = 'checklist'
+regex = 'dialog row|display bound|MAX_CHECKLIST_TEXT|to the shells|to its shell'
+ignore_case = true
+
+[[pattern]]
+id = 'drive-run'
+regex = 'drive_run|RunEvent|RunStage|run-event channel|Channel payload'
+
+[[pattern]]
+id = 'caller-span'
+fixed = "caller's span"
+
+[[pattern]]
+id = 'term-width'
+regex = 'terminal width|detected dynamically|widths? from (the )?terminal|width detected|terminal-controlled'
+ignore_case = true
+
+[[pattern]]
+id = 'table-shapes'
+regex = 'must not be conflated|capability-coverage tables|three table|third shape'
+ignore_case = true
+
+[[pattern]]
+id = 'parity-arm'
+regex = 'in-process (arm|path|composition)'
+ignore_case = true
+
+[[pattern]]
+id = 'picker'
+regex = 'picker|ScenarioSummary|list_scenarios|for the desktop report|read_envelope'

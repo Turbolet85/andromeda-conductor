@@ -1,0 +1,57 @@
+cascade v1.4 · a2f11860
+file leaf-architecture.md · group architecture · blocks 7 · receipts ok
+file leaf-security-plan.md · group security-plan · blocks 10 · receipts ok
+file leaf-design-system.md · group design-system · blocks 3 · receipts ok
+file leaf-layout-templates.md · group layout-templates · blocks 2 · receipts ok
+file leaf-test-plan.md · group test-plan · blocks 5 · receipts ok
+file leaf-obs-plan.md · group obs-plan · blocks 6 · receipts ok
+file leaf-a11y-plan.md · group a11y-plan · blocks 2 · receipts ok
+applied · leaf-architecture.md/CLAUDE.md:27#1 · stale
+applied · leaf-architecture.md/.claude/docs/conventions.md:43#1 · stale
+applied · leaf-architecture.md/.claude/docs/conventions.md:36#1 · omission
+applied · leaf-architecture.md/.claude/docs/stack.md:13#1 · stale
+applied · leaf-architecture.md/.claude/docs/stack.md:42#1 · retired
+applied · leaf-architecture.md/.claude/docs/commands.md:36#1 · stale
+applied · leaf-architecture.md/.claude/docs/gotchas.md:67#1 · stale
+applied · leaf-security-plan.md/.claude/docs/security-summary.md:11#1 · retired
+applied · leaf-security-plan.md/.claude/docs/security-summary.md:12#1 · omission
+applied · leaf-security-plan.md/.claude/docs/security-summary.md:14#1 · stale
+applied · leaf-security-plan.md/.claude/docs/security-summary.md:44#1 · omission
+applied · leaf-security-plan.md/.claude/docs/security-summary.md:44#2 · omission
+applied · leaf-security-plan.md/.claude/docs/security-summary.md:34#1 · stale
+applied · leaf-security-plan.md/.claude/rules/security.md:18#1 · retired
+applied · leaf-security-plan.md/.claude/rules/security.md:16#1 · stale
+applied · leaf-security-plan.md/.claude/rules/security.md:40#1 · omission
+applied · leaf-security-plan.md/CLAUDE.md:39#1 · omission
+held · leaf-design-system.md/.claude/docs/design-summary.md:25#1 · omission
+applied · leaf-design-system.md/CLAUDE.md:42#1 · omission
+held · leaf-design-system.md/CLAUDE.md:59#1 · retired
+held · leaf-layout-templates.md/.claude/docs/design-summary.md:25#1 · omission
+preserved · leaf-layout-templates.md/.claude/docs/design-summary.md:12#1 · omission
+held · leaf-test-plan.md/.claude/rules/observability.md:17#1 · retired
+applied · leaf-test-plan.md/.claude/docs/tests-summary.md:27#1 · omission
+applied · leaf-test-plan.md/.claude/docs/commands.md:19#1 · omission
+applied · leaf-test-plan.md/.claude/rules/testing.md:42#1 · stale
+applied · leaf-test-plan.md/.claude/rules/testing.md:32#1 · omission
+applied · leaf-obs-plan.md/.claude/docs/obs-summary.md:7#1 · stale
+applied · leaf-obs-plan.md/.claude/docs/obs-summary.md:12#1 · retired
+applied · leaf-obs-plan.md/.claude/rules/observability.md:16#1 · omission
+held · leaf-obs-plan.md/.claude/rules/observability.md:17#1 · retired
+applied · leaf-obs-plan.md/.claude/rules/observability.md:26#1 · omission
+applied · leaf-obs-plan.md/.claude/rules/observability.md:33#1 · stale
+applied · leaf-a11y-plan.md/.claude/docs/a11y-summary.md:6#1 · retired
+applied · leaf-a11y-plan.md/.claude/rules/a11y.md:13#1 · tree
+wrote CLAUDE.md: 3 finding(s), read back
+wrote .claude/docs/conventions.md: 2 finding(s), read back
+wrote .claude/docs/stack.md: 2 finding(s), read back
+wrote .claude/docs/commands.md: 2 finding(s), read back
+wrote .claude/docs/gotchas.md: 1 finding(s), read back
+wrote .claude/docs/security-summary.md: 6 finding(s), read back
+wrote .claude/rules/security.md: 3 finding(s), read back
+wrote .claude/docs/tests-summary.md: 1 finding(s), read back
+wrote .claude/rules/testing.md: 2 finding(s), read back
+wrote .claude/docs/obs-summary.md: 2 finding(s), read back
+wrote .claude/rules/observability.md: 3 finding(s), read back
+wrote .claude/docs/a11y-summary.md: 1 finding(s), read back
+wrote .claude/rules/a11y.md: 1 finding(s), read back
+total · blocks 35 · applied 29 · preserved 1 · held 5

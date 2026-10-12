@@ -24,7 +24,7 @@ Conductor is a headless-drivable Rust core (its Tauri 2 control panel retired 20
 - **`conductor-faults`** — fault helpers: ramps, silence, port-occupier, fingerprint-storm fault (the per-exception fingerprint primitive lives in `conductor-emit`).
 - **`conductor-verify`** — MCP read-back client (hand-rolled JSON-RPC over the sidecar's stdio), preflight gate, verdict logic.
 - **`conductor-report`** — JSONL emission journal + Markdown run report + `runs.db` (rusqlite) storage seam.
-- **`conductor-run`** — run composition root library (preflight + scenario execution + `persist` + the live-counter `drive_run` + the fault-phase occupier guard; → `conductor-faults`) used by the cli bin.
+- **`conductor-run`** — run composition root library (preflight + scenario execution + `persist` + the suite driver `drive_run` (progress callback + Ctrl-C stop flag) + the fault-phase occupier guard; → `conductor-faults`) used by the cli bin.
 - **`conductor-cli`** — `agent-run` binary, headless source of truth + release gate.
 <!-- GENERATED:setup:modules end -->
 
@@ -36,10 +36,10 @@ Conductor is a headless-drivable Rust core (its Tauri 2 control panel retired 20
 - **Preflight integrity:** never silently downgrade a preflight that RUNS — `agent-run boot` skips the preflight entirely when its leading `conductor preconditions` arm reports an unmet subject (a non-mutating probe, non-zero exit, every subject named). That skip is CONDITIONAL and not a downgrade: each handle is graded by the KIND of value it carries — the PATH-valued `ANDROMEDA_PULSE_DATA_DIR` by presence, the two flags by an affirmative `"true"`/`"1"` (the deterministic posture; under a real-model scenario's posture — `conductor preconditions --for` — the L4 flag must instead be ABSENT or falsy) — so `handles-declared` is satisfiable and `boot` reaches the gate (measured 2026-09-04: probe exit 0, then `ReadyState` with `ready:true` in both shells). `conductor preflight --json` remains a valid direct entry point. For an invoked gate — each of the gate's FIVE named preconditions (protocol≠`2024-11-05` / missing tool / no incident opened after the canary storm / app-sidecar workspace-key agreement / unmet run-contract terms) surfaces the distinct `Blocked` state with its own host-path-free string, never the generic corpus-empty one. Which run-contract terms bind is selected by the run's L4 posture, and a scenario declaring a posture other than its gate's is `Blocked` at scenario level — never a sixth precondition. A contract term whose truth lives on the SUT's side is recorded `declared-not-observable` and never blocks — blocking on it would claim a measurement Conductor cannot make.
 - **Supply chain:** keep `Cargo.lock` committed + un-drifted; never `cargo build --release` or merge without `cargo-audit` (+ `cargo-deny`) green; hold toolchain ≥1.94.1.
 - **Subprocess hardening:** spawn `andromeda-pulse-mcp` as a fixed hard-coded program NAME resolved through the inherited `PATH` (never operator-chosen) — the same const also has a NON-SPAWNING sibling resolution (`sidecar_resolves_on_path`, a directory walk returning a boolean-grade fact, never the resolved path); pass `ANDROMEDA_PULSE_DATA_DIR` only via `.env(...)` after rejecting injection metacharacters — never into argv/shell.
-- **Artifact hygiene:** never leak absolute host paths or internal struct names into logs / run-report / `runs.db` — sanitize at the `anyhow` edge + the tracing-subscriber field-allowlist.
+- **Artifact hygiene:** never leak absolute host paths or internal struct names into logs / run-report / `runs.db` / committed `evidence/` — sanitize at the `anyhow` edge + the tracing-subscriber field-allowlist.
 - **Self-obs never exports OTLP:** the only OTLP is the PRODUCT fault stream to Pulse `:4317`; self-observation is `tracing` JSON to stderr/file (no OTel SDK), every line carrying `run_id`; zero unlogged panics (`std::panic::set_hook`).
 - **Wall-clock from `std::time`:** journal/report stamps use `std::time::SystemTime`/`Instant`, never tokio's virtual clock (scheduling-only) — journal-relative SLO math depends on it.
-- **Status is never color-alone:** pair every Verdict/ReportState with its ASCII prefix `[PASS]`/`[FAIL]`/`[HOLD]`/`[BLOCKED]` (cli); color encodes run state, never decoration.
+- **Status is never color-alone:** pair every Verdict/ReportState with its ASCII prefix `[PASS]`/`[FAIL]`/`[HOLD]`/`[MANUAL]`/`[RESIDUAL]`/`[BLOCKED]` (cli); color encodes run state, never decoration.
 - **Determinism is the bar:** same scenario+seed ⇒ same stream shape (span identity alone is salted per execution on the production path; the unsalted dispatcher tier stays seed-pure); loopback gRPC/MCP stubs only in tests (`start_paused` for scheduling); zero-flakiness — no nextest retries.
 <!-- GENERATED:setup:warnings end -->
 
@@ -56,7 +56,7 @@ Conductor is a headless-drivable Rust core (its Tauri 2 control panel retired 20
 | Scenario config validation | `.andromeda/security-plan.md` §Input Validation |
 | Dependency security / cargo-audit | `.andromeda/security-plan.md` §Dependency Security |
 | Subprocess-spawn hardening | `.andromeda/security-plan.md` §Security Anti-Patterns |
-| Design tokens / palette / typography | `.andromeda/design-system.md` §Color Palette / §Typography |
+| Design tokens / palette (the cli's ANSI map) / typography (retired 2026-10-11 — the cli sets no face) | `.andromeda/design-system.md` §Color Palette / §Typography |
 | Layout / surfaces (cli) | `.andromeda/layout-templates.md` |
 | Test harness (5-command) | `.andromeda/test-plan.md` §3 (keyed: `.andromeda/registries/test-plan-contracts.toml`, one file per key) |
 | CI integration / quality gates | `.andromeda/test-plan.md` §9 / §10 |

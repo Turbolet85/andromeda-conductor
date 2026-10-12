@@ -4,12 +4,12 @@ _Distilled from `.andromeda/obs-plan.md`. setup-project Phase 3. wrap-session do
 
 ## Obs tier
 **Tier:** Minimal (0).
-**Justification:** 8 crates + 2 surfaces; self-observation is structured `tracing` logs only (JSONL); OTLP is the PRODUCT (fault telemetry emitted AT Pulse), not the obs mechanism — a creator-explicit ban on an OTel SDK for self-observation.
+**Justification:** 8 crates + 1 surface (headless CLI); self-observation is structured `tracing` logs only (JSONL); OTLP is the PRODUCT (fault telemetry emitted AT Pulse), not the obs mechanism — a creator-explicit ban on an OTel SDK for self-observation.
 
 ## Harness contract (§3) — bound to the test harness
 - **Logger:** `tracing` 0.1.44 + `tracing-subscriber` 0.3.23 (`fmt().json().flatten_event(true)`).
 - **OTel SDK:** NONE for self-observation (the only OTLP is the PRODUCT fault stream to Pulse `:4317`).
-- **Log sink:** cli → `logs/agent-latest.jsonl` (`--agent-mode`) / stderr (dev); Tauri backend → `conductor-tauri.jsonl` with no writer since 2026-10-11 (the sink goes at `Panel-shaped types retired`).
+- **Log sink:** cli → `logs/agent-latest.jsonl` (`--agent-mode`) / stderr (dev).
 - **Log format:** JSONL, one object per line (custom `tracing-subscriber` layer). Two shapes: the **self-obs base line** (every line) — `timestamp_ms` (`std::time`), `level`, `target`, service-identity, `run_id`; the **Run-report envelope** — `journal_emitted_at`, `read_back_observed_at`, `run_id`, `seed`, `scenario`, `p_ids`, `verdict`, `state`, `latency_ms`, `slo_tier`, `fingerprints` (schema owned by test-plan §3). The report seam writes a SECOND line shape onto that same journal — the per-check `CheckRecord` (`run_id`, `scenario`, `check_index`, `kind`, `verdict`, `state`, `latency_ms`, `deadline_ms`, `budget_ms`), a finer GRAIN beneath the envelope, never an extension of it; a typed parse discriminates the two, and neither report-seam shape passes through the span-attribute allowlist. The self-obs line has two variants over its base set: the **event line** and the **span-lifecycle line** (`span`, `span_event` `new`/`close`, optional `parent`, plus the span's allowlisted attributes on `new`).
 - **Heartbeat:** N/A for cli (short-lived per-scenario).
 - **Correlation:** the `run_id` field — NO W3C `trace_id`/`traceparent`. Cross-surface parity = `runs.db` envelope comparison.

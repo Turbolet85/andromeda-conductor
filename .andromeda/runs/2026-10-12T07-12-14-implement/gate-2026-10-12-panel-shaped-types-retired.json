@@ -1937,5 +1937,513 @@
 "tripwire": []
 }
 }
+},
+{
+"tool": "gate",
+"v": "1.15",
+"sha8": "01bedf67",
+"ts": "2026-10-12T07:34:30Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-12T07-12-14-implement",
+"--marker",
+"2026-10-12-panel-shaped-types-retired",
+"--operator",
+"24"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-12-panel-shaped-types-retired · entries 24",
+"logs $TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14 · bound: GNU timeout",
+"delta none",
+"walk-class rust 8 (crates/conductor-core/src/drift.rs, crates/conductor-core/src/load_envelope.rs, crates/conductor-core/src/scenario_catalog.rs, +5 in the trail) · uncommitted 0",
+"prose L212-215: No live leg: every new entry is proven hermetically on the Blocked spine or at the unit ti… (393 chars)",
+"operator entry 24 · history tripwire: none of 7 forms matched — not a clearance",
+"  1 build       not run — excluded · cargo build --workspace --locked",
+"  2 probe       not run — excluded · comm -13 <(git show 06190485ec74ac07b1c797fbde6dc9441e60db… (210 chars)",
+"  3 probe       not run — excluded · awk '/^name = /' Cargo.lock | wc -l",
+"  4 build       not run — excluded · for p in conductor-core conductor-timeline conductor-emit … (225 chars)",
+"  5 probe       not run — excluded · git grep -n -E 'RunEvent|RunStage|validate_selection|SUITE… (190 chars)",
+"  6 probe       not run — excluded · git grep -l 'conductor-tauri\\.jsonl' -- crates ':!crates/c… (103 chars)",
+"  7 probe       not run — excluded · git grep -n -i -E 'tauri|webview|picker|\\bgui\\b|dialog row… (458 chars)",
+"  8 probe       not run — excluded · grep -c -E '^    Scenarios,?$|^    Scenarios \\{' crates/co… (80 chars)",
+"  9 probe       not run — excluded · grep -c -E '^tokio = .*\"signal\"' crates/conductor-cli/Carg… (64 chars)",
+" 10 probe       not run — excluded · grep -l -F '**Conductor has no interface.**' .andromeda/de… (135 chars)",
+" 11 lint        not run — excluded · cargo fmt --all --check",
+" 12 unit        not run — excluded · bash scripts/agent-run.sh run",
+" 13 unit        not run — excluded · cargo test --workspace --lib --bins --tests",
+" 14 e2e         not run — excluded · cargo run -q -p conductor-cli --locked -- scenarios",
+" 15 e2e         not run — excluded · cargo run -q -p conductor-cli --locked -- --help",
+" 16 unit        not run — excluded · cargo llvm-cov nextest --workspace --profile ci --no-repor… (59 chars)",
+" 17 probe       not run — excluded · cargo llvm-cov report --fail-under-lines 60 --ignore-filen… (85 chars)",
+" 18 probe       not run — excluded · git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --… (67 chars)",
+" 19 probe       not run — excluded · cargo audit",
+" 20 probe       not run — excluded · git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --… (67 chars)",
+" 21 probe       not run — excluded · cargo deny check advisories bans licenses sources",
+" 22 probe       not run — excluded · python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ga… (71 chars)",
+" 23 probe       not run — excluded · git diff --quiet && git diff --cached --quiet && git push … (86 chars)",
+" 24 probe       green · exit 0 · 405.84s · 320 B → 24.log · history: unmoved · python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ci… (95 chars)",
+"entries 24 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 23"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-12-panel-shaped-types-retired",
+"plan": "./conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14",
+"delta": {},
+"unmapped": [],
+"walk_class": {
+"marked": {
+"rust": [
+"crates/conductor-core/src/drift.rs",
+"crates/conductor-core/src/load_envelope.rs",
+"crates/conductor-core/src/scenario_catalog.rs",
+"crates/conductor-core/tests/scenario_audit_gate.rs",
+"crates/conductor-core/tests/secret_scan_gate.rs",
+"crates/conductor-core/tests/workflow_env_gate.rs",
+"crates/conductor-run/tests/real_model_grading/capture_population.rs",
+"crates/conductor-run/tests/real_model_harvest.rs"
+]
+},
+"uncommitted": 0,
+"problem": null
+},
+"prose": [
+{
+"from": 212,
+"to": 215,
+"text": "No live leg: every new entry is proven hermetically on the Blocked spine or at the unit tier. No run binds `:4317` / `:4318` (`inputs#I2` §7). No smoke entry either: the chunk has no boot-path change, and a bare `status` would read a prior run's envelope. The operator pass's CI read is listed because v4-01's acceptance asks the full gate to pass, and CI is where it runs on a clean checkout."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "build",
+"run": "cargo build --workspace --locked",
+"run_sha8": "4b0b16e3",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "probe",
+"run": "comm -13 <(git show 06190485ec74ac07b1c797fbde6dc9441e60db2f:Cargo.lock | awk '/^name = /{n=$3} /^version = /{print n, $3}' | sort) <(awk '/^name = /{n=$3} /^version = /{print n, $3}' Cargo.lock | sort) | wc -l",
+"run_sha8": "933ce282",
+"expect": [
+"exit 0",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "awk '/^name = /' Cargo.lock | wc -l",
+"run_sha8": "3162ba32",
+"expect": [
+"exit 0",
+"last line 268"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "build",
+"run": "for p in conductor-core conductor-timeline conductor-emit conductor-faults conductor-verify conductor-report conductor-run; do cargo build -p \"$p\" --lib --locked || exit 1; done && cargo build -p conductor-cli --bins --locked",
+"run_sha8": "6f99157d",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "probe",
+"run": "git grep -n -E 'RunEvent|RunStage|validate_selection|SUITE_SELECTION|CONDUCTOR_E2E_SEED_DIR|envelope_fixture|lamps_fixture|lamps-journal\\.jsonl|over-envelope\\.toml' -- crates scripts .github",
+"run_sha8": "ad5246ba",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "git grep -l 'conductor-tauri\\.jsonl' -- crates ':!crates/conductor-run/tests/operator_pause_harvest.rs'",
+"run_sha8": "a54ef3c5",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "git grep -n -i -E 'tauri|webview|picker|\\bgui\\b|dialog row|desktop' -- crates/conductor-run/src/drive.rs crates/conductor-run/src/envelope.rs crates/conductor-run/src/lib.rs crates/conductor-core/src/scenario_catalog.rs crates/conductor-core/src/scenario.rs crates/conductor-core/src/obs.rs crates/conductor-core/src/pause.rs crates/conductor-cli/src/render.rs crates/conductor-cli/tests/cross_surface_parity.rs crates/conductor-run/tests/composition_root.rs",
+"run_sha8": "d5c4a8ec",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "grep -c -E '^    Scenarios,?$|^    Scenarios \\{' crates/conductor-cli/src/cli.rs",
+"run_sha8": "31b50e5f",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "grep -c -E '^tokio = .*\"signal\"' crates/conductor-cli/Cargo.toml",
+"run_sha8": "b0fc51b6",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "grep -l -F '**Conductor has no interface.**' .andromeda/design-system.md .andromeda/layout-templates.md .andromeda/a11y-plan.md | wc -l",
+"run_sha8": "0cc13242",
+"expect": [
+"exit 0",
+"last line 3"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run",
+"run_sha8": "21443cdf",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "unit",
+"run": "cargo test --workspace --lib --bins --tests",
+"run_sha8": "b2c90191",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "e2e",
+"run": "cargo run -q -p conductor-cli --locked -- scenarios",
+"run_sha8": "bb529ce5",
+"expect": [
+"exit 0",
+"contains error-baseline-spike",
+"contains P-009",
+"contains scenarios"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "e2e",
+"run": "cargo run -q -p conductor-cli --locked -- --help",
+"run_sha8": "03874cd8",
+"expect": [
+"exit 0",
+"contains scenarios"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "unit",
+"run": "cargo llvm-cov nextest --workspace --profile ci --no-report",
+"run_sha8": "42122532",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "cargo llvm-cov report --fail-under-lines 60 --ignore-filename-regex '[\\\\/]tests[\\\\/]'",
+"run_sha8": "af9f253a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --porcelain",
+"run_sha8": "eab7a4cb",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --porcelain",
+"run_sha8": "eab7a4cb",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": [
+"exit 0",
+"lacks advisory-not-detected",
+"lacks license-not-encountered"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "3c62df70",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin build/conductor-0.4.0",
+"run_sha8": "8e03f911",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1200",
+"run_sha8": "3221deca",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/24.log",
+"bytes": 320,
+"log_sha8": "ec7b6c4f",
+"exit": 0,
+"seconds": 405.84,
+"readings": [
+"exit 0 ✓",
+"contains 'verdict: green' ✓"
+],
+"survivors": [],
+"operator": true,
+"witness": "history: unmoved",
+"outcome": "green"
+}
+],
+"operator": {
+"n": 24,
+"tripwire": []
+}
+}
 }
 ]

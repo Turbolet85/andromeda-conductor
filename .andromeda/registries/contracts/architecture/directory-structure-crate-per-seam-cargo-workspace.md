@@ -20,7 +20,7 @@ conductor/
 │  ├─ conductor-faults/       # fault helpers (ramps, silence, port-occupier, fingerprint-storm)
 │  ├─ conductor-verify/       # MCP read-back client (hand-rolled JSON-RPC), preflight gate, verdict logic
 │  ├─ conductor-report/       # JSONL journal + Markdown report + runs.db (rusqlite) storage seam
-│  ├─ conductor-run/          # run composition root lib (preflight + execute_scenario + persist + live-counter drive_run + the fault-phase occupier guard; → conductor-faults) — used by the conductor-cli bin
+│  ├─ conductor-run/          # run composition root lib (preflight + execute_scenario + persist + the suite driver drive_run (progress callback + Ctrl-C stop flag) + the fault-phase occupier guard; → conductor-faults) — used by the conductor-cli bin
 │  └─ conductor-cli/          # `agent-run` bin (#[tokio::main(flavor="current_thread")] + anyhow)
 ├─ scenarios/                 # declarative scenario config (serde + garde), each naming its P-IDs — a P-ID may be named by several
 ├─ contracts/                 # pinned MCP contract manifest + the SUT capability manifest + the SUT load envelope + the SUT run contract + the scenario-assertion audit ledger + the P-025 measurement contract + the real-model leg posture (the two members no shipped code reads)

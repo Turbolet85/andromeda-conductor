@@ -180,4 +180,4 @@ marker = {date}-{slug} (e.g. 2026-06-04-otlp-http-ingest), minted at promotion.
 
 ## conductor-0.4.0
 2026-10-11-conductors-window-retired · complete · Conductor's window retired — the window crate, its CI jobs, scripts, webview arms, driver spawn forms, fetched-driver class and Tauri-tree audit exceptions leave · → conductor-0.4.0/chunks/2026-10-11-conductors-window-retired/
-2026-10-12-panel-shaped-types-retired · pending · Panel-shaped types retired — the panel types, limit, sink and fixtures leave; four functions get a command-line entry · → conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/
+2026-10-12-panel-shaped-types-retired · complete · Panel-shaped types retired — the channel payload, picker guard, window log sink, webview fixtures and seed-dir reader leave, the checklist limit re-framed for the CLI hold; four functions get a command-line entry · → conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/

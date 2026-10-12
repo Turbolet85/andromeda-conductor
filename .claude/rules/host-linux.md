@@ -48,3 +48,4 @@ work, not hypothetical.
 _This section is owned by `/wrap-session`. setup-project preserves content added here on re-run. See `section-markers.md` for the convention._
 - 2026-09-23: **A multi-file count probe (`grep -c A B | grep -vc ':0$'`) reads GREEN when a file is missing** — under `pipefail` the exit is the rightmost failing stage, so stage 1's exit 2 is masked by stage 2's exit 1; lead with `test -f` on every file the probe must see.
 - 2026-10-06: **`inputs.py snap` refuses any source under the OS temp dir, the session scratchpad included — write a relayed message into the skill's run dir and snap it with `--message-file` and `--origin`.**
+- 2026-10-12: **Setup's Bash guard does not refuse a `cd` chained behind `2>/dev/null || true;` — that form passed and moved the session cwd; the subshell form `( cd X && … )` stays the only `cd` to write.**

@@ -88,5 +88,23 @@
     "read_at": "2026-10-12T07:10:40Z",
     "step": "phase:P5",
     "why": "the operator, in their own word, approves .andromeda/runs/2026-10-12T06-44-11-phase/p5-card-2.md: the plan with the four edits folded and its two Beyond-the-plan rows"
+  },
+  {
+    "id": "I6",
+    "kind": "relay",
+    "repo": null,
+    "path": "../additional/pc-overseer/relays/conductor-wrap-panel-shaped-types-retired-2026-10-12.md",
+    "form": "copy",
+    "state": "no-repo",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "a7cfd4fa5d234c79dcf163ff4fa87f06a3786e5724abb88c0a389fea37219556",
+    "copy": "I6-conductor-wrap-panel-shaped-types-retired-2026-10-12.md.txt",
+    "link": false,
+    "read_at": "2026-10-12T07:36:19Z",
+    "step": "wrap",
+    "why": "the wrap directive: P1 only as a split wrap (founder ruling F252 D2), leaves --all in the second window; v4-01 as claimed with its P5 note; the Tauri log-sink rows retire in this wrap; the two P4 boundary words (scenarios verb, exit 130) halt in ordinary form if the playbook reads a widening; the implement deviations listed; the prior handoff owed items; stops"
   }
 ]

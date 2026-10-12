@@ -1,0 +1,3 @@
+sweep: base: 06190485 — the previous sweep (2026-10-11T08-28-34-wrap) · re-pointed 0 · changed 0 · stretched 0
+
+out-of-range .andromeda/architecture.md:20 Cargo.toml:154 — the file held 84 lines at the base → not a citation of the tree — no change: the citing text reads "the SUT's own pin (`andromeda-pulse Cargo.toml:154`)" — another repository's file (Pulse's workspace manifest) that the tool resolved to this tree's `Cargo.toml` by basename (84 lines here, at the base and now); the number is Pulse's and is not this tree's to re-point. The tool holds the row from the next sweep on (`held`), which is the intended standing state for it.

@@ -1,0 +1,165 @@
+[
+{
+"tool": "route",
+"v": "1.7",
+"sha8": "7e4cd318",
+"ts": "2026-10-12T08:11:36Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-12-panel-shaped-types-retired",
+"--desc-file",
+".andromeda/runs/2026-10-12T07-35-57-wrap/master-desc.txt",
+"--run-dir",
+".andromeda/runs/2026-10-12T07-35-57-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"flip master-route.md:183 - 2026-10-12-panel-shaped-types-retired pending -> complete - desc REWRITTEN from --desc-file"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.7",
+"sha8": "7e4cd318",
+"ts": "2026-10-12T08:11:36Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-12-panel-shaped-types-retired",
+"--date",
+"2026-10-12",
+"--run-dir",
+".andromeda/runs/2026-10-12T07-35-57-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"pin :13 strip CARRY: 670ch \"CARRY: four functions lost their only en\"",
+"pin next markerless :15 holds CARRY:×1",
+"13 · 2026-10-12-panel-shaped-types-retired · strip 1 block(s) · archive APPEND"
+],
+"stderr": "conductor-0.4.0/route-archive.md: absent -- pass --header-file with the letter's authored header (the tool writes no text of its own)",
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 13,
+"marker": "2026-10-12-panel-shaped-types-retired",
+"blocks": 1,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.7",
+"sha8": "7e4cd318",
+"ts": "2026-10-12T08:11:49Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-12-panel-shaped-types-retired",
+"--date",
+"2026-10-12",
+"--run-dir",
+".andromeda/runs/2026-10-12T07-35-57-wrap",
+"--header-file",
+".andromeda/runs/2026-10-12T07-35-57-wrap/archive-header.md",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :13 strip CARRY: 670ch \"CARRY: four functions lost their only en\"",
+"pin next markerless :15 holds CARRY:×1",
+"13 · 2026-10-12-panel-shaped-types-retired · strip 1 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s); route-archive.md would be CREATED"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 13,
+"marker": "2026-10-12-panel-shaped-types-retired",
+"blocks": 1,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.7",
+"sha8": "7e4cd318",
+"ts": "2026-10-12T08:11:54Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-12-panel-shaped-types-retired",
+"--date",
+"2026-10-12",
+"--run-dir",
+".andromeda/runs/2026-10-12T07-35-57-wrap",
+"--header-file",
+".andromeda/runs/2026-10-12T07-35-57-wrap/archive-header.md"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :13 strip CARRY: 670ch \"CARRY: four functions lost their only en\"",
+"pin next markerless :15 holds CARRY:×1",
+"13 · 2026-10-12-panel-shaped-types-retired · strip 1 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./conductor-0.4.0/route-archive.md",
+"./conductor-0.4.0/working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 13,
+"marker": "2026-10-12-panel-shaped-types-retired",
+"blocks": 1,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

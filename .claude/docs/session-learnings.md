@@ -1,6 +1,14 @@
 # Session Learnings
 
 _This file is curated by `/wrap-session`. Learnings captured here are too detailed or specific for CLAUDE.md but worth preserving as reference material for future sessions._
+## 2026-10-12 — `cascade.py sweep --pattern` takes its ids after ONE flag
+`cascade.py sweep --pattern` reads the pattern ids space-separated after a single flag (`--pattern a b c`). Repeating
+the flag (`--pattern a --pattern b`) keeps only the LAST id: seven repeated flags ran one pattern and printed
+`total (1 pattern)` with no warning, so a narrowed re-fire silently drops the patterns it meant to re-run. Read the
+`total (N patterns)` line against the count you meant to fire. A pattern id is 1–16 characters; a longer id exits 2
+naming the pattern, so shorten ids in the patterns file before the sweep rather than after a refusal.
+
+---
 ## 2026-10-11 — Predict a lockfile prune by pruning, and prove it by the name+version set
 When a workspace member leaves, a reachability walk over the EXISTING resolve (`cargo metadata` from the remaining
 members) over-counts what survives: the old resolve's features are unified across every member, so optional edges

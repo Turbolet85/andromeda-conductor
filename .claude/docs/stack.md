@@ -10,7 +10,7 @@ _Mirrors `.andromeda/architecture.md` §Stack and Technologies. Convenience refe
 
 ## Core Frameworks
 - **No backend/web framework** — Conductor is a gRPC client + MCP client; no HTTP/network service of its own.
-- **OTLP emission:** opentelemetry-proto 0.32.0 (`gen-tonic` + trace/metrics/logs) — raw hand-built message structs for byte-level fault control.
+- **OTLP emission:** opentelemetry-proto 0.32.0 (`default-features = false` at the workspace entry; `gen-tonic` + `trace`/`logs`) — raw hand-built message structs for byte-level fault control.
 - **gRPC transport:** tonic 0.14.6 + tonic-prost 0.14.6 + prost 0.14 (codegen via `tonic-prost-build`).
 - **MCP read-back client:** hand-rolled line-delimited JSON-RPC over tokio child stdio (rmcp removed 2026-06-27 — Pulse's `tools/call` is non-MCP-compliant); protocol `2024-11-05` read from the `initialize` result; raw `serde_json::Value` tool results.
 - **Validation:** serde 1.0.x + garde 0.22.1 (`#[derive(Validate)]` range + `#[garde(custom)]` field/cross-field). A cross-field rule that must read a SIBLING field cannot be a garde validator under 0.22.1 (`custom` receives `(&field, &())`) — it ships as a load-path `Scenario::check_*()` called from `from_toml_str`.
@@ -39,7 +39,7 @@ _Mirrors `.andromeda/architecture.md` §Stack and Technologies. Convenience refe
 - **Lint/format:** clippy + rustfmt. Module-graph audit: cargo-modules / cargo-rail (optional).
 - **Operator instruments (host Python 3):** resolved by no lockfile and pinned by no toolchain file — the code-graph pipeline (`scripts/code-graph.py` + `scripts/scip_pb2.py` + `scripts/requirements.txt`, since 2026-06-18), the mutation-tally gate (`scripts/mutation-gate.py` + `scripts/mutation-roster.toml`, since 2026-09-13; a stdlib `selftest` verb over the committed `scripts/fixtures/mutation-gate/` since 2026-09-30) and the architecture-registry check (`scripts/arch-registry-check.py`, stdlib only, since 2026-09-24). None is CI-invoked; none adds a sixth `agent-run` command.
 - **Supply chain:** cargo-audit 0.22.2 + cargo-deny 0.19.8 (`deny.toml`) for the Rust tree. No npm tree remains (2026-10-11).
-- **A11y:** axe-core 4.12.0 + @axe-core/webdriverio + Lighthouse 13.0.3 + colorjs.io 0.6.1 (operator/local-gated).
+- **A11y:** none since 2026-10-11 — the webview a11y leg and the `a11y` CI job left with the window; no a11y tooling remains in the stack.
 - **CI:** GitHub Actions — `cargo fmt --all --check` / `cargo build` / nextest / clippy + the static gates, each its own presence-guarded named step — over committed data (coverage-completeness · scenario-assertion audit) and repository hygiene (secret scan · workflow env-context, beside the `GITHUB_ENV context probe` pair) — + audit/deny + coverage. Dynamic live-Pulse proof is an operator/local gate, not CI.
 
 ## Infrastructure

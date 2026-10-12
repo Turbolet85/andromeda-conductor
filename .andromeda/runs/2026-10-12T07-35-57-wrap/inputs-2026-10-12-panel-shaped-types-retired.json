@@ -1,0 +1,205 @@
+[
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "3ad6efca",
+"ts": "2026-10-12T07:36:19Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired",
+"--source",
+"~/dev/projects/additional/pc-overseer/relays/conductor-wrap-panel-shaped-types-retired-2026-10-12.md",
+"--kind",
+"relay",
+"--why",
+"the wrap directive: P1 only as a split wrap (founder ruling F252 D2), leaves --all in the second window; v4-01 as claimed with its P5 note; the Tauri log-sink rows retire in this wrap; the two P4 boundary words (scenarios verb, exit 130) halt in ordinary form if the playbook reads a widening; the implement deviations listed; the prior handoff owed items; stops",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-12T07-35-57-wrap",
+"--marker",
+"2026-10-12-panel-shaped-types-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I6 · copy no-repo · ../additional/pc-overseer/relays/conductor-wrap-panel-shaped-types-retired-2026-10-12.md",
+"cite: inputs#I6"
+],
+"stderr": null,
+"wrote": [
+"inputs/I6-conductor-wrap-panel-shaped-types-retired-2026-10-12.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I6",
+"kind": "relay",
+"repo": null,
+"path": "../additional/pc-overseer/relays/conductor-wrap-panel-shaped-types-retired-2026-10-12.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "a7cfd4fa5d234c79dcf163ff4fa87f06a3786e5724abb88c0a389fea37219556",
+"copy": "I6-conductor-wrap-panel-shaped-types-retired-2026-10-12.md.txt",
+"link": false,
+"read_at": "2026-10-12T07:36:19Z",
+"step": "wrap",
+"why": "the wrap directive: P1 only as a split wrap (founder ruling F252 D2), leaves --all in the second window; v4-01 as claimed with its P5 note; the Tauri log-sink rows retire in this wrap; the two P4 boundary words (scenarios verb, exit 130) halt in ordinary form if the playbook reads a widening; the implement deviations listed; the prior handoff owed items; stops"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "3ad6efca",
+"ts": "2026-10-12T07:36:25Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired",
+"--run-dir",
+".andromeda/runs/2026-10-12T07-35-57-wrap",
+"--marker",
+"2026-10-12-panel-shaped-types-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator (pc overseer), /andromeda-phase invocation, 2026-10-12",
+"I1 cited scope.md:15 · research.md:10",
+"I2 unchanged · copy no-repo · ../additional/pc-overseer/relays/conductor-phase-panel-shaped-types-retired-2026-10-12.md",
+"I2 cited scope.md:15 · scope.md:76 · scope.md:80 · scope.md:89 · scope.md:95 · scope.md:97 · scope.md:98 · scope.md:99 · scope.md:100 · scope.md:102 · scope.md:102 · scope.md:104 · scope.md:104 · research.md:7 · research.md:11 · research.md:168 · plan.md:19 · plan.md:31 · plan.md:213 · plan.md:485 · plan.md:487 · plan.md:496 · plan.md:510 · plan.md:517 · plan.md:518",
+"I3 n/a — a message has no live source · copy message · message: the operator, /andromeda-phase P4 fork round, 2026-10-12",
+"I3 cited plan.md:20 · plan.md:24 · plan.md:276 (in fence) · plan.md:445 · plan.md:490",
+"I4 n/a — a message has no live source · copy message · message: the operator, /andromeda-phase P5 review of .andromeda/runs/2026-10-12T06-44-11-phase/p5-card-1.md, 2026-10-12",
+"I4 cited scope.md:87 · plan.md:111 · plan.md:112 · plan.md:145 · plan.md:420 · plan.md:430 · plan.md:513 · plan.md:526",
+"I5 n/a — a message has no live source · copy message · message: the operator, /andromeda-phase P5 review of .andromeda/runs/2026-10-12T06-44-11-phase/p5-card-2.md, 2026-10-12",
+"I5 UNCITED",
+"I6 unchanged · copy no-repo · ../additional/pc-overseer/relays/conductor-wrap-panel-shaped-types-retired-2026-10-12.md",
+"I6 UNCITED",
+"inputs: 6 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 4 · uncited 2 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 6,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 4
+},
+"uncited": 2,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "3ad6efca",
+"ts": "2026-10-12T07:42:58Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired",
+"--run-dir",
+".andromeda/runs/2026-10-12T07-35-57-wrap",
+"--marker",
+"2026-10-12-panel-shaped-types-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator (pc overseer), /andromeda-phase invocation, 2026-10-12",
+"I1 cited scope.md:15 · research.md:10",
+"I2 unchanged · copy no-repo · ../additional/pc-overseer/relays/conductor-phase-panel-shaped-types-retired-2026-10-12.md",
+"I2 cited scope.md:15 · scope.md:76 · scope.md:80 · scope.md:89 · scope.md:95 · scope.md:97 · scope.md:98 · scope.md:99 · scope.md:100 · scope.md:102 · scope.md:102 · scope.md:104 · scope.md:104 · research.md:7 · research.md:11 · research.md:168 · plan.md:19 · plan.md:31 · plan.md:213 · plan.md:485 · plan.md:487 · plan.md:496 · plan.md:510 · plan.md:517 · plan.md:518",
+"I3 n/a — a message has no live source · copy message · message: the operator, /andromeda-phase P4 fork round, 2026-10-12",
+"I3 cited plan.md:20 · plan.md:24 · plan.md:276 (in fence) · plan.md:445 · plan.md:490 · report.md:87",
+"I4 n/a — a message has no live source · copy message · message: the operator, /andromeda-phase P5 review of .andromeda/runs/2026-10-12T06-44-11-phase/p5-card-1.md, 2026-10-12",
+"I4 cited scope.md:87 · plan.md:111 · plan.md:112 · plan.md:145 · plan.md:420 · plan.md:430 · plan.md:513 · plan.md:526 · report.md:42 · report.md:43 · report.md:44 · report.md:75 · report.md:87 · report.md:103",
+"I5 n/a — a message has no live source · copy message · message: the operator, /andromeda-phase P5 review of .andromeda/runs/2026-10-12T06-44-11-phase/p5-card-2.md, 2026-10-12",
+"I5 cited report.md:42 · report.md:42",
+"I6 unchanged · copy no-repo · ../additional/pc-overseer/relays/conductor-wrap-panel-shaped-types-retired-2026-10-12.md",
+"I6 cited report.md:45 · report.md:87",
+"inputs: 6 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 4 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 6,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 4
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "3ad6efca",
+"ts": "2026-10-12T07:44:49Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired",
+"--run-dir",
+".andromeda/runs/2026-10-12T07-35-57-wrap",
+"--marker",
+"2026-10-12-panel-shaped-types-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator (pc overseer), /andromeda-phase invocation, 2026-10-12",
+"I1 cited scope.md:15 · research.md:10",
+"I2 unchanged · copy no-repo · ../additional/pc-overseer/relays/conductor-phase-panel-shaped-types-retired-2026-10-12.md",
+"I2 cited scope.md:15 · scope.md:76 · scope.md:80 · scope.md:89 · scope.md:95 · scope.md:97 · scope.md:98 · scope.md:99 · scope.md:100 · scope.md:102 · scope.md:102 · scope.md:104 · scope.md:104 · research.md:7 · research.md:11 · research.md:168 · plan.md:19 · plan.md:31 · plan.md:213 · plan.md:485 · plan.md:487 · plan.md:496 · plan.md:510 · plan.md:517 · plan.md:518",
+"I3 n/a — a message has no live source · copy message · message: the operator, /andromeda-phase P4 fork round, 2026-10-12",
+"I3 cited plan.md:20 · plan.md:24 · plan.md:276 (in fence) · plan.md:445 · plan.md:490 · report.md:87",
+"I4 n/a — a message has no live source · copy message · message: the operator, /andromeda-phase P5 review of .andromeda/runs/2026-10-12T06-44-11-phase/p5-card-1.md, 2026-10-12",
+"I4 cited scope.md:87 · plan.md:111 · plan.md:112 · plan.md:145 · plan.md:420 · plan.md:430 · plan.md:513 · plan.md:526 · report.md:42 · report.md:43 · report.md:44 · report.md:75 · report.md:87 · report.md:103",
+"I5 n/a — a message has no live source · copy message · message: the operator, /andromeda-phase P5 review of .andromeda/runs/2026-10-12T06-44-11-phase/p5-card-2.md, 2026-10-12",
+"I5 cited report.md:42 · report.md:42",
+"I6 unchanged · copy no-repo · ../additional/pc-overseer/relays/conductor-wrap-panel-shaped-types-retired-2026-10-12.md",
+"I6 cited report.md:45 · report.md:87",
+"inputs: 6 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 4 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 6,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 4
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

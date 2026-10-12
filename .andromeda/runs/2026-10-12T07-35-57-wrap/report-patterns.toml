@@ -1,0 +1,49 @@
+[[pattern]]
+id = 'tauri-sink'
+regex = 'conductor-tauri\.jsonl|Tauri backend'
+
+[[pattern]]
+id = 'seed-dir'
+fixed = 'CONDUCTOR_E2E_SEED_DIR'
+
+[[pattern]]
+id = 'checklist-bound'
+regex = 'MAX_CHECKLIST_TEXT|dialog row'
+
+[[pattern]]
+id = 'drive-run'
+regex = 'drive_run|RunEvent|RunStage'
+
+[[pattern]]
+id = 'parity-arm'
+regex = 'Tauri arm|start_run'
+
+[[pattern]]
+id = 'webview-fixtures'
+regex = 'envelope_fixture|lamps_fixture|lamps-journal|over-envelope\.toml'
+
+[[pattern]]
+id = 'picker-guard'
+regex = 'validate_selection|SUITE_SELECTION|ScenarioSummary|list_scenarios'
+
+[[pattern]]
+id = 'read-envelope'
+fixed = 'read_envelope'
+
+[[pattern]]
+id = 'run-fixture-tree'
+fixed = 'conductor-run/tests/fixtures'
+
+[[pattern]]
+id = 'live-counter'
+regex = 'live[- ]counter|abort flag|stop button'
+ignore_case = true
+
+[[pattern]]
+id = 'scenarios-verb'
+fixed = 'conductor scenarios'
+
+[[pattern]]
+id = 'ctrl-c-stop'
+regex = 'Ctrl-C|Ctrl\+C|SIGINT'
+ignore_case = true

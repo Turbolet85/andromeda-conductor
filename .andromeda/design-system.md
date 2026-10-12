@@ -82,7 +82,7 @@ Retired 2026-10-11 with the window (its faces, type scale and font loading are l
 
 ## Spacing
 
-Retired 2026-10-11 with the window (the 4px spacing scale is last at `321dc8f`). For cli, spacing is terminal-controlled — `comfy-table` column alignment and `indicatif` layout, from the detected terminal width, never hardcoded.
+Retired 2026-10-11 with the window (the 4px spacing scale is last at `321dc8f`). For cli, spacing is never hardcoded — `comfy-table` column alignment (the results and coverage tables sized to their content and never wrapped; the `conductor scenarios` catalogue listing the one table sized to the detected terminal width) and `indicatif` layout.
 
 ---
 
@@ -155,7 +155,7 @@ Header style: bold + ANSI 117 (ID-cyan) for section titles; metadata dimmed. Sta
 
 2. **Operator-pause prompt.** `inquire` proceed/abort confirm, gated behind an `isatty` check. **The headless path is NEVER blocked on an interactive prompt** — when stdin is not a TTY (agent-driven `agent-run.sh`), the prompt is skipped per the configured non-interactive policy and the decision is recorded to the artifact; an interactive operator gets the colored confirm. Proceed/abort decision logged to the run report.
 
-3. **Results / SLO table** (the `run` + `suite` per-check table). `comfy-table` 6 columns: P-ID (ANSI 117 cyan) · scenario · `state` (`[PASS]`/`[HOLD]`/`[FAIL]`/`[BLOCKED]` colored prefix) · `slo_tier` (`<5s`/`<20s`/`<90s`) · `latency_ms` (cyan, right-aligned) · fingerprints. Width detected dynamically from the terminal (never hardcoded). A `Blocked` row carries the named precondition string; measurement columns render as `—`/null, never a red error. **The coverage matrix is a SEPARATE, narrower table** — `conductor coverage` renders 4 columns (P-ID · Title · Category · Mode), carries no verdict/state column and therefore no bracket prefix, and terminates in a roll-up caption (§cli Primary screens).
+3. **Results / SLO table** (the `run` + `suite` per-check table). `comfy-table` 6 columns: P-ID (ANSI 117 cyan) · scenario · `state` (`[PASS]`/`[HOLD]`/`[FAIL]`/`[BLOCKED]` colored prefix) · `slo_tier` (`<5s`/`<20s`/`<90s`) · `latency_ms` (cyan, right-aligned) · fingerprints. Columns sized to their content — never wrapped, never hardcoded, no terminal-width detection. A `Blocked` row carries the named precondition string; measurement columns render as `—`/null, never a red error. **The coverage matrix is a SEPARATE, narrower table** — `conductor coverage` renders 4 columns (P-ID · Title · Category · Mode) sized to their content, carries no verdict/state column and therefore no bracket prefix, and terminates in a roll-up caption (§cli Primary screens). **The scenario catalogue is a THIRD, static table** — `conductor scenarios` renders 3 columns (Scenario · P-IDs in ANSI 117 cyan behind the stdout TTY gate · SLO), carries no verdict/state column and therefore no bracket prefix, is the one table sized to the detected terminal width, and ends in a plain roll-up line (`1 scenario` / `N scenarios`, counted from the catalogue); an empty catalogue prints `No scenarios found.` (§cli Primary screens).
 
 4. **Verdict / report-state lines.** Per-P-ID result printed in place: `✓ P-009  Pass   1840ms <slo_tier>` (green; the tier cell renders the scenario's declared `slo_tier` from the closed `<5s`/`<20s`/`<90s` set — never a baked per-scenario literal) / `✗ P-014  Fail   …` (ANSI 203 red, no blink) / `? P-035  Manual  halo→burgundy? · no OS toast?` (ANSI 146 lavender — `[MANUAL]`, an operator-checklist item with no machine verdict; TTY: `inquire` y/n, headless: recorded unconfirmed) / `~ P-032  Residual  recent_commits stub → v0.3.0` (ANSI 246 muted — `[RESIDUAL]`, a pre-accepted gap, never red) / `• P-022  Blocked  mcp-server feature + ANDROMEDA_PULSE_MCP_ENABLED + matching data-dir` (ANSI 60 violet). Color is always paired with the text prefix (`[PASS]`/`[FAIL]`/`[MANUAL]`/`[RESIDUAL]`/`[BLOCKED]`/…) for NO_COLOR + screen-reader friendliness. A run whose profile breaches the SUT load envelope additionally prints the run-level `[ENVIRONMENT-SUSPECT]` caption once, above these lines — a qualifier on the run, never a seventh lamp or a sixth `ReportState`.
 
@@ -170,7 +170,7 @@ Linear, top-to-bottom stdout — no cursor manipulation, no full-screen redraw (
 - Always respect `NO_COLOR`, `TERM=dumb`, and piped-stdout ANSI stripping (the shipped per-stream `std::io::IsTerminal` gate). Avoid dark-blue-on-black / dark-red-on-black (ANSI 117 cyan + 114 green chosen for contrast on dark terminals).
 - Don't rely on color alone — every status carries an ASCII prefix (`[PASS]`/`[FAIL]`/`[HOLD]`/`[BLOCKED]`).
 - Interactive `inquire` prompts ALWAYS check `isatty` first; the agent-driven headless source-of-truth path is never gated on a prompt (an auth/interactive prompt there would silently break the release gate — security plan).
-- Detect terminal width dynamically for `comfy-table`; never hardcode widths or wrap at arbitrary points.
+- Size `comfy-table` columns from their content (the results and coverage tables) or from the detected terminal width (the `conductor scenarios` listing alone); never hardcode widths or wrap at arbitrary points.
 
 ---
 
@@ -197,7 +197,7 @@ Linear, top-to-bottom stdout — no cursor manipulation, no full-screen redraw (
 **cli:**
 - NEVER mix stdout (data) and stderr (messages) without intention; raw artifact data on stdout, human messages on stderr.
 - NEVER use emoji in machine-parseable (piped) output; ASCII prefixes only there.
-- NEVER wrap text at arbitrary points or hardcode widths — detect terminal width dynamically.
+- NEVER wrap text at arbitrary points or hardcode widths — size a table from its content, or from the detected terminal width where its surface says so (the `conductor scenarios` listing).
 - NEVER print stack traces in normal mode — only under `--debug`/`-v`.
 - NEVER use interactive `inquire` prompts without an `isatty` check; NEVER block the headless agent-driven source-of-truth path on a prompt.
 - NEVER colorize without checking `NO_COLOR` / `TERM` / pipe status; NEVER rely on color alone (use `[PASS]`/`[FAIL]`/`[HOLD]`/`[BLOCKED]` prefixes).

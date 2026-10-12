@@ -3,7 +3,7 @@
 _Distilled from `.andromeda/a11y-plan.md`. setup-project Phase 3. wrap-session does not modify._
 
 ## A11y tier
-**Tier:** Minimal (0). **No assertable surface remains** — Conductor has no interface since 2026-10-11, when its window
+**Tier:** none stated — §1, which held it (last `Minimal (0)`), retired with the window; its full text is at `321dc8f`. **No assertable surface remains** — Conductor has no interface since 2026-10-11, when its window
 (`conductor-tauri` and its React webview) retired (`2026-10-11-conductors-window-retired`, intent R1).
 
 ## Harness contract (§3)
