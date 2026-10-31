@@ -50,3 +50,9 @@ id_ed25519*
 # ~40 files of tool state, never Conductor's artifact — an unignored run rides the next `git add -A`.
 mutants.out/
 mutants.out.old/
+
+# --- The records store (records-contract.md): the journal and moved are committed, the rebuilt store is not.
+.andromeda/db/*
+!.andromeda/db/moved
+!.andromeda/db/log/
+!.andromeda/db/sealed/
