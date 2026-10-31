@@ -52,3 +52,6 @@
   - carried, none new beyond the above: CLAUDE.md 2026-08-09 ×2 (a host claim copied unmeasured; an "every" over three
     masters instead of seven), `host-linux.md` §Transports (a document append through a shell heredoc), §Paths (a `cd`
     into the sibling Pulse repo).
+
+## Session End Status
+Completed normally at 2026-10-30 19:28:31
