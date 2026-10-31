@@ -1,0 +1,3266 @@
+line	class	flags	id	bytes
+1	placed-normalised	no-id	frc-u2k4umsw	1081
+2	placed-normalised	no-id	frc-pza5qrna	927
+3	placed-normalised	no-id	frc-gfrjn3y3	1720
+4	placed-normalised	no-id	frc-b34kswlq	1089
+5	placed-normalised	no-id	frc-4s5fqnaz	1701
+6	placed-normalised	no-id	frc-fqokq3a4	989
+7	placed-normalised	no-id	frc-gwou2vfh	1793
+8	placed-normalised	no-id	frc-sacfrbjk	1163
+9	placed-normalised	no-id	frc-jouq5oh7	1930
+10	placed-normalised	no-id	frc-im7bhowi	1251
+11	placed-normalised	no-id	frc-ojz33uwh	813
+12	placed-normalised	no-id	frc-7ojitjhw	2213
+13	placed-normalised	no-id	frc-ufhehll5	1909
+14	placed-normalised	no-id	frc-np2w4hni	1236
+15	placed-normalised	no-id	frc-f2guztlb	1705
+16	placed-normalised	no-id	frc-lpwdazr7	1175
+17	placed-normalised	no-id	frc-xse323ru	1113
+18	placed-normalised	no-id	frc-wdipp3a6	959
+19	placed-normalised	no-id	frc-qimnuugl	1158
+20	placed-normalised	no-id	frc-55ptelqb	1064
+21	placed-normalised	no-id	frc-ucubezkv	1077
+22	placed-normalised	no-id	frc-vf6diemn	904
+23	placed-normalised	no-id	frc-nc72ysqs	938
+24	placed-normalised	no-id	frc-xmhqjrx5	2538
+25	placed-normalised	no-id	frc-l6ynf4pw	1324
+26	placed-normalised	no-id	frc-ytn4nyut	985
+27	placed-normalised	no-id	frc-mcytceam	522
+28	placed-normalised	no-id	frc-bhjf2fbu	1367
+29	placed-normalised	no-id	frc-ktuar257	843
+30	placed-normalised	no-id	frc-pknqokzm	965
+31	placed-normalised	no-id	frc-xvjv4qvs	1097
+32	placed-normalised	no-id	frc-g2p55n6t	1037
+33	placed-normalised	no-id	frc-srp6kehw	855
+34	placed-normalised	no-id	frc-r4apvzfr	613
+35	placed-normalised	no-id	frc-yngqrq67	1591
+36	placed-normalised	no-id	frc-b57ydbsg	971
+37	placed-normalised	no-id	frc-z3yjhnsf	728
+38	placed-normalised	no-id	frc-yfo3ykvd	1881
+39	placed-normalised	no-id	frc-ufdexo6d	1595
+40	placed-normalised	no-id	frc-tle5fqlr	1533
+41	placed-normalised	no-id	frc-mnpytghd	1062
+42	placed-normalised	no-id	frc-b5qb7xj3	1196
+43	placed-normalised	no-id	frc-ktfrlvkr	1644
+44	placed-normalised	no-id	frc-gxy6h2sh	968
+45	placed-normalised	no-id	frc-cmx3aqko	1097
+46	placed-normalised	no-id	frc-gymoovtj	1641
+47	placed-normalised	no-id	frc-67orskec	904
+48	placed-canonical	no-id,ts-off-form	frc-jno5bwis	1655
+49	placed-canonical	no-id,ts-off-form	frc-gsrj6eq4	1169
+50	placed-canonical	no-id,ts-off-form	frc-kovp4nqp	920
+51	placed-canonical	no-id,ts-off-form	frc-qplocgu2	1199
+52	placed-canonical	no-id,ts-off-form	frc-ndufh2cz	1995
+53	placed-canonical	no-id,ts-off-form	frc-gtx45mrb	1314
+54	placed-canonical	no-id,ts-off-form	frc-uy4fcdza	1520
+55	placed-canonical	no-id,ts-off-form	frc-kzs3bua2	805
+56	placed-canonical	no-id,ts-off-form	frc-rvqa7hj2	1280
+57	placed-canonical	no-id,ts-off-form	frc-wnzpj6y6	1766
+58	placed-canonical	no-id,ts-off-form	frc-eccaobep	1231
+59	placed-normalised	no-id	frc-ymnlhh63	984
+60	placed-normalised	no-id	frc-l7ynclhi	751
+61	placed-normalised	no-id	frc-j42mek5n	994
+62	placed-normalised	no-id	frc-5vnjv2tp	899
+63	placed-normalised	no-id	frc-ypitpaqy	758
+64	placed-normalised	no-id	frc-zdnj54pc	1665
+65	placed-normalised	no-id	frc-vjnpw2fe	1031
+66	placed-normalised	no-id	frc-bsmjgj24	981
+67	placed-normalised	no-id	frc-vlcmtouk	1163
+68	placed-normalised	no-id	frc-dgnusrg3	1534
+69	placed-normalised	no-id	frc-nr6qdyy5	801
+70	placed-normalised	no-id	frc-ro5cjdyj	1034
+71	placed-normalised	no-id	frc-rfhkhwlt	1656
+72	placed-normalised	no-id	frc-hh5opq4h	1313
+73	placed-normalised	no-id	frc-y7ekapbf	851
+74	placed-normalised	no-id	frc-rnc36sk6	1297
+75	placed-normalised	no-id	frc-r2xduvon	929
+76	placed-normalised	no-id	frc-mwognb7q	1197
+77	placed-normalised	no-id	frc-5rrqzcxm	1246
+78	placed-normalised	no-id	frc-gkh3ilkh	882
+79	placed-normalised	no-id	frc-24j2kx7n	2043
+80	placed-normalised	no-id	frc-jz2via7q	1338
+81	placed-normalised	no-id	frc-pldixdcx	900
+82	placed-normalised	no-id	frc-skgnjmwi	1261
+83	placed-normalised	no-id	frc-g7kyvlad	867
+84	placed-normalised	no-id	frc-kgs6ukhg	980
+85	placed-normalised	no-id	frc-vrf75thl	1312
+86	placed-normalised	no-id	frc-ldazjulz	704
+87	placed-normalised	no-id	frc-vmiq7hhu	584
+88	placed-normalised	no-id	frc-okl6rlc5	1000
+89	placed-normalised	no-id	frc-5ytf6ngv	643
+90	placed-normalised	no-id	frc-b7b7vpwi	1439
+91	placed-normalised	no-id	frc-2nnyisjw	626
+92	placed-normalised	no-id	frc-frjlyuru	603
+93	placed-normalised	no-id	frc-uo5hmgor	981
+94	placed-normalised	no-id	frc-jr3nduby	815
+95	placed-normalised	no-id	frc-6p53dwi2	686
+96	placed-normalised	no-id	frc-5cst4l6r	1014
+97	placed-normalised	no-id	frc-k2eyc7tt	724
+98	placed-normalised	no-id	frc-estsbyz3	682
+99	placed-normalised	no-id	frc-da7ji7bu	1006
+100	placed-normalised	no-id	frc-mksesy64	670
+101	placed-normalised	no-id	frc-be6nmh6d	668
+102	placed-normalised	no-id	frc-kelx5lqh	778
+103	placed-normalised	no-id	frc-rcf2tnzz	669
+104	placed-normalised	no-id	frc-xs2tt53o	697
+105	placed-normalised	no-id	frc-73zvyat7	823
+106	placed-normalised	no-id	frc-kbgwxvlm	758
+107	placed-normalised	no-id	frc-tkm2zord	1103
+108	placed-normalised	no-id	frc-wesgzbpw	661
+109	placed-normalised	no-id	frc-bqfl2hcj	615
+110	placed-normalised	no-id	frc-m5kn7vwy	666
+111	placed-normalised	no-id	frc-xsigpjah	1937
+112	placed-normalised	no-id	frc-mgrj32zm	774
+113	placed-normalised	no-id	frc-zhgwizkv	704
+114	placed-normalised	no-id	frc-snvicmxb	445
+115	placed-normalised	no-id	frc-7pwuzf2e	683
+116	placed-normalised	no-id	frc-7mrgd4us	760
+117	placed-normalised	no-id	frc-ilrj456d	741
+118	placed-normalised	no-id	frc-weadlw44	1037
+119	placed-normalised	no-id	frc-ez7k55h5	1095
+120	placed-normalised	no-id	frc-wbth7kys	1356
+121	placed-normalised	no-id	frc-pwtqkm4f	1386
+122	placed-normalised	no-id	frc-kavj3idh	807
+123	placed-normalised	no-id	frc-rrif3nep	1592
+124	placed-normalised	no-id	frc-iv2sfb3x	928
+125	placed-normalised	no-id	frc-somos4l3	1324
+126	placed-normalised	no-id	frc-2saxdbd5	819
+127	placed-normalised	no-id	frc-l5btzloh	867
+128	placed-normalised	no-id	frc-c5k77tyi	925
+129	placed-normalised	no-id	frc-vuzlkr55	1580
+130	placed-normalised	no-id	frc-gzi6c26a	836
+131	placed-normalised	no-id	frc-2llvvkbh	1391
+132	placed-normalised	no-id	frc-43xi334r	814
+133	placed-normalised	no-id	frc-3yer36ku	917
+134	placed-normalised	no-id	frc-th5v6bxf	1481
+135	placed-normalised	no-id	frc-tr2hkugl	891
+136	placed-normalised	no-id	frc-hhw4nrva	1498
+137	placed-normalised	no-id	frc-36czheft	857
+138	placed-normalised	no-id	frc-bpcebkus	2316
+139	placed-normalised	no-id	frc-xr5nnb7v	1031
+140	placed-normalised	no-id	frc-cflgsjms	912
+141	placed-normalised	no-id	frc-ywog5ouu	959
+142	placed-normalised	no-id	frc-w6m6eeme	986
+143	placed-normalised	no-id	frc-njylafg5	894
+144	placed-normalised	no-id	frc-3r3igyzo	1677
+145	placed-normalised	no-id	frc-otxsy4aw	751
+146	placed-normalised	no-id	frc-hmqsz2p5	635
+147	placed-normalised	no-id	frc-dsyqqh6j	877
+148	placed-normalised	no-id	frc-z7ea27ri	1039
+149	placed-normalised	no-id	frc-aonbx67r	1610
+150	placed-normalised	no-id	frc-rv7m7lqt	673
+151	placed-normalised	no-id	frc-yom3ozas	1392
+152	placed-normalised	no-id	frc-c6nloji7	879
+153	placed-normalised	no-id	frc-fooawxn5	1430
+154	placed-normalised	no-id	frc-krfpbhyv	917
+155	placed-normalised	no-id	frc-7gkqi4tj	807
+156	placed-normalised	no-id	frc-7lizigpn	1313
+157	placed-normalised	no-id	frc-kghlti2v	849
+158	placed-normalised	no-id	frc-3ztqn5yu	1218
+159	placed-normalised	no-id	frc-5abiad7z	791
+160	placed-normalised	no-id	frc-nvfib2n7	608
+161	placed-normalised	no-id	frc-wpcmvr3c	1217
+162	placed-normalised	no-id	frc-gi34lovd	1077
+163	placed-normalised	no-id	frc-ftkssypf	974
+164	placed-normalised	no-id	frc-vwdm2w62	698
+165	placed-normalised	no-id	frc-nyrkaaiu	805
+166	placed-normalised	no-id	frc-7zldmplp	856
+167	placed-normalised	no-id	frc-7xdzlgif	712
+168	placed-normalised	no-id	frc-pij3k4me	2027
+169	placed-normalised	no-id	frc-divf6egg	771
+170	placed-normalised	no-id	frc-cgvneqv7	927
+171	placed-normalised	no-id	frc-xhmdgn5t	825
+172	placed-normalised	no-id	frc-p34kk7ny	1073
+173	placed-normalised	no-id	frc-iixuigk6	1026
+174	placed-normalised	no-id	frc-srlsznqh	1396
+175	placed-normalised	no-id	frc-vke6hbhk	821
+176	placed-normalised	no-id	frc-y276pjfr	642
+177	placed-normalised	no-id	frc-jzvnhp6w	1259
+178	placed-normalised	no-id	frc-zwldwvdo	802
+179	placed-normalised	no-id	frc-g2tjtgf5	1483
+180	placed-normalised	no-id	frc-6qx5kt5p	589
+181	placed-normalised	no-id	frc-kj3hj45j	1184
+182	placed-normalised	no-id	frc-bxyzovc6	1236
+183	placed-normalised	no-id	frc-jpmnvwxx	857
+184	placed-normalised	no-id	frc-cnxhigv2	1286
+185	placed-normalised	no-id	frc-paa7xnkn	856
+186	placed-normalised	no-id	frc-poucexbg	1278
+187	placed-normalised	no-id	frc-vhdt3iy7	1074
+188	placed-normalised	no-id	frc-lzsau5lh	940
+189	placed-normalised	no-id	frc-nrd7cmfa	1118
+190	placed-normalised	no-id	frc-rba32psm	976
+191	placed-normalised	no-id	frc-eq6seczv	873
+192	placed-normalised	no-id	frc-ara4qqwi	1934
+193	placed-normalised	no-id	frc-gqhungas	884
+194	placed-normalised	no-id	frc-ark2dtas	1116
+195	placed-normalised	no-id	frc-qrxvsdry	933
+196	placed-normalised	no-id	frc-f4swpwi5	909
+197	placed-normalised	no-id	frc-eofqxl2y	987
+198	placed-normalised	no-id	frc-5lnaznbd	1312
+199	placed-normalised	no-id	frc-2hinneej	854
+200	placed-normalised	no-id	frc-jypez2va	681
+201	placed-normalised	no-id	frc-ej6uufjm	568
+202	placed-normalised	no-id	frc-cjx3fipz	889
+203	placed-normalised	no-id	frc-yje5hrni	1380
+204	placed-normalised	no-id	frc-otojxt4m	980
+205	placed-normalised	no-id	frc-dwgemmz6	663
+206	placed-normalised	no-id	frc-iq7kd3bd	1231
+207	placed-normalised	no-id	frc-3wqrzzbo	683
+208	placed-normalised	no-id	frc-whtypybu	810
+209	placed-normalised	no-id	frc-rk3g56ue	736
+210	placed-normalised	no-id	frc-rva5dvij	1318
+211	placed-normalised	no-id	frc-4ve76boc	631
+212	placed-normalised	no-id	frc-qrm5fbnm	718
+213	placed-normalised	no-id	frc-jthdujw3	683
+214	placed-normalised	no-id	frc-glx4q6ml	679
+215	placed-normalised	no-id	frc-646a4p4u	882
+216	placed-normalised	no-id	frc-jyg25ene	681
+217	placed-normalised	no-id	frc-almxttug	1367
+218	placed-normalised	no-id	frc-eyso54ky	747
+219	placed-normalised	no-id	frc-nrm5hqhp	2182
+220	placed-normalised	no-id	frc-izqdxtd3	773
+221	placed-normalised	no-id	frc-jtxf3biq	675
+222	placed-normalised	no-id	frc-qaljfish	675
+223	placed-normalised	no-id	frc-s7tvogkq	505
+224	placed-normalised	no-id	frc-j4uyadmj	1024
+225	placed-normalised	no-id	frc-dtmowcog	878
+226	placed-normalised	no-id	frc-jwjfv3ge	925
+227	placed-normalised	no-id	frc-djvcmcn4	736
+228	placed-normalised	no-id	frc-gmi2ydfm	888
+229	placed-normalised	no-id	frc-kfpgqiw3	851
+230	placed-normalised	no-id	frc-uhdcarxp	1136
+231	placed-normalised	no-id	frc-dqrqtsvw	584
+232	placed-normalised	no-id	frc-vxlbkula	1839
+233	placed-normalised	no-id	frc-vefqkzrv	1323
+234	placed-normalised	no-id	frc-5zizqm6o	972
+235	placed-normalised	no-id	frc-rwnczgvs	1717
+236	placed-normalised	no-id	frc-obeavbnm	898
+237	placed-normalised	no-id	frc-ud3vcu2l	1837
+238	placed-normalised	no-id	frc-76bbphbg	766
+239	placed-normalised	no-id	frc-i724ojv6	1474
+240	placed-normalised	no-id	frc-yrywzbz5	705
+241	placed-normalised	no-id	frc-g5j5dn5k	705
+242	placed-normalised	no-id	frc-cmxxke64	1011
+243	placed-normalised	no-id	frc-xtr3yjre	840
+244	placed-normalised	no-id	frc-uxqgbp7j	1717
+245	placed-normalised	no-id	frc-3xqf6kp2	851
+246	placed-normalised	no-id	frc-w7fl3q36	1262
+247	placed-normalised	no-id	frc-x2dez4tt	738
+248	placed-normalised	no-id	frc-7tfune3h	1751
+249	placed-normalised	no-id	frc-fw5onsrz	921
+250	placed-normalised	no-id	frc-xt2snrf6	892
+251	placed-normalised	no-id	frc-dlzfhxy3	890
+252	placed-normalised	no-id	frc-bwjxaaho	1178
+253	placed-normalised	no-id	frc-pd23jtde	1050
+254	placed-normalised	no-id	frc-7tma2dua	1340
+255	placed-normalised	no-id	frc-aykxlt6z	834
+256	placed-normalised	no-id	frc-b5f3frvx	765
+257	placed-normalised	no-id	frc-3iyucc66	932
+258	placed-normalised	no-id	frc-sq2az6ig	893
+259	placed-normalised	no-id	frc-wtl5ygi3	1817
+260	placed-normalised	no-id	frc-jibfdq6g	1086
+261	placed-normalised	no-id	frc-jiej5gpb	845
+262	placed-normalised	no-id	frc-pc3yix6s	750
+263	placed-normalised	no-id	frc-4g62clej	1499
+264	placed-normalised	no-id	frc-4cg4fega	845
+265	placed-normalised	no-id	frc-u5kitkcw	917
+266	placed-normalised	no-id	frc-lxi6tpir	1297
+267	placed-normalised	no-id	frc-4ao6ujqm	936
+268	placed-normalised	no-id	frc-ysx3llbs	1763
+269	placed-normalised	no-id	frc-lfrdpw3j	707
+270	placed-normalised	no-id	frc-icy2sais	711
+271	placed-normalised	no-id	frc-clug5edq	728
+272	placed-normalised	no-id	frc-tqtj2srt	909
+273	placed-normalised	no-id	frc-hzzvjxrq	661
+274	placed-normalised	no-id	frc-hyn65rl6	1194
+275	placed-normalised	no-id	frc-7hgui2x2	937
+276	placed-normalised	no-id	frc-tkcdkr2z	946
+277	placed-normalised	no-id	frc-hv76psnj	826
+278	placed-normalised	no-id	frc-ayfsh72a	2100
+279	placed-normalised	no-id	frc-zjwfou33	982
+280	placed-normalised	no-id	frc-hzrcptrv	753
+281	placed-normalised	no-id	frc-x2pxmyc7	793
+282	placed-normalised	no-id	frc-amjypopa	796
+283	placed-normalised	no-id	frc-pptwxoaa	949
+284	placed-normalised	no-id	frc-3mue7o5v	714
+285	placed-normalised	no-id	frc-zrndo3pb	1237
+286	placed-normalised	no-id	frc-ej2wj2fr	829
+287	placed-normalised	no-id	frc-kwt5tpoq	1427
+288	placed-normalised	no-id	frc-7iclagps	1082
+289	placed-normalised	no-id	frc-gp3hcgib	1282
+290	placed-normalised	no-id	frc-ky6rlla2	788
+291	placed-normalised	no-id	frc-pmjtxj53	1329
+292	placed-normalised	no-id	frc-geh4jxrp	1070
+293	placed-normalised	no-id	frc-timmqhgv	987
+294	placed-normalised	no-id	frc-cxpeggwc	1222
+295	placed-normalised	no-id	frc-gt7f2rlu	1121
+296	placed-normalised	no-id	frc-kbmhnmax	925
+297	placed-normalised	no-id	frc-tefs25x6	1317
+298	placed-normalised	no-id	frc-j445twdj	1313
+299	placed-normalised	no-id	frc-gi7alxuz	931
+300	placed-normalised	no-id	frc-td6mauy4	1237
+301	placed-normalised	no-id	frc-rmyplx47	1119
+302	placed-normalised	no-id	frc-b4mfvkxf	933
+303	placed-normalised	no-id	frc-7x7oluoo	1226
+304	placed-normalised	no-id	frc-2gicmoo4	845
+305	placed-normalised	no-id	frc-65zivmz4	1047
+306	placed-normalised	no-id	frc-hkdqmpv4	1510
+307	placed-normalised	no-id	frc-rphngyzb	1213
+308	placed-normalised	no-id	frc-kuv3nzku	1024
+309	placed-normalised	no-id	frc-miol36dg	781
+310	placed-normalised	no-id	frc-zioik4px	1221
+311	placed-normalised	no-id	frc-czn2jqh4	766
+312	placed-normalised	no-id	frc-jubrms7w	736
+313	placed-normalised	no-id	frc-dpz7iqcy	1216
+314	placed-normalised	no-id	frc-rw67fn3x	964
+315	placed-normalised	no-id	frc-6jrwxugi	1123
+316	placed-normalised	no-id	frc-stuw4r57	794
+317	placed-normalised	no-id	frc-o2e6vddd	666
+318	placed-normalised	no-id	frc-twfyrvvf	557
+319	placed-normalised	no-id	frc-vt337po5	1127
+320	placed-normalised	no-id	frc-3u23ogs2	1042
+321	placed-normalised	no-id	frc-w33yjyg7	1687
+322	placed-normalised	no-id	frc-vej7rowe	1307
+323	placed-normalised	no-id	frc-ynw7phec	1136
+324	placed-normalised	no-id	frc-lywuiacz	1039
+325	placed-normalised	no-id	frc-6lmbqyfj	886
+326	placed-normalised	no-id	frc-hew5cc5n	1000
+327	placed-normalised	no-id	frc-b3765yuu	1119
+328	placed-normalised	no-id	frc-ouc2k6du	918
+329	placed-normalised	no-id	frc-gi2pcyh7	1015
+330	placed-normalised	no-id	frc-sqlcl35t	871
+331	placed-normalised	no-id	frc-g2pbrv5r	787
+332	placed-normalised	no-id	frc-fmvdg5oj	1051
+333	placed-normalised	no-id	frc-4ip2nim6	1032
+334	placed-normalised	no-id	frc-a2xynmrb	864
+335	placed-normalised	no-id	frc-oc6yom6e	880
+336	placed-normalised	no-id	frc-jod7fri2	1248
+337	placed-normalised	no-id	frc-lcbqqs5k	639
+338	placed-normalised	no-id	frc-z3qb6g5m	878
+339	placed-normalised	no-id	frc-j5kpbr74	750
+340	placed-normalised	no-id	frc-46zmwgxp	1468
+341	placed-normalised	no-id	frc-46tu6xms	828
+342	placed-normalised	no-id	frc-zs5mzlpx	928
+343	placed-normalised	no-id	frc-6qujlnm4	880
+344	placed-normalised	no-id	frc-ilanogyi	751
+345	placed-normalised	no-id	frc-rszsvctx	921
+346	placed-normalised	no-id	frc-c7j54zzr	826
+347	placed-normalised	no-id	frc-2eaybuet	991
+348	placed-normalised	no-id	frc-j3xbqisl	1006
+349	placed-normalised	no-id	frc-upo5rcs7	870
+350	placed-normalised	no-id	frc-jtn5uumu	1351
+351	placed-normalised	no-id	frc-t7g4ptke	578
+352	placed-normalised	no-id	frc-gybqm7xt	1207
+353	placed-normalised	no-id	frc-hgjb4uzq	1837
+354	placed-normalised	no-id	frc-quthxo3o	1642
+355	placed-normalised	no-id	frc-gmmfopiy	814
+356	placed-normalised	no-id	frc-cdlelgd6	988
+357	placed-normalised	no-id	frc-rivzxvqq	1753
+358	placed-normalised	no-id	frc-buoysubd	766
+359	placed-normalised	no-id	frc-yr42wxsv	1856
+360	placed-normalised	no-id	frc-i2oxkhi4	783
+361	placed-normalised	no-id	frc-4emqu6l5	1268
+362	placed-normalised	no-id	frc-an52voo3	771
+363	placed-normalised	no-id	frc-lcmq3tnw	818
+364	placed-normalised	no-id	frc-clusxxnr	860
+365	placed-normalised	no-id	frc-54yeudca	1145
+366	placed-normalised	no-id	frc-5njcfv7t	790
+367	placed-normalised	no-id	frc-ntgvglup	1202
+368	placed-normalised	no-id	frc-f3xtfr52	838
+369	placed-normalised	no-id	frc-xw2q4n2f	1419
+370	placed-normalised	no-id	frc-dendkcs2	974
+371	placed-normalised	no-id	frc-wvdgsbpc	2408
+372	placed-normalised	no-id	frc-2h2n5l5v	968
+373	placed-normalised	no-id	frc-66bkdss6	937
+374	placed-normalised	no-id	frc-farqfuzb	1006
+375	placed-normalised	no-id	frc-qdht7p64	938
+376	placed-normalised	no-id	frc-agqbnr6y	1389
+377	placed-normalised	no-id	frc-h7zfllkt	1604
+378	placed-normalised	no-id	frc-6k265i2e	939
+379	placed-normalised	no-id	frc-6gavxh4v	1030
+380	placed-normalised	no-id	frc-aseignqi	726
+381	placed-normalised	no-id	frc-x2lhuzyn	1042
+382	placed-normalised	no-id	frc-f3kn365k	1542
+383	placed-normalised	no-id	frc-5gafnjin	1307
+384	placed-normalised	no-id	frc-prtuq6kb	872
+385	placed-normalised	no-id	frc-jwylixsg	1870
+386	placed-normalised	no-id	frc-4kaxkfuv	828
+387	placed-normalised	no-id	frc-c3m55r6p	856
+388	placed-normalised	no-id	frc-ex2grtn5	1613
+389	placed-normalised	no-id	frc-towrsaxx	1628
+390	placed-normalised	no-id	frc-lv7ij5c6	1055
+391	placed-normalised	no-id	frc-irkj57ai	877
+392	placed-normalised	no-id	frc-lsg4weow	872
+393	placed-normalised	no-id	frc-37pofz2o	760
+394	placed-normalised	no-id	frc-jr35esbj	1460
+395	placed-normalised	no-id	frc-aj2v2ymx	716
+396	placed-normalised	no-id	frc-hl2rmlo6	1246
+397	placed-normalised	no-id	frc-lgefvcas	2954
+398	placed-normalised	no-id	frc-wuythy7n	995
+399	placed-normalised	no-id	frc-wckvyjns	1912
+400	placed-normalised	no-id	frc-mu75z5lk	808
+401	placed-normalised	no-id	frc-26nqggl2	1095
+402	placed-normalised	no-id	frc-yi2hq33q	1414
+403	placed-normalised	no-id	frc-7vtea7cm	631
+404	placed-normalised	no-id	frc-2gocborb	851
+405	placed-normalised	no-id	frc-mypwjkhf	1425
+406	placed-normalised	no-id	frc-vgcncegm	1717
+407	placed-normalised	no-id	frc-aumqgzlb	1317
+408	placed-normalised	no-id	frc-bn75mypi	906
+409	placed-normalised	no-id	frc-wi2dmppy	719
+410	placed-normalised	no-id	frc-htu66ntj	1345
+411	placed-normalised	no-id	frc-dzhqwvjp	868
+412	placed-normalised	no-id	frc-s7jb3d7d	821
+413	placed-normalised	no-id	frc-qmr24uyc	1338
+414	placed-normalised	no-id	frc-yu5afdea	612
+415	placed-normalised	no-id	frc-3mxoj44l	762
+416	placed-normalised	no-id	frc-gmmdzuin	861
+417	placed-normalised	no-id	frc-q7h6i5zk	831
+418	placed-normalised	no-id	frc-au3u2qu2	851
+419	placed-normalised	no-id	frc-sz776yoe	2244
+420	placed-normalised	no-id	frc-e4gojjlv	888
+421	placed-normalised	no-id	frc-7dd23ai7	720
+422	placed-normalised	no-id	frc-gcufp3vh	931
+423	placed-normalised	no-id	frc-o5mr3giu	1512
+424	placed-normalised	no-id	frc-n3d2zndu	802
+425	placed-normalised	no-id	frc-4ngawfis	1216
+426	placed-normalised	no-id	frc-fyuioexv	1093
+427	placed-normalised	no-id	frc-x4bir22b	569
+428	placed-normalised	no-id	frc-ilnsnkcw	957
+429	placed-normalised	no-id	frc-aavglufn	2092
+430	placed-normalised	no-id	frc-ogojcdnr	1852
+431	placed-normalised	no-id	frc-63wblwol	2132
+432	placed-normalised	no-id	frc-jsxutzns	1444
+433	placed-normalised	no-id	frc-s33dqssq	1192
+434	placed-normalised	no-id	frc-r7ej3lwd	1675
+435	placed-normalised	no-id	frc-ju7xcxxm	805
+436	placed-normalised	no-id	frc-7fteeo6j	1577
+437	placed-normalised	no-id	frc-bzpkeajc	851
+438	placed-normalised	no-id	frc-rk5chfg4	1712
+439	placed-normalised	no-id	frc-4wrddgbu	877
+440	placed-normalised	no-id	frc-ijs4eyfl	1042
+441	placed-normalised	no-id	frc-buev5wis	1127
+442	placed-normalised	no-id	frc-ebxmy2rq	2548
+443	placed-normalised	no-id	frc-vdiggwhc	948
+444	placed-normalised	no-id	frc-vnsrlfqm	844
+445	placed-normalised	no-id	frc-z2laaosl	938
+446	placed-normalised	no-id	frc-hro5crx5	896
+447	placed-normalised	no-id	frc-xd67b7ro	1046
+448	placed-normalised	no-id	frc-7pum7lru	325
+449	placed-normalised	no-id	frc-ntt3qawo	544
+450	placed-normalised	no-id	frc-i3embk6z	491
+451	placed-normalised	no-id	frc-ups4jhun	387
+452	placed-normalised	no-id	frc-lntl55zu	829
+453	placed-normalised	no-id	frc-k2visc4c	700
+454	placed-normalised	no-id	frc-436kjnkz	1051
+455	placed-normalised	no-id	frc-56najbwm	840
+456	placed-normalised	no-id	frc-axjyfynd	1531
+457	placed-normalised	no-id	frc-phpbc2dt	1143
+458	placed-normalised	no-id	frc-43avs4ae	1229
+459	placed-normalised	no-id	frc-wk5ggeu4	785
+460	placed-normalised	no-id	frc-mei77lhe	812
+461	placed-normalised	no-id	frc-pvyapmyd	857
+462	placed-normalised	no-id	frc-w3dtuard	1041
+463	placed-normalised	no-id	frc-vls33l4w	749
+464	placed-normalised	no-id	frc-ng26mewg	657
+465	placed-normalised	no-id	frc-jrqjwjnj	875
+466	placed-normalised	no-id	frc-5qsargul	610
+467	placed-normalised	no-id	frc-54mwt277	1310
+468	placed-normalised	no-id	frc-f6677uxw	1069
+469	placed-normalised	no-id	frc-dhb6qhen	724
+470	placed-normalised	no-id	frc-ggf7qrw5	1370
+471	placed-normalised	no-id	frc-dwqevswl	940
+472	placed-normalised	no-id	frc-py3emktz	903
+473	placed-normalised	no-id	frc-msc4z5ir	436
+474	placed-normalised	no-id	frc-2ocryj5k	773
+475	placed-normalised	no-id	frc-zqdx3qzf	1183
+476	placed-normalised	no-id	frc-lcm2utlm	823
+477	placed-normalised	no-id	frc-ewmhe32s	479
+478	placed-normalised	no-id	frc-ngnnafpi	826
+479	placed-normalised	no-id	frc-oxipckws	1343
+480	placed-normalised	no-id	frc-khtmexrh	673
+481	placed-normalised	no-id	frc-s4cfctpi	1429
+482	placed-normalised	no-id	frc-e3enkx2y	2026
+483	placed-normalised	no-id	frc-b746gz6f	1560
+484	placed-normalised	no-id	frc-xnrvdh6y	1265
+485	placed-normalised	no-id	frc-go7ssmvf	1578
+486	placed-normalised	no-id	frc-sdhadc4w	2176
+487	placed-normalised	no-id	frc-mmqqvie2	2019
+488	placed-normalised	no-id	frc-iu3wh226	953
+489	placed-normalised	no-id	frc-zhq7r5n2	2061
+490	placed-normalised	no-id	frc-nljbrxse	1299
+491	placed-normalised	no-id	frc-xrwjrt5k	1913
+492	placed-normalised	no-id	frc-y4hmiiwl	834
+493	placed-normalised	no-id	frc-j72raoth	1984
+494	placed-normalised	no-id	frc-pnsk6rfc	1175
+495	placed-normalised	no-id	frc-ybfo7gd4	1066
+496	placed-normalised	no-id	frc-nbfocdip	1880
+497	placed-normalised	no-id	frc-jmzphgsi	911
+498	placed-normalised	no-id	frc-ptu6hvpl	1347
+499	placed-normalised	no-id	frc-zo2dvz2y	1245
+500	placed-normalised	no-id	frc-gy5jjsj2	1505
+501	placed-normalised	no-id	frc-65nlyxw2	1199
+502	placed-normalised	no-id	frc-7facns5i	576
+503	placed-normalised	no-id	frc-lt3x2yza	940
+504	placed-normalised	no-id	frc-7olkm5pz	1232
+505	placed-normalised	no-id	frc-nrle4byy	1024
+506	placed-normalised	no-id	frc-llxqdl6v	1231
+507	placed-normalised	no-id	frc-swwmonhz	1241
+508	placed-normalised	no-id	frc-edhmys3b	770
+509	placed-normalised	no-id	frc-ioylduih	1003
+510	placed-normalised	no-id	frc-6qxuhxy6	791
+511	placed-normalised	no-id	frc-tecognwe	945
+512	placed-normalised	no-id	frc-bz7qvn5f	787
+513	placed-normalised	no-id	frc-ajt5zo3f	896
+514	placed-normalised	no-id	frc-n3fwaa7o	675
+515	placed-normalised	no-id	frc-2uqr56su	760
+516	placed-normalised	no-id	frc-2xjozdxc	974
+517	placed-normalised	no-id	frc-v7t4g4tc	667
+518	placed-normalised	no-id	frc-vknomrjv	819
+519	placed-normalised	no-id	frc-b2aaxikw	848
+520	placed-normalised	no-id	frc-htiaychq	856
+521	placed-normalised	no-id	frc-2k4d4u6e	1601
+522	placed-normalised	no-id	frc-4jphgcky	902
+523	placed-normalised	no-id	frc-jpe2lsdk	699
+524	placed-normalised	no-id	frc-bfqhz5yk	671
+525	placed-normalised	no-id	frc-qtd5nu5d	553
+526	placed-normalised	no-id	frc-di6t43js	935
+527	placed-normalised	no-id	frc-obzatxmt	731
+528	placed-normalised	no-id	frc-njxnmyxd	678
+529	placed-normalised	no-id	frc-5qstufeu	820
+530	placed-normalised	no-id	frc-is53cmrd	706
+531	placed-normalised	no-id	frc-h7ndykxr	835
+532	placed-normalised	no-id	frc-g6gb62d6	1598
+533	placed-normalised	no-id	frc-hx2tv3ju	593
+534	placed-normalised	no-id	frc-gd3kxta5	1345
+535	placed-normalised	no-id	frc-gkq6anig	1956
+536	placed-normalised	no-id	frc-hktqxkzc	526
+537	placed-normalised	no-id	frc-ddx4tpdt	666
+538	placed-normalised	no-id	frc-bsk27myi	1631
+539	placed-normalised	no-id	frc-jml7q27k	918
+540	placed-normalised	no-id	frc-hs756mh2	1418
+541	placed-normalised	no-id	frc-ufxj6piq	795
+542	placed-normalised	no-id	frc-ukautl6c	909
+543	placed-normalised	no-id	frc-esqckgpi	804
+544	placed-normalised	no-id	frc-egjktbij	1275
+545	placed-normalised	no-id	frc-ypoxj5vi	815
+546	placed-normalised	no-id	frc-a3j7zztk	1009
+547	placed-normalised	no-id	frc-ewpqtc4x	914
+548	placed-normalised	no-id	frc-4naz73pa	971
+549	placed-normalised	no-id	frc-ohczkk2h	1360
+550	placed-normalised	no-id	frc-lt2zvp5g	765
+551	placed-normalised	no-id	frc-2n3c4o7r	979
+552	placed-normalised	no-id	frc-3ttdxyfh	714
+553	placed-normalised	no-id	frc-x7lr63ds	1364
+554	placed-normalised	no-id	frc-t5fjukxp	868
+555	placed-normalised	no-id	frc-xkd5a6th	508
+556	placed-normalised	no-id	frc-m5d6qs6s	1065
+557	placed-normalised	no-id	frc-vc463odc	720
+558	placed-normalised	no-id	frc-hdig33si	878
+559	placed-normalised	no-id	frc-4jtrwtvl	1157
+560	placed-normalised	no-id	frc-5beddrr3	797
+561	placed-normalised	no-id	frc-gacedjs3	1145
+562	placed-normalised	no-id	frc-cox6y5j3	633
+563	placed-normalised	no-id	frc-bjgpylr3	499
+564	placed-normalised	no-id	frc-zlycdg66	481
+565	placed-normalised	no-id	frc-vbbse7qq	809
+566	placed-normalised	no-id	frc-m5hu7wvi	1354
+567	placed-normalised	no-id	frc-n76iqmrv	652
+568	placed-normalised	no-id	frc-oz2674sc	837
+569	placed-normalised	no-id	frc-xsgsd7nl	1390
+570	placed-normalised	no-id	frc-onjw2byv	806
+571	placed-normalised	no-id	frc-lq4sers3	787
+572	placed-normalised	no-id	frc-qbp6ibtw	1720
+573	placed-normalised	no-id	frc-dyq5haaq	1140
+574	placed-normalised	no-id	frc-ex3g6o6a	880
+575	placed-normalised	no-id	frc-rcbfw2wk	728
+576	placed-normalised	no-id	frc-3oohtl7s	554
+577	placed-normalised	no-id	frc-3pngrqc5	1342
+578	placed-normalised	no-id	frc-wz7wukdd	851
+579	placed-normalised	no-id	frc-dh6l62mx	749
+580	placed-normalised	no-id	frc-6w6ji7dw	1319
+581	placed-normalised	no-id	frc-dhbsded2	784
+582	placed-normalised	no-id	frc-kz5dfxss	919
+583	placed-normalised	no-id	frc-uvxjjr3u	1457
+584	placed-normalised	no-id	frc-4d76nyal	978
+585	placed-normalised	no-id	frc-7yl6zurj	764
+586	placed-normalised	no-id	frc-sd6kekv3	1257
+587	placed-normalised	no-id	frc-ooawthf6	1257
+588	placed-normalised	no-id	frc-4nwe7poo	810
+589	placed-normalised	no-id	frc-jo7tlhfm	872
+590	placed-normalised	no-id	frc-vpw3uie5	1161
+591	placed-normalised	no-id	frc-i2mgz5fy	717
+592	placed-normalised	no-id	frc-fhepzbq2	1556
+593	placed-normalised	no-id	frc-n74s56xv	973
+594	placed-normalised	no-id	frc-upnjgnee	648
+595	placed-normalised	no-id	frc-lqzal4xe	960
+596	placed-normalised	no-id	frc-w277bzwh	680
+597	placed-normalised	no-id	frc-3tawv3gs	1180
+598	placed-normalised	no-id	frc-rsbfupic	1158
+599	placed-normalised	no-id	frc-63z4bj62	817
+600	placed-normalised	no-id	frc-lhxpoejm	624
+601	placed-normalised	no-id	frc-zaznb7ms	901
+602	placed-normalised	no-id	frc-z7zjwmxj	1954
+603	placed-normalised	no-id	frc-q66av6j5	772
+604	placed-normalised	no-id	frc-5kk5maxl	719
+605	placed-normalised	no-id	frc-v6ikjy55	806
+606	placed-normalised	no-id	frc-idmcr2j3	839
+607	placed-normalised	no-id	frc-l33s7an5	804
+608	placed-normalised	no-id	frc-irfv4s2f	715
+609	placed-normalised	no-id	frc-jrizryaq	727
+610	placed-normalised	no-id	frc-avnzpx6m	1159
+611	placed-normalised	no-id	frc-mntuzpym	685
+612	placed-normalised	no-id	frc-54ebkxva	831
+613	placed-normalised	no-id	frc-65xgdtwy	869
+614	placed-normalised	no-id	frc-hezfjo7w	488
+615	placed-normalised	no-id	frc-q7sls3ws	662
+616	placed-normalised	no-id	frc-2bvzuxld	677
+617	placed-normalised	no-id	frc-qpsgykt3	1043
+618	placed-normalised	no-id	frc-hey7szwj	869
+619	placed-normalised	no-id	frc-pz2q4wsm	670
+620	placed-normalised	no-id	frc-pz7jqxbl	956
+621	placed-normalised	no-id	frc-2ektixdf	759
+622	placed-normalised	no-id	frc-p2apnwnm	741
+623	placed-normalised	no-id	frc-tag3cfye	1540
+624	placed-normalised	no-id	frc-ilp6doj2	1558
+625	placed-normalised	no-id	frc-qztnpekb	1496
+626	placed-normalised	no-id	frc-2g7rpil7	1035
+627	placed-normalised	no-id	frc-6sksmhcd	1363
+628	placed-normalised	no-id	frc-yhku2uqo	999
+629	placed-normalised	no-id	frc-pia7wnoy	783
+630	placed-normalised	no-id	frc-3i3o2pur	1034
+631	placed-normalised	no-id	frc-n3aqvtab	1046
+632	placed-normalised	no-id	frc-kngrhcpp	839
+633	placed-normalised	no-id	frc-oiodt2kj	1036
+634	placed-normalised	no-id	frc-uxz5b46a	719
+635	placed-normalised	no-id	frc-f3vhvobv	1073
+636	placed-normalised	no-id	frc-wruxgayd	969
+637	placed-normalised	no-id	frc-eymgcc5g	1302
+638	placed-normalised	no-id	frc-zlxtxuht	2312
+639	placed-normalised	no-id	frc-2k6cokuu	979
+640	placed-normalised	no-id	frc-odtt7an5	845
+641	placed-normalised	no-id	frc-peqd63ja	1252
+642	placed-normalised	no-id	frc-3zyowa4m	839
+643	placed-normalised	no-id	frc-uvgxinsz	1438
+644	placed-normalised		frc-kz2hrd63	707
+645	placed-normalised		frc-qof3ehdf	566
+646	placed-normalised		frc-vz2mzskz	494
+647	placed-normalised		frc-7737pr2a	818
+648	placed-normalised		frc-ocfp2b4r	1578
+649	placed-normalised		frc-3umsuzm2	593
+650	placed-normalised		frc-67alf7co	1486
+651	placed-normalised		frc-ijxjczfs	830
+652	placed-normalised		frc-bdbfumty	881
+653	placed-normalised		frc-w65f2lrg	649
+654	placed-normalised		frc-afvil3sj	787
+655	placed-normalised		frc-ruehr6zs	1546
+656	placed-normalised		frc-ryvnkza6	827
+657	placed-normalised		frc-yt24gvhi	663
+658	placed-normalised		frc-l6klyrjr	607
+659	placed-normalised		frc-7iihps4t	794
+660	placed-normalised		frc-llcwqzfe	689
+661	placed-normalised		frc-qbowoz5q	1679
+662	placed-normalised		frc-ywftpuyp	903
+663	placed-normalised		frc-dqhj7z3k	714
+664	placed-normalised		frc-7aw7al26	875
+665	placed-normalised		frc-grm265ap	1283
+666	placed-normalised		frc-zr4htpuk	720
+667	placed-normalised		frc-n3xiteza	786
+668	placed-normalised		frc-5ce4tysm	1498
+669	placed-normalised		frc-chmqe3pu	622
+670	placed-normalised		frc-wmoidujq	1002
+671	placed-normalised		frc-cgbh7idn	801
+672	placed-normalised		frc-ywfxdch3	1189
+673	placed-normalised		frc-jx6shnb7	659
+674	placed-normalised		frc-gym4lam3	1474
+675	placed-normalised		frc-gar7bhh6	741
+676	placed-normalised		frc-t24vljqz	658
+677	placed-normalised		frc-ogaj5f33	682
+678	placed-normalised		frc-hrrhmowl	673
+679	placed-normalised		frc-rebm55z5	918
+680	placed-normalised		frc-illnziq5	823
+681	placed-normalised		frc-uvrpkakl	564
+682	placed-normalised		frc-zzh6p33o	805
+683	placed-normalised		frc-5ueattbd	640
+684	placed-normalised		frc-g3bdviy7	1914
+685	placed-normalised		frc-ogknuthd	663
+686	placed-normalised		frc-brniff35	896
+687	placed-normalised		frc-bnuzgjgg	731
+688	placed-normalised		frc-2nkjjhep	1113
+689	placed-normalised		frc-ew6l5ra3	1218
+690	placed-normalised		frc-dcxgw25z	606
+691	placed-normalised		frc-isidrm75	563
+692	placed-normalised		frc-kivnibqz	922
+693	placed-normalised		frc-n5xyfwht	1592
+694	placed-normalised		frc-4yf2m7ux	608
+695	placed-normalised		frc-6jjkkkqk	1039
+696	placed-normalised		frc-nxzdyhxq	708
+697	placed-normalised		frc-m6e5ujxi	596
+698	placed-normalised		frc-jgoq33zh	1155
+699	placed-normalised		frc-oi6gpp4w	638
+700	placed-normalised		frc-aprzjxv5	837
+701	placed-normalised		frc-j2nu55aj	1321
+702	placed-normalised		frc-7vbnce4j	533
+703	placed-normalised		frc-qk5mw3iu	851
+704	placed-normalised		frc-nq46wfyx	770
+705	placed-normalised		frc-7h24tuil	1357
+706	placed-normalised		frc-n362ifwe	828
+707	placed-normalised		frc-cuovrmhr	825
+708	placed-normalised		frc-ucgvm3wp	1171
+709	placed-normalised		frc-tifkusnx	1083
+710	placed-normalised		frc-lxrjt5c7	495
+711	placed-normalised		frc-bqhjclgl	567
+712	placed-normalised		frc-zxmqqn2n	1196
+713	placed-normalised		frc-c6doc7gq	1472
+714	placed-normalised		frc-e45z7n2a	609
+715	placed-normalised		frc-sbu52eaz	1323
+716	placed-normalised		frc-xlgmyoul	760
+717	placed-normalised		frc-poxy4azw	926
+718	placed-normalised		frc-d4jiizd5	831
+719	placed-normalised		frc-zevndt5n	1632
+720	placed-normalised		frc-lctoocey	787
+721	placed-normalised		frc-f7yyzbyt	617
+722	placed-normalised		frc-5v63xxdh	870
+723	placed-normalised		frc-z2axlhvb	781
+724	placed-normalised		frc-vlpkn53v	1768
+725	placed-normalised		frc-q7ul5fu6	679
+726	placed-normalised		frc-tniq5fsc	909
+727	placed-normalised		frc-g6hynb6s	860
+728	placed-normalised		frc-bidxlewu	1359
+729	placed-normalised		frc-lc3ttedj	852
+730	placed-normalised		frc-kvhy535t	508
+731	placed-normalised		frc-aezgwe7e	917
+732	placed-normalised		frc-23qo7ein	1435
+733	placed-normalised		frc-vvevmbip	648
+734	placed-normalised		frc-tvcixo7p	1424
+735	placed-normalised		frc-vlhsde5c	644
+736	placed-normalised		frc-tv2zgqrh	749
+737	placed-normalised		frc-qm4y5l6v	729
+738	placed-normalised		frc-6ukcqi2x	670
+739	placed-normalised		frc-cxeh7zsh	819
+740	placed-normalised		frc-zcmgwatc	1292
+741	placed-normalised		frc-abc3vwll	782
+742	placed-normalised		frc-3gxe5c7l	574
+743	placed-normalised		frc-hpq5fdp2	951
+744	placed-normalised		frc-xtun2mwz	1443
+745	placed-normalised		frc-ogad6k2c	922
+746	placed-normalised		frc-hhpahppk	457
+747	placed-normalised		frc-np4dludf	1258
+748	placed-normalised		frc-b64oukes	732
+749	placed-normalised		frc-lmisk4b5	924
+750	placed-normalised		frc-cvhs56wx	1273
+751	placed-normalised		frc-spxurv3i	647
+752	placed-normalised		frc-wslkkztc	603
+753	placed-normalised		frc-mncmc57f	1392
+754	placed-normalised		frc-eclbz5ze	587
+755	placed-normalised		frc-xq4jabnh	807
+756	placed-normalised		frc-fubosesg	1405
+757	placed-normalised		frc-pti732ci	1040
+758	placed-normalised		frc-4u5g4zax	570
+759	placed-normalised		frc-4b2pgm3s	716
+760	placed-normalised		frc-srcgdvxn	827
+761	placed-normalised		frc-pq4m7fkz	607
+762	placed-normalised		frc-zgcx3qth	1433
+763	placed-normalised		frc-x4iec67n	1297
+764	placed-normalised		frc-ffe2usng	662
+765	placed-normalised		frc-4w7xvvnl	1579
+766	placed-normalised		frc-w2fhdxs3	834
+767	placed-normalised		frc-wf53jzsj	740
+768	placed-normalised		frc-qfk4plch	1511
+769	placed-normalised		frc-oqxjohii	1188
+770	placed-normalised		frc-jv4nm4bi	701
+771	placed-normalised		frc-eewofmjf	1459
+772	placed-normalised		frc-rb7byrxn	1229
+773	placed-normalised		frc-evo2mqx2	992
+774	placed-normalised		frc-d6m2kd3c	1026
+775	placed-normalised		frc-lk63pjck	776
+776	placed-normalised		frc-547ipuhb	823
+777	placed-normalised		frc-xrrt6afr	1732
+778	placed-normalised		frc-h7jhntqk	1067
+779	placed-normalised		frc-dd4ckagr	683
+780	placed-normalised		frc-rth2eyfb	1353
+781	placed-normalised		frc-cgwlowz2	986
+782	placed-normalised		frc-4cjde7ag	725
+783	placed-normalised		frc-uvqdb7k4	947
+784	placed-normalised		frc-suaeydg3	1436
+785	placed-normalised		frc-t5lakn3k	1042
+786	placed-normalised		frc-cpxgproc	1506
+787	placed-normalised		frc-lzjycuop	1036
+788	placed-normalised		frc-4vyyxrw2	823
+789	placed-normalised		frc-7qh4zu7f	908
+790	placed-normalised		frc-v4djgo7p	837
+791	placed-normalised		frc-alwltdsa	874
+792	placed-normalised		frc-wbjwboy2	732
+793	placed-normalised		frc-sqsvxx7f	1118
+794	placed-normalised		frc-e27wc3w3	788
+795	placed-normalised		frc-n6zuaqjl	755
+796	placed-normalised		frc-ejtdhdty	1522
+797	placed-normalised		frc-5jsal3ee	825
+798	placed-normalised		frc-lyokhmxe	2206
+799	placed-normalised		frc-4g3camv2	1060
+800	placed-normalised		frc-mhm7dw7k	2023
+801	placed-normalised		frc-jumzh4f3	1654
+802	placed-normalised		frc-yos2omsz	1262
+803	placed-normalised		frc-ubbxbxqs	1857
+804	placed-normalised		frc-2xhczfmc	1375
+805	placed-normalised		frc-3p3xa3oz	897
+806	placed-normalised		frc-rrnaxmsr	1505
+807	placed-normalised		frc-5z4fnycc	751
+808	placed-normalised		frc-grfmyb3d	908
+809	placed-normalised		frc-4su56a3b	854
+810	placed-normalised		frc-g7i7rjy6	888
+811	placed-normalised		frc-onbhyqze	1390
+812	placed-normalised		frc-krkxn7vy	861
+813	placed-normalised		frc-bvazxbt7	2511
+814	placed-normalised		frc-pp2bor3c	1600
+815	placed-normalised		frc-wcgby326	1001
+816	placed-normalised		frc-7dt2e5q7	996
+817	placed-normalised		frc-mca4hchm	1038
+818	placed-normalised		frc-rxrrx66h	1882
+819	placed-normalised		frc-oyt4llre	1621
+820	placed-normalised		frc-ki5a4gbg	1167
+821	placed-normalised		frc-4owrwgjy	1976
+822	placed-normalised		frc-xff35v6m	1892
+823	placed-normalised		frc-3eueduar	682
+824	placed-normalised		frc-spfax7at	1279
+825	placed-normalised	id-held-twice	frc-dtpzkojv	1086
+826	placed-normalised		frc-dhqzssa3	1454
+827	placed-normalised		frc-ft6x4ac4	863
+828	placed-normalised		frc-zkibosqy	1038
+829	placed-normalised		frc-d5wz5kmg	693
+830	placed-normalised		frc-3kkwecjj	701
+831	placed-normalised	id-held-twice	frc-v764dnff	930
+832	placed-normalised		frc-5ywb2tey	1861
+833	placed-normalised		frc-rrukvqgq	920
+834	placed-normalised		frc-gkoo2ees	847
+835	placed-normalised		frc-htyhizar	884
+836	placed-normalised		frc-imfgdh7z	1303
+837	placed-normalised		frc-q6lqohgf	944
+838	placed-canonical		frc-imvi4gyj	885
+839	placed-canonical		frc-mhqyfrwr	904
+840	placed-canonical		frc-q6pdai5l	1718
+841	placed-canonical		frc-omeesoaj	1034
+842	placed-canonical		frc-ajyyrc7n	2471
+843	placed-canonical		frc-u27rovwg	1061
+844	placed-canonical		frc-fl62lx6o	2264
+845	placed-canonical		frc-w7gtbegt	1168
+846	placed-canonical		frc-4iz4cquv	975
+847	placed-canonical		frc-cbakdp6u	914
+848	placed-canonical		frc-jsule5mv	1252
+849	placed-canonical		frc-66hebywa	1119
+850	placed-canonical		frc-sptht35d	1075
+851	placed-canonical		frc-zi564mzf	1180
+852	placed-canonical		frc-yykdhciy	1659
+853	placed-canonical		frc-lrgo66d5	1004
+854	placed-canonical		frc-ut5g2zaq	1027
+855	placed-canonical		frc-l7koehc2	889
+856	placed-canonical		frc-d6axggaw	1076
+857	placed-canonical		frc-tlhadczi	942
+858	placed-canonical		frc-swntltus	1026
+859	placed-canonical		frc-sxflehl3	1173
+860	placed-canonical		frc-mspnezoa	2195
+861	placed-canonical		frc-ovzji7g4	938
+862	placed-canonical		frc-qf3mm253	1047
+863	placed-canonical		frc-vqkotqzy	948
+864	placed-canonical		frc-tfat7zkk	1089
+865	placed-canonical		frc-jc3ilnt2	1140
+866	placed-canonical		frc-onqlzbzj	1280
+867	placed-canonical		frc-3yhazygb	903
+868	placed-canonical		frc-ojjxussl	1052
+869	placed-canonical		frc-7ky3f2dr	923
+870	placed-canonical		frc-gqph5mcp	726
+871	placed-canonical		frc-viuymhp7	713
+872	placed-canonical		frc-esouakjf	894
+873	placed-canonical		frc-x2tv3jud	945
+874	placed-canonical		frc-zv4xpmq6	1371
+875	placed-canonical		frc-fuc3blf7	696
+876	placed-normalised		frc-wkyjhbza	1004
+877	placed-normalised		frc-ypd4cnlt	1087
+878	placed-normalised		frc-nrwaxu5j	1073
+879	placed-normalised		frc-tfwb3dun	1810
+880	placed-normalised		frc-nsfa4gkx	1314
+881	placed-normalised		frc-d7vntdtm	2026
+882	placed-normalised		frc-osprc5o6	1233
+883	placed-normalised		frc-xrntlm53	1629
+884	placed-normalised		frc-oryemigz	1840
+885	placed-normalised		frc-ixpxxqro	1288
+886	placed-normalised		frc-bkbji7uu	2232
+887	placed-normalised		frc-stivm7zb	951
+888	placed-normalised		frc-dgfwsssv	1798
+889	placed-normalised		frc-qzeshsaa	1058
+890	placed-normalised		frc-zk3clc3g	1671
+891	placed-normalised		frc-xnmuf5u7	1065
+892	placed-normalised		frc-wval4ces	1861
+893	placed-normalised		frc-42kje4mr	1497
+894	placed-normalised		frc-jwja3hrt	2801
+895	placed-normalised		frc-5i6m2daj	1096
+896	placed-normalised		frc-pfnmchlp	992
+897	placed-normalised		frc-pvhlc6q6	1708
+898	placed-normalised		frc-fotjepxr	1526
+899	placed-normalised		frc-iv2utyw7	1668
+900	placed-normalised		frc-gzcpex3x	1287
+901	placed-normalised		frc-5peibcfu	1191
+902	placed-normalised		frc-tlqjxhpi	925
+903	placed-normalised		frc-by4pk3ye	2422
+904	placed-normalised		frc-pnrn6hp2	1100
+905	placed-normalised		frc-d3pdaup7	1887
+906	placed-normalised		frc-fylbndar	814
+907	placed-normalised		frc-4psbyysb	2257
+908	placed-normalised		frc-af6j6zob	1284
+909	placed-normalised		frc-uwfojgdp	2308
+910	placed-normalised		frc-6gc44gjv	1607
+911	placed-normalised		frc-2zvdroid	2820
+912	placed-normalised		frc-5i6ubkwg	1308
+913	placed-normalised		frc-h7ndyyxl	1637
+914	placed-normalised		frc-ilkkn5ha	1018
+915	placed-normalised		frc-ezvvaat7	1318
+916	placed-normalised		frc-lirfzrp6	931
+917	placed-normalised		frc-e6p4kspc	2402
+918	placed-normalised		frc-6j4tczmn	1258
+919	placed-normalised		frc-ywiebnms	1349
+920	placed-normalised		frc-3yngphki	1105
+921	placed-normalised		frc-n5y22dr6	960
+922	placed-normalised		frc-o7n6peex	1159
+923	placed-normalised		frc-smlkffsl	955
+924	placed-normalised		frc-6vmj37wc	1432
+925	placed-normalised		frc-gyq3b2hf	933
+926	placed-normalised		frc-elc43msm	1067
+927	placed-normalised		frc-ovjth2il	742
+928	placed-canonical		frc-ayll7bll	1154
+929	placed-canonical		frc-llie45nz	810
+930	placed-canonical		frc-au2b5xzq	1366
+931	placed-canonical		frc-e7k6ys2g	885
+932	placed-canonical		frc-knujn7ge	905
+933	placed-canonical		frc-lofk43zj	726
+934	placed-canonical		frc-bbmktqgd	1430
+935	placed-canonical		frc-zdeis4cu	1320
+936	placed-canonical		frc-bemjtptb	1201
+937	placed-canonical		frc-vtejv4ov	1350
+938	placed-canonical		frc-rw6kqwx5	1075
+939	placed-canonical		frc-ecakt2bm	637
+940	placed-canonical		frc-w34uivig	1101
+941	placed-canonical		frc-rwfv6epj	1106
+942	placed-canonical		frc-l4mxe4ta	960
+943	placed-canonical		frc-kyxbolvb	1009
+944	placed-canonical		frc-ll56w4r6	1139
+945	placed-canonical		frc-qt2weiri	1126
+946	placed-canonical		frc-l6kyjs57	1366
+947	placed-canonical		frc-vopbup5u	1146
+948	placed-canonical		frc-vaw36hmi	1029
+949	placed-canonical		frc-oszcq23q	1295
+950	placed-canonical		frc-g75fqf3d	1465
+951	placed-canonical		frc-v6xebpwb	1346
+952	placed-canonical		frc-yrdddbjd	809
+953	placed-canonical		frc-db2bcgvh	1475
+954	placed-canonical		frc-l3fp5ahh	984
+955	placed-canonical		frc-s6llx63k	1347
+956	placed-canonical		frc-dt2ufip7	1012
+957	placed-canonical		frc-6hxrxkck	846
+958	placed-canonical		frc-lmss44pf	1427
+959	placed-canonical		frc-qhnxa7b5	936
+960	placed-canonical		frc-j73whnd2	1376
+961	placed-canonical		frc-tvfj2jyb	1268
+962	placed-canonical		frc-uup4hnab	1295
+963	placed-canonical		frc-bkgtdymn	1318
+964	placed-canonical		frc-lpjfkvl2	1383
+965	placed-canonical		frc-4wx6tpq5	649
+966	placed-canonical		frc-mqvxx7w4	992
+967	placed-canonical		frc-m5rvpsnx	1838
+968	placed-canonical		frc-fxbsa727	1298
+969	placed-canonical		frc-zm62er2o	1435
+970	placed-canonical		frc-nddh4vre	717
+971	placed-canonical		frc-wlf3ojqc	1346
+972	placed-canonical		frc-vdyldcbg	1093
+973	placed-canonical		frc-5xhlqz2q	733
+974	placed-canonical		frc-zccklmo3	1592
+975	placed-canonical		frc-ygl6ygl2	1037
+976	placed-canonical		frc-ltc3ptdp	1251
+977	placed-canonical		frc-j6mnwr5t	1244
+978	placed-canonical		frc-3ix3lluz	1000
+979	placed-canonical		frc-5gqdjsyh	1272
+980	placed-canonical		frc-mxs7ya3f	973
+981	placed-canonical		frc-vhxwcsib	1897
+982	placed-canonical		frc-biaz4ian	1524
+983	placed-canonical		frc-slxvbwup	1125
+984	placed-canonical		frc-5uqwqrii	2114
+985	placed-canonical		frc-vx32xqtt	1475
+986	placed-canonical		frc-us2sbhqy	1920
+987	placed-canonical		frc-7unn3wjo	1478
+988	placed-canonical		frc-rpyigkfw	1264
+989	placed-canonical		frc-4odksz46	1473
+990	placed-canonical		frc-hky43ouk	932
+991	placed-canonical		frc-3dirw5el	1524
+992	placed-canonical		frc-f2v2t6ey	1120
+993	placed-canonical		frc-dwvaseqb	1609
+994	placed-canonical		frc-76afoexu	1428
+995	placed-canonical		frc-lxiy6txo	1170
+996	placed-canonical		frc-7vd3434p	1155
+997	placed-canonical		frc-basthvnx	985
+998	placed-canonical		frc-wo63ovlr	1582
+999	placed-canonical		frc-73nd3fs4	2403
+1000	placed-canonical		frc-22klbhfk	1403
+1001	placed-canonical		frc-dlovpdvp	1116
+1002	placed-canonical		frc-mko4k5ej	1009
+1003	placed-canonical		frc-3p2wf4q3	1483
+1004	placed-canonical		frc-u6gpjzb3	1047
+1005	placed-canonical		frc-khcjeet4	1127
+1006	placed-canonical		frc-2lkzamkx	1076
+1007	placed-canonical		frc-lsneyl4k	1735
+1008	placed-canonical		frc-t3gvhgmn	1191
+1009	placed-canonical		frc-qnzs3gi2	1515
+1010	placed-canonical		frc-n3mkj324	812
+1011	placed-canonical		frc-lmzgqghe	1648
+1012	placed-canonical		frc-4cvng2f2	804
+1013	placed-canonical		frc-d6clgcxb	699
+1014	placed-canonical		frc-gvlbusex	1951
+1015	placed-canonical		frc-emt3cupq	989
+1016	placed-canonical		frc-ch5t6gsf	1599
+1017	placed-canonical		frc-gzswhskq	1026
+1018	placed-canonical		frc-yberx7m5	854
+1019	placed-canonical		frc-pfagwtr5	1207
+1020	placed-canonical		frc-cw27jr3l	1038
+1021	placed-canonical		frc-ww6oafcb	821
+1022	placed-canonical		frc-lyfo7kdb	1747
+1023	placed-canonical		frc-3cdfvb6p	906
+1024	placed-canonical		frc-gqr4idrj	896
+1025	placed-canonical		frc-3hmc7zgb	1382
+1026	placed-canonical		frc-bjluyt6j	1167
+1027	placed-canonical		frc-f5qtgz4z	1285
+1028	placed-canonical		frc-hutncobe	1131
+1029	placed-canonical		frc-ku7ysyet	842
+1030	placed-canonical		frc-jv3euwsk	782
+1031	placed-canonical		frc-dcy2uuaq	943
+1032	placed-canonical		frc-iv4qxt5q	1454
+1033	placed-canonical		frc-6nmjwssi	1133
+1034	placed-canonical		frc-danyvgdb	848
+1035	placed-canonical		frc-k2xvamkn	1351
+1036	placed-canonical		frc-i6lokqqa	1037
+1037	placed-canonical		frc-4h4h7y3l	905
+1038	placed-canonical		frc-2tu3sgft	957
+1039	placed-canonical		frc-gl2dyzs3	2199
+1040	placed-canonical		frc-m3x6c7lf	1183
+1041	placed-canonical		frc-g5qliono	934
+1042	placed-canonical		frc-6rnssime	824
+1043	placed-canonical		frc-pcynecpw	905
+1044	placed-canonical		frc-vaduf7fx	1372
+1045	placed-canonical		frc-emnx4uat	969
+1046	placed-canonical		frc-7pylxqlu	1378
+1047	placed-canonical		frc-bots2cyr	1461
+1048	placed-canonical		frc-43imvhxm	785
+1049	placed-canonical		frc-56lgme4k	1426
+1050	placed-canonical		frc-tvfgf2uc	917
+1051	placed-canonical		frc-wf3sla2b	1934
+1052	placed-canonical		frc-qpslssty	1071
+1053	placed-canonical		frc-3dxqjebw	961
+1054	placed-canonical		frc-iractvyq	2033
+1055	placed-canonical		frc-zn2gz7xf	835
+1056	placed-canonical		frc-kucglt4t	1182
+1057	placed-canonical		frc-spbtlmvg	1164
+1058	placed-canonical		frc-vnaasg6m	1002
+1059	placed-canonical		frc-ocbelzwr	1473
+1060	placed-canonical		frc-fqf3oa2r	1053
+1061	placed-canonical		frc-elqswy3m	999
+1062	placed-canonical		frc-y7f6dfvj	1736
+1063	placed-canonical		frc-aqyrakkv	980
+1064	placed-canonical		frc-tza3udjw	852
+1065	placed-canonical		frc-wel3z47v	996
+1066	placed-canonical		frc-rethh32v	892
+1067	placed-canonical		frc-b763wdbo	1070
+1068	placed-canonical		frc-xbka3s3c	971
+1069	placed-canonical		frc-5g7hbxac	1124
+1070	placed-canonical		frc-2uyjakbq	868
+1071	placed-canonical		frc-lesxjpvm	2990
+1072	placed-canonical		frc-3e4dolsp	986
+1073	placed-canonical		frc-ldwoyhyt	1145
+1074	placed-canonical		frc-gvdvvdxp	865
+1075	placed-canonical		frc-24zq63q7	1409
+1076	placed-canonical		frc-rymvntkk	1238
+1077	placed-canonical		frc-sxatmnww	927
+1078	placed-canonical		frc-nmiskwue	969
+1079	placed-canonical		frc-xxmkdesa	905
+1080	placed-canonical		frc-5hddfa7u	953
+1081	placed-canonical		frc-hswiijgd	1862
+1082	placed-canonical		frc-izk2bz47	1009
+1083	placed-canonical		frc-jfgl6t2e	1657
+1084	placed-canonical		frc-pt4dbzlg	795
+1085	placed-canonical		frc-vqqbcdlk	1540
+1086	placed-canonical		frc-fzubodex	984
+1087	placed-canonical		frc-5ugqdgqh	764
+1088	placed-canonical		frc-cc3tpuxs	2096
+1089	placed-canonical		frc-oswjuc66	825
+1090	placed-canonical		frc-oefvpewi	1883
+1091	placed-canonical		frc-rp3jzzeq	807
+1092	placed-canonical		frc-rpi5lncu	956
+1093	placed-canonical		frc-gdlkba4l	1409
+1094	placed-canonical		frc-2lnnrq36	1531
+1095	placed-canonical		frc-yczwrbuj	2247
+1096	placed-canonical		frc-ssjaeca7	793
+1097	placed-canonical		frc-j6ygstst	1534
+1098	placed-canonical		frc-ltbhjlsq	983
+1099	placed-canonical		frc-4crwzgww	2684
+1100	placed-canonical		frc-oj2osxgp	1114
+1101	placed-canonical		frc-67ewkbso	1823
+1102	placed-canonical		frc-wsjy6hsw	707
+1103	placed-canonical		frc-gozshzwh	3249
+1104	placed-canonical		frc-eo66u45b	1101
+1105	placed-canonical		frc-lu4mx6vz	1093
+1106	placed-canonical		frc-pdgnq5we	913
+1107	placed-canonical		frc-js6nxd6m	1251
+1108	placed-canonical		frc-abz5stt2	2240
+1109	placed-canonical		frc-gpux2riv	673
+1110	placed-canonical		frc-htieiqpw	983
+1111	placed-canonical		frc-4gwpcnqs	3824
+1112	placed-canonical		frc-r6zuzwoa	1023
+1113	placed-canonical		frc-vvsfrpge	787
+1114	placed-canonical		frc-6q2jiwyo	765
+1115	placed-canonical		frc-dlzcutf6	1385
+1116	placed-canonical		frc-3psc3wgy	863
+1117	placed-canonical		frc-uqyeaihg	854
+1118	placed-canonical		frc-wifnonwt	2225
+1119	placed-canonical		frc-lk2ct7xm	774
+1120	placed-canonical		frc-24acol3f	2781
+1121	placed-canonical		frc-wejkulht	701
+1122	placed-canonical		frc-wpr2vc6t	910
+1123	placed-canonical		frc-gikspnkz	924
+1124	placed-canonical		frc-qaa64cku	1267
+1125	placed-canonical		frc-yqkq3x4m	1466
+1126	placed-canonical		frc-idvygwzj	775
+1127	placed-canonical		frc-ibs34rw7	607
+1128	placed-canonical		frc-6fdrivil	1416
+1129	placed-canonical		frc-4n7dngao	1337
+1130	placed-canonical		frc-anu7e3oo	1837
+1131	placed-canonical		frc-z477hywp	984
+1132	placed-canonical		frc-5jj7kgaf	1852
+1133	placed-canonical		frc-zzvxuyrb	1399
+1134	placed-canonical		frc-uadug62t	1081
+1135	placed-canonical		frc-5556vmry	1144
+1136	placed-canonical		frc-qrbp5jkp	953
+1137	placed-canonical		frc-jcq6s2nd	1183
+1138	placed-canonical		frc-f3ydjqe7	2028
+1139	placed-canonical		frc-jd57r7ju	1166
+1140	placed-canonical		frc-lhghvjd4	950
+1141	placed-canonical		frc-fndhq5bn	1668
+1142	placed-canonical		frc-cysjm4tv	1094
+1143	placed-canonical		frc-knekds7t	996
+1144	placed-canonical		frc-sj7d6fzv	1119
+1145	placed-canonical		frc-4pq6ams7	1160
+1146	placed-canonical		frc-ymyykbei	1053
+1147	placed-canonical		frc-zr246yy2	983
+1148	placed-canonical		frc-tjqztclf	756
+1149	placed-canonical		frc-e3mrzogd	1178
+1150	placed-canonical		frc-6iptci47	2057
+1151	placed-canonical		frc-duplhqrg	1465
+1152	placed-canonical		frc-67paz3y6	1025
+1153	placed-canonical		frc-cvgcvh45	1004
+1154	placed-canonical		frc-naviehlg	1009
+1155	placed-canonical		frc-ayrznvo3	1580
+1156	placed-canonical		frc-eat6kuxt	1182
+1157	placed-canonical		frc-htucq2zy	1209
+1158	placed-canonical		frc-5q67dcy5	1036
+1159	placed-canonical		frc-6qtnzkkl	1420
+1160	placed-canonical		frc-ltntf7ef	848
+1161	placed-canonical		frc-fwhn7aq7	1175
+1162	placed-canonical		frc-2ys6k6c5	909
+1163	placed-canonical		frc-tj3l3nfk	942
+1164	placed-canonical		frc-wyxqkshh	967
+1165	placed-canonical		frc-nizrimft	770
+1166	placed-canonical		frc-yghfzcec	674
+1167	placed-canonical		frc-4jvkr7wq	764
+1168	placed-canonical		frc-u254yf3c	1267
+1169	placed-canonical		frc-s5lakw2o	1039
+1170	placed-canonical		frc-llw6gzyp	780
+1171	placed-canonical		frc-swu73z7f	682
+1172	placed-canonical		frc-i3giojif	806
+1173	placed-canonical		frc-s3b2xj5w	968
+1174	placed-canonical		frc-k2rgplby	1608
+1175	placed-canonical		frc-zl2c4h4e	2176
+1176	placed-canonical		frc-urko463t	1211
+1177	placed-canonical		frc-nzgnzf67	4036
+1178	placed-canonical		frc-pdz5cavh	2971
+1179	placed-canonical		frc-dwib65nm	959
+1180	placed-canonical		frc-tdrg3wxu	1047
+1181	placed-canonical		frc-pk5vra2f	2485
+1182	placed-canonical		frc-nhf2vvfl	1091
+1183	placed-canonical		frc-tttrjlxw	1921
+1184	placed-canonical		frc-xxm7wo3q	1014
+1185	placed-canonical		frc-byir3xkf	1425
+1186	placed-canonical		frc-j37woexh	1913
+1187	placed-canonical		frc-kjmrdtaa	1235
+1188	placed-canonical		frc-4tpgi2c7	2347
+1189	placed-canonical		frc-m733w6uy	1402
+1190	placed-canonical		frc-jg7af6xe	1715
+1191	placed-canonical		frc-dmyotc46	1462
+1192	placed-canonical		frc-lalovwh3	1093
+1193	placed-canonical		frc-isrug7kd	1907
+1194	placed-canonical		frc-jv5uuvyn	1381
+1195	placed-canonical		frc-uzlezyfu	3233
+1196	placed-canonical		frc-z3qzgv5u	1692
+1197	placed-canonical		frc-gbmutcyf	1199
+1198	placed-canonical		frc-vz5cptcz	1341
+1199	placed-canonical		frc-kcxy6vou	1197
+1200	placed-canonical		frc-g7utzbim	1433
+1201	placed-canonical		frc-33jgyekd	1387
+1202	placed-canonical		frc-qaa4fbhj	1802
+1203	placed-canonical		frc-fkxlk5bu	1830
+1204	placed-canonical		frc-vu5ufql5	1303
+1205	placed-canonical		frc-g4zkfl32	1884
+1206	placed-canonical		frc-ulhdvsbl	1068
+1207	placed-canonical		frc-bxjinakf	2219
+1208	placed-canonical		frc-al4fzd45	2858
+1209	placed-canonical		frc-w4azko3q	1936
+1210	placed-canonical		frc-p535bxua	1524
+1211	placed-canonical		frc-slohajkt	2213
+1212	placed-canonical		frc-s4nhurir	1704
+1213	placed-canonical		frc-7sxt5mvi	2097
+1214	placed-canonical		frc-bwpgkwea	1735
+1215	placed-canonical		frc-743scwqn	1332
+1216	placed-canonical		frc-q6wtouxe	1526
+1217	placed-canonical		frc-2lqd7mih	1748
+1218	placed-canonical		frc-ia7jvlqo	2560
+1219	placed-canonical		frc-2ngayy5g	1652
+1220	placed-canonical		frc-oci533kd	1152
+1221	placed-canonical		frc-uy35cn7e	2064
+1222	placed-canonical		frc-l4p2pw7q	1380
+1223	placed-canonical		frc-jjoxczgy	1459
+1224	placed-canonical		frc-jfzcnl4v	1188
+1225	placed-canonical		frc-qrkvm6bf	1322
+1226	placed-canonical		frc-x4fairy2	1688
+1227	placed-canonical		frc-dtly2s4x	829
+1228	placed-canonical		frc-se53ah4h	829
+1229	placed-canonical		frc-lejtfclm	799
+1230	placed-canonical		frc-mqrkfsvh	1832
+1231	placed-canonical		frc-uspeupam	882
+1232	placed-canonical		frc-hmfmu4mt	1912
+1233	placed-canonical		frc-llrzpuhy	1054
+1234	placed-canonical		frc-clig56y7	1099
+1235	placed-canonical		frc-wge2ijn3	1755
+1236	placed-canonical		frc-ak3o6vxx	1226
+1237	placed-canonical		frc-tuqwnbfp	1663
+1238	placed-canonical		frc-bgpvrtn3	1393
+1239	placed-canonical		frc-nwbavb7g	995
+1240	placed-canonical		frc-yocji4bt	1845
+1241	placed-canonical		frc-lqa66vfq	954
+1242	placed-canonical		frc-332stzrn	1085
+1243	placed-canonical		frc-uyidztgf	817
+1244	placed-canonical		frc-gex4osuk	1549
+1245	placed-canonical		frc-wnkzyazm	1006
+1246	placed-canonical		frc-vz45lsji	1955
+1247	placed-canonical		frc-afna7jkw	1021
+1248	placed-canonical		frc-v2xqh6n7	992
+1249	placed-canonical		frc-2nealvrb	1196
+1250	placed-canonical		frc-qx5poeik	1529
+1251	placed-canonical		frc-fsvbmrix	1278
+1252	placed-canonical		frc-xsl6wijl	1639
+1253	placed-canonical		frc-dshrbvqm	1271
+1254	placed-canonical		frc-wcd7azdt	1598
+1255	placed-canonical		frc-q5uqkmi7	952
+1256	placed-canonical		frc-3l6cy5u7	1854
+1257	placed-canonical		frc-yrnymknk	1097
+1258	placed-canonical		frc-p5sbanad	1012
+1259	placed-canonical		frc-ahjekn76	919
+1260	placed-canonical		frc-ul3fel2e	2888
+1261	placed-canonical		frc-nnwc4p7h	2197
+1262	placed-canonical		frc-ysgiwe2x	1229
+1263	placed-canonical		frc-yzb2yidw	1322
+1264	placed-canonical		frc-uthfztm3	1785
+1265	placed-canonical		frc-jkgtdc6z	1122
+1266	placed-canonical		frc-djvzwkko	2243
+1267	placed-canonical		frc-25pearod	1618
+1268	placed-canonical		frc-azyxbxmg	1422
+1269	placed-canonical		frc-qhxh67fl	2087
+1270	placed-canonical		frc-6uumeg24	1266
+1271	placed-canonical		frc-xwxmhy4n	2211
+1272	placed-canonical		frc-nduadoug	1079
+1273	placed-canonical		frc-xt7tepgv	1496
+1274	placed-canonical		frc-5t3kujds	1227
+1275	placed-canonical		frc-67e2kcce	1520
+1276	placed-canonical		frc-i7ja4kfe	1358
+1277	placed-canonical		frc-msxtptki	2739
+1278	placed-canonical		frc-ffedks66	1313
+1279	placed-canonical		frc-4lruyytt	1267
+1280	placed-canonical		frc-cpz3h376	1222
+1281	placed-canonical		frc-ucifddtu	1326
+1282	placed-canonical		frc-d57q2u6a	1475
+1283	placed-canonical		frc-vwdkd2e4	1281
+1284	placed-canonical		frc-ry3j43pw	1162
+1285	placed-canonical		frc-as6gab7u	1233
+1286	placed-canonical		frc-snrk5hi2	1254
+1287	placed-canonical		frc-37ezjoco	1148
+1288	placed-canonical		frc-xv4wkdtz	951
+1289	placed-canonical		frc-4tsabpbd	1124
+1290	placed-canonical		frc-5ckoexou	925
+1291	placed-canonical		frc-sc6vqz5l	911
+1292	placed-canonical		frc-a6digkqm	750
+1293	placed-canonical		frc-y7ectddb	548
+1294	placed-canonical		frc-kbnokrnb	913
+1295	placed-canonical		frc-6s7xvxbc	1325
+1296	placed-canonical		frc-3li5dnd2	1345
+1297	placed-canonical		frc-fqajoxoo	728
+1298	placed-canonical		frc-take7x3e	1079
+1299	placed-canonical		frc-bv34ogty	950
+1300	placed-canonical		frc-uoiql4pw	1496
+1301	placed-canonical		frc-lalzr6yn	974
+1302	placed-canonical		frc-jfftzril	843
+1303	placed-canonical		frc-j6i2xuat	1177
+1304	placed-canonical		frc-melf7xsp	1043
+1305	placed-canonical		frc-uopmct64	928
+1306	placed-canonical		frc-yr6vl4wy	1094
+1307	placed-canonical		frc-oet57imu	1020
+1308	placed-canonical		frc-j427ulg7	1075
+1309	placed-canonical		frc-zmwxbibl	1220
+1310	placed-canonical		frc-i6jepj24	1029
+1311	placed-canonical		frc-2hvbecmb	1335
+1312	placed-canonical		frc-nnyuwfpf	1060
+1313	placed-canonical		frc-midu2bvx	895
+1314	placed-canonical		frc-jl5s74om	831
+1315	placed-canonical		frc-u6wqvcq6	1233
+1316	placed-canonical		frc-pq2yi4ls	805
+1317	placed-canonical		frc-7f6agulb	721
+1318	placed-canonical		frc-pseacaua	870
+1319	placed-canonical		frc-du3iu7ho	942
+1320	placed-canonical		frc-j3wm3mnm	1189
+1321	placed-canonical		frc-c5mq2vo6	1031
+1322	placed-canonical		frc-okw6ab4c	1035
+1323	placed-canonical		frc-lqiwveup	1038
+1324	placed-canonical		frc-p2brwi5t	914
+1325	placed-canonical		frc-smwgnpqi	927
+1326	placed-canonical		frc-bx35244m	1904
+1327	placed-canonical		frc-qg3vsrd2	1060
+1328	placed-canonical		frc-b2uhlv2t	876
+1329	placed-canonical		frc-tjam6qwq	588
+1330	placed-canonical		frc-hlru4j3g	920
+1331	placed-canonical		frc-idto7aa6	998
+1332	placed-canonical		frc-etakfqrj	714
+1333	placed-canonical		frc-woy3s7yn	832
+1334	placed-canonical		frc-sivyn7v2	942
+1335	placed-canonical		frc-5pgwouzc	890
+1336	placed-canonical		frc-5rknaoyi	1189
+1337	placed-canonical		frc-4yqixv4o	1341
+1338	placed-canonical		frc-ljuts6y2	2581
+1339	placed-canonical		frc-jrkcxx7k	1702
+1340	placed-canonical		frc-jc4wnqzu	987
+1341	placed-canonical		frc-lc5lvpnx	1569
+1342	placed-canonical		frc-b4avocak	2126
+1343	placed-canonical		frc-jnffapb4	1230
+1344	placed-canonical		frc-ha3bbork	912
+1345	placed-canonical		frc-7phvnuoi	1175
+1346	placed-canonical		frc-3posu3em	2443
+1347	placed-canonical		frc-vu4u7agf	1243
+1348	placed-canonical		frc-netepags	1641
+1349	placed-canonical		frc-pmqoznzv	1307
+1350	placed-canonical		frc-3u4yfxix	1275
+1351	placed-canonical		frc-5qugxnq7	1397
+1352	placed-canonical		frc-pn4zle7i	1258
+1353	placed-canonical		frc-2g4a2rz6	2248
+1354	placed-canonical		frc-moekjzzv	1540
+1355	placed-canonical		frc-egucpwbv	1206
+1356	placed-canonical		frc-lffizkaw	1177
+1357	placed-canonical		frc-r45p6xnq	1406
+1358	placed-canonical		frc-abnktuc2	1595
+1359	placed-canonical		frc-gdq4y6x5	1852
+1360	placed-canonical		frc-kbbaym4m	1308
+1361	placed-canonical		frc-qmoxglsw	886
+1362	placed-canonical		frc-s2v4av6c	1588
+1363	placed-canonical		frc-5blfqc2g	1055
+1364	placed-canonical		frc-kq3y3gio	1085
+1365	placed-canonical		frc-vinoiqzt	1799
+1366	placed-canonical		frc-pkdxw57q	1003
+1367	placed-canonical		frc-nfrdbg2f	909
+1368	placed-canonical		frc-qxev455d	1809
+1369	placed-canonical		frc-fcb2xssm	1011
+1370	placed-canonical		frc-cje33how	1171
+1371	placed-canonical		frc-yyyeampp	1071
+1372	placed-canonical		frc-jihk7vci	1292
+1373	placed-canonical		frc-2ujzxik4	1169
+1374	placed-canonical		frc-mgkgtukn	1129
+1375	placed-canonical		frc-s3az3cms	1159
+1376	placed-canonical		frc-ov2vn76z	1072
+1377	placed-canonical		frc-h2dqojsg	1148
+1378	placed-canonical		frc-utbylouv	941
+1379	placed-canonical		frc-jkwzi35u	1157
+1380	placed-canonical		frc-etqhrhx6	1289
+1381	placed-canonical		frc-vfxoflna	1307
+1382	placed-canonical		frc-6geogpkf	1089
+1383	placed-canonical		frc-thc7yqcy	1135
+1384	placed-canonical		frc-efbi6xem	962
+1385	placed-canonical		frc-b4sm3ree	1215
+1386	placed-canonical		frc-ce6dim2e	1157
+1387	placed-canonical		frc-v3kzumrh	1014
+1388	placed-canonical		frc-bfyostha	2140
+1389	placed-canonical		frc-yhn5gy37	1096
+1390	placed-canonical		frc-a2c5sfz5	1095
+1391	placed-canonical		frc-7r74usef	1361
+1392	placed-canonical		frc-kw3qqxvp	918
+1393	placed-canonical		frc-yzuzwp74	1280
+1394	placed-canonical		frc-aeqiiqxi	1002
+1395	placed-canonical		frc-vmnzrkfp	1032
+1396	placed-canonical		frc-kk63hetw	990
+1397	placed-canonical		frc-ztbxu6sp	1165
+1398	placed-canonical		frc-6kiyf5f2	1273
+1399	placed-canonical		frc-youb24u7	1498
+1400	placed-canonical		frc-2he3m4s4	816
+1401	placed-canonical		frc-22734sf5	1101
+1402	placed-canonical		frc-diqe6t7c	952
+1403	placed-canonical		frc-prujjgly	1316
+1404	placed-canonical		frc-jjgddblk	811
+1405	placed-canonical		frc-vpcb5yag	580
+1406	placed-canonical		frc-bbnmkiyo	688
+1407	placed-canonical		frc-qyotnkub	657
+1408	placed-canonical		frc-ro6l4735	1658
+1409	placed-canonical		frc-6rdmhwie	1873
+1410	placed-canonical		frc-7ljuioyx	775
+1411	placed-canonical		frc-6n7f3rry	593
+1412	placed-canonical		frc-ikiaun3x	1859
+1413	placed-canonical		frc-hirr3x3a	819
+1414	placed-canonical		frc-4gd667z5	741
+1415	placed-canonical		frc-spd3yium	1538
+1416	placed-canonical		frc-3vqpuwkq	1049
+1417	placed-canonical		frc-d2hvc27z	912
+1418	placed-canonical		frc-vooiigrt	621
+1419	placed-canonical		frc-54dkmqbs	1324
+1420	placed-canonical		frc-nzcznqzf	861
+1421	placed-canonical		frc-7ocdtszx	663
+1422	placed-canonical		frc-v5a3wckn	773
+1423	placed-canonical		frc-zqzrswky	1269
+1424	placed-canonical		frc-jn643s3z	974
+1425	placed-canonical		frc-aqd5nvvk	1696
+1426	placed-canonical		frc-vxhe2uau	1962
+1427	placed-canonical		frc-n3kgwh44	1164
+1428	placed-canonical		frc-uml5bksw	732
+1429	placed-canonical		frc-hhhpxsg5	1972
+1430	placed-canonical		frc-v2jjiwua	1499
+1431	placed-canonical		frc-r5v3miod	1822
+1432	placed-canonical		frc-2vmg2ssa	1228
+1433	placed-canonical		frc-qh3ibgle	1146
+1434	placed-canonical		frc-whr6bnwr	1385
+1435	placed-canonical		frc-r46du4ia	1964
+1436	placed-canonical		frc-f4yvjdjg	1899
+1437	placed-canonical		frc-wqfqdz4x	2105
+1438	placed-canonical		frc-vzcqxcjw	2011
+1439	placed-canonical		frc-znmjg3ej	1651
+1440	placed-canonical		frc-t7pnyhel	1541
+1441	placed-canonical		frc-qf7pesqz	1565
+1442	placed-canonical		frc-kfqf7sxl	1508
+1443	placed-canonical		frc-oduajp5x	1372
+1444	placed-canonical		frc-t2kdobi7	1322
+1445	placed-canonical		frc-xsl74ppq	1149
+1446	placed-canonical		frc-xy7pgbcs	1224
+1447	placed-canonical		frc-dpq5u5hb	1867
+1448	placed-canonical		frc-eqmfvr7m	1055
+1449	placed-canonical		frc-7sbgqtj6	1359
+1450	placed-canonical		frc-735yv2s2	1960
+1451	placed-canonical		frc-eyl3k6rr	1086
+1452	placed-canonical		frc-w4hrt4dq	994
+1453	placed-canonical		frc-wuseqzuj	2167
+1454	placed-canonical		frc-mepuxqtr	1127
+1455	placed-canonical		frc-cirim37g	1838
+1456	placed-canonical		frc-lojxh2ga	1040
+1457	placed-canonical		frc-nb2l6awk	1269
+1458	placed-canonical		frc-57nadqez	1820
+1459	placed-canonical		frc-qqm2dicb	1095
+1460	placed-canonical		frc-4zm5ihj2	1053
+1461	placed-canonical		frc-726nhrdu	1771
+1462	placed-canonical		frc-xt3z5lv5	1499
+1463	placed-canonical		frc-dtgtziat	1616
+1464	placed-canonical		frc-xaxant2d	921
+1465	placed-canonical		frc-6nbnhrcc	984
+1466	placed-canonical		frc-q5w2ophx	1888
+1467	placed-canonical		frc-igtyylmv	1242
+1468	placed-canonical		frc-zixqzvmj	1242
+1469	placed-canonical		frc-iakr45nk	1279
+1470	placed-canonical		frc-4yykaofx	1494
+1471	placed-canonical		frc-mlug7yzu	1298
+1472	placed-canonical		frc-gts4fegm	2717
+1473	placed-canonical		frc-66o5huwv	1341
+1474	placed-canonical		frc-7lwpu3gf	962
+1475	placed-canonical		frc-acntpez2	1070
+1476	placed-canonical		frc-pcrqqxki	1320
+1477	placed-canonical		frc-eabhkodo	1395
+1478	placed-canonical		frc-rpqyguz7	1414
+1479	placed-canonical		frc-7ftcsjhj	1157
+1480	placed-canonical		frc-dcrya5lz	1291
+1481	placed-canonical		frc-lay7lxby	719
+1482	placed-canonical		frc-hhw2bu36	1911
+1483	placed-canonical		frc-bip2jlsn	1083
+1484	placed-canonical		frc-ye7g4to6	2779
+1485	placed-canonical		frc-dyamz3ew	2450
+1486	placed-canonical		frc-lcbisgyx	994
+1487	placed-canonical		frc-i23t7ynk	2615
+1488	placed-canonical		frc-iczxzhuw	1980
+1489	placed-canonical		frc-3brgdcxc	1238
+1490	placed-canonical		frc-vgkhcnho	1445
+1491	placed-canonical		frc-6xtwbyql	2086
+1492	placed-canonical		frc-ejd3fbrs	1632
+1493	placed-canonical		frc-3g5encmm	1231
+1494	placed-canonical		frc-sw6urwzx	1130
+1495	placed-canonical		frc-26vuiqbo	1044
+1496	placed-canonical		frc-afxlklac	1287
+1497	placed-canonical		frc-vtb5vggc	1657
+1498	placed-canonical		frc-ax3aqq22	1097
+1499	placed-canonical		frc-mbmujggz	2857
+1500	placed-canonical		frc-5utxw5kw	1243
+1501	placed-canonical		frc-sl27maui	1500
+1502	placed-canonical		frc-fwa2xxuu	1258
+1503	placed-canonical		frc-rl7siuqh	1188
+1504	placed-canonical		frc-iqykgre5	1161
+1505	placed-canonical		frc-f2rnaa36	1087
+1506	placed-canonical		frc-qek7f2xa	1277
+1507	placed-canonical		frc-ijyrvndg	1515
+1508	placed-canonical		frc-d6x4zlea	1471
+1509	placed-canonical		frc-alm3eftb	1037
+1510	placed-canonical		frc-n36kat5z	1296
+1511	placed-canonical		frc-3gdmeoa2	784
+1512	placed-canonical		frc-avwugucx	754
+1513	placed-canonical		frc-aqll4x5w	1791
+1514	placed-canonical		frc-fos6lwsg	899
+1515	placed-canonical		frc-p3zwuzij	845
+1516	placed-canonical		frc-zjhkr45a	2734
+1517	placed-canonical		frc-67bq5w74	837
+1518	placed-canonical		frc-3mzulbmg	1846
+1519	placed-canonical		frc-jxfd7vxc	880
+1520	placed-canonical		frc-avl6yp7a	919
+1521	placed-canonical		frc-mujrr6ps	1541
+1522	placed-canonical		frc-jpszj34b	1386
+1523	placed-canonical		frc-3socrysp	1226
+1524	placed-canonical		frc-wt22fcgg	955
+1525	placed-canonical		frc-glptdocg	943
+1526	placed-canonical		frc-tcruinwg	1098
+1527	placed-canonical		frc-fkw2um66	1120
+1528	placed-canonical		frc-jh54urjv	1578
+1529	placed-canonical		frc-5tnj5whu	893
+1530	placed-canonical		frc-cn4k34xa	810
+1531	placed-canonical		frc-hjghfepo	1093
+1532	placed-canonical		frc-myrs4mxq	1647
+1533	placed-canonical		frc-rb4vf4zp	893
+1534	placed-canonical		frc-7elm7ojl	748
+1535	placed-canonical		frc-5tnq7bcl	1868
+1536	placed-canonical		frc-ctc7zckj	1345
+1537	placed-canonical		frc-iunk7uez	927
+1538	placed-canonical		frc-rucb726t	881
+1539	placed-canonical		frc-pxxla7ba	1541
+1540	placed-canonical		frc-ysqcjinc	972
+1541	placed-canonical		frc-okfmegnv	1037
+1542	placed-canonical		frc-73635mfg	850
+1543	placed-canonical		frc-ebf3e3jy	998
+1544	placed-canonical		frc-efibtqi2	889
+1545	placed-canonical		frc-fh2r5tou	1181
+1546	placed-canonical		frc-2khiwtk2	1171
+1547	placed-canonical		frc-4nl4v2gz	1091
+1548	placed-canonical		frc-fi2twfkl	1161
+1549	placed-canonical		frc-46n6ghmy	1925
+1550	placed-canonical		frc-s4dsuhli	1095
+1551	placed-canonical		frc-auqb6rbr	2758
+1552	placed-canonical		frc-bdahjq2r	1304
+1553	placed-canonical		frc-w66ytfnm	1357
+1554	placed-canonical		frc-baxoxkzw	915
+1555	placed-canonical		frc-iosisdqf	2579
+1556	placed-canonical		frc-gijqta3u	1449
+1557	placed-canonical		frc-6467yoxq	2357
+1558	placed-canonical		frc-vdlfnqpi	1589
+1559	placed-canonical		frc-5eevtspw	1147
+1560	placed-canonical		frc-mc4appnr	1402
+1561	placed-canonical		frc-m5ta2d43	1753
+1562	placed-canonical		frc-mac4pm3j	1384
+1563	placed-canonical		frc-khy7ih5e	1457
+1564	placed-canonical		frc-62xiw6qs	2243
+1565	placed-canonical		frc-mfxc4ft4	2546
+1566	placed-canonical		frc-kjq2f7zh	1739
+1567	placed-canonical		frc-v5qlx4hv	1627
+1568	placed-canonical		frc-2pcrqqri	2788
+1569	placed-canonical		frc-ntousl3v	2401
+1570	placed-canonical		frc-4jx5cyzj	1312
+1571	placed-canonical		frc-t6y3ipa2	1575
+1572	placed-canonical		frc-iz6gzbu7	1737
+1573	placed-canonical		frc-wbixeis2	2421
+1574	placed-canonical		frc-7o72azbg	1474
+1575	placed-canonical		frc-q4z3rmem	4236
+1576	placed-canonical		frc-kwq5lihe	1664
+1577	placed-canonical		frc-2xivsuox	1428
+1578	placed-canonical		frc-5mydrba5	1515
+1579	placed-canonical		frc-ihphjtis	1472
+1580	placed-canonical		frc-dxra5g7l	1916
+1581	placed-canonical		frc-6qqivmeh	1504
+1582	placed-canonical		frc-3igubmfy	1742
+1583	placed-canonical		frc-jz4qhtjv	1132
+1584	placed-canonical		frc-eiw6pxek	1703
+1585	placed-canonical		frc-iut6imb7	1237
+1586	placed-canonical		frc-5hotzumx	1325
+1587	placed-canonical		frc-zejk3rld	1120
+1588	placed-canonical		frc-biotixtp	1862
+1589	placed-canonical		frc-cakws2fi	1635
+1590	placed-canonical		frc-tsqscjvy	1127
+1591	placed-canonical		frc-5hzmiusa	1786
+1592	placed-canonical		frc-vnoasxsf	1560
+1593	placed-canonical		frc-w22nruzm	1076
+1594	placed-canonical		frc-7axr3i7i	1447
+1595	placed-canonical		frc-sb3v4ejw	1579
+1596	placed-canonical		frc-glxq3el5	1504
+1597	placed-canonical		frc-ulmnbzjh	1299
+1598	placed-canonical		frc-zyfv7eia	1270
+1599	placed-canonical		frc-gm6m3le4	1252
+1600	placed-canonical		frc-dsnyq5e6	1663
+1601	placed-canonical		frc-ere6z2q2	1357
+1602	placed-canonical		frc-tuxrhafn	1001
+1603	placed-canonical		frc-rruyg3mw	1453
+1604	placed-canonical		frc-ixdvn5wh	1654
+1605	placed-canonical		frc-l6ni5a55	2372
+1606	placed-canonical		frc-mrtok423	1526
+1607	placed-canonical		frc-w3qgbyrf	1361
+1608	placed-canonical		frc-wuts7q7h	1007
+1609	placed-canonical		frc-7kgak7ir	1291
+1610	placed-canonical		frc-ne4j6kxf	933
+1611	placed-canonical		frc-2yxrk6h4	1345
+1612	placed-canonical		frc-qf32c3wn	1304
+1613	placed-canonical		frc-dal6nkd3	915
+1614	placed-canonical		frc-3ijdxtwg	1121
+1615	placed-canonical		frc-f4ht3kff	1241
+1616	placed-canonical		frc-kyt2q6fx	847
+1617	placed-canonical		frc-bw2dpgvh	1012
+1618	placed-canonical		frc-2ycupuj3	2090
+1619	placed-canonical		frc-wzziuti3	743
+1620	placed-canonical		frc-dtx2z3u4	869
+1621	placed-canonical		frc-aymqdfvl	1446
+1622	placed-canonical		frc-wne5nhlk	1121
+1623	placed-canonical		frc-easwfp52	952
+1624	placed-canonical		frc-pgqregew	1215
+1625	placed-canonical		frc-vjieqxlt	1001
+1626	placed-canonical		frc-butngiyf	1021
+1627	placed-canonical		frc-5hzmgocv	1087
+1628	placed-canonical		frc-opnnfuil	1144
+1629	placed-canonical		frc-4d7zsqfq	904
+1630	placed-canonical		frc-btc2jbnd	1567
+1631	placed-canonical		frc-bcvm3dqy	945
+1632	placed-canonical		frc-ft63v5n4	735
+1633	placed-canonical		frc-yxwkrmc5	1120
+1634	placed-canonical		frc-snn6lx5k	905
+1635	placed-canonical		frc-4utnklkw	1225
+1636	placed-canonical		frc-gam6qwvj	830
+1637	placed-canonical		frc-vxpn3apb	838
+1638	placed-canonical		frc-xeoyfvnc	1374
+1639	placed-canonical		frc-luhx2l52	1322
+1640	placed-canonical		frc-cazpqh7y	896
+1641	placed-canonical		frc-is7mfg2s	1483
+1642	placed-canonical		frc-skq77tnu	850
+1643	placed-canonical		frc-fjphw5qq	1282
+1644	placed-canonical		frc-ed6uefk2	947
+1645	placed-canonical		frc-4mmycoq4	991
+1646	placed-canonical		frc-zavu542f	902
+1647	placed-canonical		frc-jsdacenr	1027
+1648	placed-canonical		frc-2uq3q3mr	908
+1649	placed-canonical		frc-rpzhweh3	902
+1650	placed-canonical		frc-mlq7dpoa	1588
+1651	placed-canonical		frc-gvvx5si2	817
+1652	placed-canonical		frc-aq3lwx2w	1117
+1653	placed-canonical		frc-ancqag22	766
+1654	placed-canonical		frc-4xgs64k4	1085
+1655	placed-canonical		frc-d3r5tdqe	2190
+1656	placed-canonical		frc-b3yx2kye	621
+1657	placed-canonical		frc-nv33ppmh	654
+1658	placed-canonical		frc-t72d352m	1998
+1659	placed-canonical		frc-pnewjjkp	740
+1660	placed-canonical		frc-rnhvckkn	2639
+1661	placed-canonical		frc-b3hy3ayk	834
+1662	placed-canonical		frc-a3iwovwq	2651
+1663	placed-canonical		frc-hafpzgf4	780
+1664	placed-canonical		frc-w6ia23ol	1084
+1665	placed-canonical		frc-xrm4egge	2243
+1666	placed-canonical		frc-bdlbc4ex	1187
+1667	placed-canonical		frc-hbtih3cq	2193
+1668	placed-canonical		frc-443ofqde	1397
+1669	placed-canonical		frc-bbk34ibo	1076
+1670	placed-canonical		frc-3l2l7huo	1543
+1671	placed-canonical		frc-ymppdkaz	2566
+1672	placed-canonical		frc-6pwh5jky	1304
+1673	placed-canonical		frc-674x5amp	1278
+1674	placed-canonical		frc-hzj6n3hp	1454
+1675	placed-canonical		frc-yv32xocv	1206
+1676	placed-canonical		frc-oqiepikm	1567
+1677	placed-canonical		frc-rphcgnqm	1344
+1678	placed-canonical		frc-yue44gr7	2181
+1679	placed-canonical		frc-3cseolrk	1177
+1680	placed-canonical		frc-lhnc4sla	1200
+1681	placed-canonical		frc-pzzdfutz	1366
+1682	placed-canonical		frc-dhr6trvs	1349
+1683	placed-canonical		frc-hywsvgh7	1178
+1684	placed-canonical		frc-j6kyxmfx	987
+1685	placed-canonical		frc-hsela65e	1858
+1686	placed-canonical		frc-5xd4rsj4	885
+1687	placed-canonical		frc-epgd73ug	1683
+1688	placed-canonical		frc-i5ua4exa	987
+1689	placed-canonical		frc-h7xjqx6n	909
+1690	placed-canonical		frc-77mlp6zh	1051
+1691	placed-canonical		frc-sxlkcgy5	1811
+1692	placed-canonical		frc-gruonyjm	626
+1693	placed-canonical		frc-ag6tyqnl	851
+1694	placed-canonical		frc-xoew7zu5	2058
+1695	placed-canonical		frc-zyzipssn	1176
+1696	placed-canonical		frc-ntvzlltt	1782
+1697	placed-canonical		frc-6rtda5yx	1136
+1698	placed-canonical		frc-tfflm33j	1055
+1699	placed-canonical		frc-3ziuiv7v	2488
+1700	placed-canonical		frc-zfgwknci	3351
+1701	placed-canonical		frc-4iddgifj	1354
+1702	placed-canonical		frc-uiequnx2	2176
+1703	placed-canonical		frc-2w5x5lhk	1440
+1704	placed-canonical		frc-6gjk3gcz	2955
+1705	placed-canonical		frc-66rvag6i	1429
+1706	placed-canonical		frc-ienlj3ll	1440
+1707	placed-canonical		frc-5wlcevgd	1809
+1708	placed-canonical		frc-fng6jzpx	1387
+1709	placed-canonical		frc-3q2lhnvr	1642
+1710	placed-canonical		frc-qi2ixl5y	1581
+1711	placed-canonical		frc-cx6efj3h	1616
+1712	placed-canonical		frc-ot7y72ty	1704
+1713	placed-canonical		frc-3o6b3ohf	2517
+1714	placed-canonical		frc-rsycyuqr	1400
+1715	placed-canonical		frc-kjzmisxk	1534
+1716	placed-canonical		frc-ksbexkt6	3193
+1717	placed-canonical		frc-dxltipz2	1910
+1718	placed-canonical		frc-s66y5tdd	1579
+1719	placed-canonical		frc-4mdtn76o	1640
+1720	placed-canonical		frc-2h4zqu6d	1376
+1721	placed-canonical		frc-cykvufki	1361
+1722	placed-canonical		frc-sn3jgzqo	1602
+1723	placed-canonical		frc-w55sh2tu	2449
+1724	placed-canonical		frc-djtvivyr	1775
+1725	placed-canonical		frc-tpafurr2	640
+1726	placed-canonical		frc-jp7at2kt	720
+1727	placed-canonical		frc-vz2gd5yd	681
+1728	placed-canonical		frc-knw65i3u	1429
+1729	placed-canonical		frc-sl34xxob	756
+1730	placed-canonical		frc-vbuvof7t	901
+1731	placed-canonical		frc-apfbckv7	785
+1732	placed-canonical		frc-cucpjcyk	3572
+1733	placed-canonical		frc-rigrk7lj	771
+1734	placed-canonical		frc-56ncv62a	2337
+1735	placed-canonical		frc-n37xx4gt	832
+1736	placed-canonical		frc-2mttevqv	774
+1737	placed-canonical		frc-vpwarhrn	941
+1738	placed-canonical		frc-l3r3sytn	2150
+1739	placed-canonical		frc-vjcany5d	1887
+1740	placed-canonical		frc-idu2sf5u	1059
+1741	placed-canonical		frc-xob4hfe4	1040
+1742	placed-canonical		frc-lx2allid	1016
+1743	placed-canonical		frc-znrcnjcb	1426
+1744	placed-canonical		frc-uukxouqz	1506
+1745	placed-canonical		frc-pr6jlyej	1089
+1746	placed-canonical		frc-ipyjm7w4	1668
+1747	placed-canonical		frc-7n2cu42y	1296
+1748	placed-canonical		frc-imu5k3hn	863
+1749	placed-canonical		frc-kafkkjav	1664
+1750	placed-canonical		frc-5pishemi	1697
+1751	placed-canonical		frc-n6cbujlp	1343
+1752	placed-canonical		frc-2rcgoqkg	2723
+1753	placed-canonical		frc-nhhbw6cg	1262
+1754	placed-canonical		frc-2g7z4cfc	909
+1755	placed-canonical		frc-ngxc2h3p	1127
+1756	placed-canonical		frc-r56m5clg	886
+1757	placed-canonical		frc-kzu4mve2	1811
+1758	placed-canonical		frc-ff5jbxxn	1930
+1759	placed-canonical		frc-kgh5pmow	1305
+1760	placed-canonical		frc-yaqu5tgo	973
+1761	placed-canonical		frc-2ek23s5e	1029
+1762	placed-canonical		frc-p5lwulu5	1662
+1763	placed-canonical		frc-go2no7dh	990
+1764	placed-canonical		frc-fbboyn2c	771
+1765	placed-canonical		frc-oo23pnjo	897
+1766	placed-canonical		frc-avd37m37	2058
+1767	placed-canonical		frc-ehaqb34i	2472
+1768	placed-canonical		frc-q2mxnpuv	1199
+1769	placed-canonical		frc-wpamolgt	2780
+1770	placed-canonical		frc-ua5iap7g	1142
+1771	placed-canonical		frc-havwrhrs	1152
+1772	placed-canonical		frc-zmmaae7x	2855
+1773	placed-canonical		frc-lha2v3qe	2644
+1774	placed-canonical		frc-nwuiqp45	1306
+1775	placed-canonical		frc-5tl6awky	1445
+1776	placed-canonical		frc-g5pfrr35	1282
+1777	placed-canonical		frc-kjtpblea	2397
+1778	placed-canonical		frc-tvialvuv	1414
+1779	placed-canonical		frc-mvyzrz3y	2331
+1780	placed-canonical		frc-kwmm7idn	2301
+1781	placed-canonical		frc-7ge6r5nn	1040
+1782	placed-canonical		frc-h6pybhap	1680
+1783	placed-canonical		frc-qafg5uzu	2290
+1784	placed-canonical		frc-3lgirh6b	1245
+1785	placed-canonical		frc-nzgls2tn	1775
+1786	placed-canonical		frc-43aiv6vf	1372
+1787	placed-canonical		frc-d7rbxigu	1225
+1788	placed-canonical		frc-tgv73a5k	1740
+1789	placed-canonical		frc-uwwloaya	2698
+1790	placed-canonical		frc-apyrdpvp	1829
+1791	placed-canonical		frc-ixwpvxqf	1564
+1792	placed-canonical		frc-2lsn2yuj	776
+1793	placed-canonical		frc-zqg32mun	1333
+1794	placed-canonical		frc-hz56jgcy	1031
+1795	placed-canonical		frc-xcjciyad	1837
+1796	placed-canonical		frc-gucklgpd	1060
+1797	placed-canonical		frc-tqsqjaz3	1845
+1798	placed-canonical		frc-pun4cun4	1385
+1799	placed-canonical		frc-ecpk2y4z	984
+1800	placed-canonical		frc-kot2s36m	3234
+1801	placed-canonical		frc-mcfs5sdu	1064
+1802	placed-canonical		frc-n3kqpofo	3062
+1803	placed-canonical		frc-6qi3ufgt	1482
+1804	placed-canonical		frc-omk5jd4e	1327
+1805	placed-canonical		frc-v7oz3bxb	2300
+1806	placed-canonical		frc-aqqwdyla	1807
+1807	placed-canonical		frc-5jtkknma	2238
+1808	placed-canonical		frc-hprhm45p	1386
+1809	placed-canonical		frc-bkpinssg	1415
+1810	placed-canonical		frc-6x66xi45	1474
+1811	placed-canonical		frc-xhsqibdn	1146
+1812	placed-canonical		frc-ywfxa7jg	2028
+1813	placed-canonical		frc-jtgit6d2	1434
+1814	placed-canonical		frc-ko745qm4	1527
+1815	placed-canonical		frc-u746umfv	1126
+1816	placed-canonical		frc-5ps37fof	1015
+1817	placed-canonical		frc-outa7zlr	1711
+1818	placed-canonical		frc-eyexgxxt	1870
+1819	placed-canonical		frc-77olvnzb	1337
+1820	placed-canonical		frc-ei2m5xar	1419
+1821	placed-canonical		frc-6liicu4j	1213
+1822	placed-canonical		frc-ywnjnx7f	1461
+1823	placed-canonical		frc-nnherhur	1254
+1824	placed-canonical		frc-kwunlnuo	1438
+1825	placed-canonical		frc-lp54lry3	1521
+1826	placed-canonical		frc-gp7p7bhl	1022
+1827	placed-canonical		frc-vmsyb5ai	1034
+1828	placed-canonical		frc-c7cjxt4a	857
+1829	placed-canonical		frc-ngpkvzi7	1484
+1830	placed-canonical		frc-jxwf2xun	1098
+1831	placed-canonical		frc-iu5t2o2x	1209
+1832	placed-canonical		frc-k3gumkij	926
+1833	placed-canonical		frc-zjzkdb7e	2008
+1834	placed-canonical		frc-zn3ycvja	1144
+1835	placed-canonical		frc-odepvn37	919
+1836	placed-canonical		frc-2gfuktfk	1958
+1837	placed-canonical		frc-sutukdx3	1949
+1838	placed-canonical		frc-psitfzan	1447
+1839	placed-canonical		frc-vj7uoco2	2446
+1840	placed-canonical		frc-fjtoksjm	1453
+1841	placed-canonical		frc-ho262uug	1372
+1842	placed-canonical		frc-d7dzaclv	1329
+1843	placed-canonical		frc-ydutctsk	1537
+1844	placed-canonical		frc-wccquo2z	1227
+1845	placed-canonical		frc-wkcd5ukl	1254
+1846	placed-canonical		frc-dnpygwn5	1270
+1847	placed-canonical		frc-x5qkvkhm	1831
+1848	placed-canonical		frc-6id5u2h2	1290
+1849	placed-canonical		frc-72f2tt3h	1365
+1850	placed-canonical		frc-ml4x5i5f	1252
+1851	placed-canonical		frc-pz2ngkto	2229
+1852	placed-canonical		frc-7cob76wn	1314
+1853	placed-canonical		frc-qma2kpns	1212
+1854	placed-canonical		frc-g2tkwfnc	876
+1855	placed-canonical		frc-hfv2vt2g	841
+1856	placed-canonical		frc-i43ny5gq	1782
+1857	placed-canonical		frc-owge2veo	874
+1858	placed-canonical		frc-zqwesdzj	797
+1859	placed-canonical		frc-s64gsjrr	918
+1860	placed-canonical		frc-eivna74l	2477
+1861	placed-canonical		frc-djjmf5sp	1078
+1862	placed-canonical		frc-l6nbcvx2	1003
+1863	placed-canonical		frc-w5qwzewa	1466
+1864	placed-canonical		frc-2gugdzy4	734
+1865	placed-canonical		frc-ir7zpfmh	557
+1866	placed-canonical		frc-zxrcjcd4	738
+1867	placed-canonical		frc-u4nqz5ic	1998
+1868	placed-canonical		frc-mhz643vh	666
+1869	placed-canonical		frc-nd6gty54	949
+1870	placed-canonical		frc-ike4yg7f	756
+1871	placed-canonical		frc-dziquadh	2478
+1872	placed-canonical		frc-xukequxt	3677
+1873	placed-canonical		frc-z5vabcmr	3400
+1874	placed-canonical		frc-bj2ioobj	1001
+1875	placed-canonical		frc-h4dbumjq	2645
+1876	placed-canonical		frc-lykx37ua	996
+1877	placed-canonical		frc-7p3cno3x	2829
+1878	placed-canonical		frc-ly4sbx74	950
+1879	placed-canonical		frc-rilxkrmi	2350
+1880	placed-canonical		frc-scwrh6g3	974
+1881	placed-canonical		frc-jxphmisw	850
+1882	placed-canonical		frc-pprxjuqc	2618
+1883	placed-canonical		frc-qpauypvr	1156
+1884	placed-canonical		frc-7vtehyoc	867
+1885	placed-canonical		frc-kkt7s63b	1029
+1886	placed-canonical		frc-5syemrau	2290
+1887	placed-canonical		frc-6tdkl64f	1029
+1888	placed-canonical		frc-ambtxnjm	3118
+1889	placed-canonical		frc-whucpfqy	925
+1890	placed-canonical		frc-aypfmxkr	3874
+1891	placed-canonical		frc-3nucrrix	1057
+1892	placed-canonical		frc-ivkse3sz	1105
+1893	placed-canonical		frc-bycm4rtv	1133
+1894	placed-canonical		frc-wwwcjsmx	915
+1895	placed-canonical		frc-5745dnwb	1127
+1896	placed-canonical		frc-t2kuiglx	1669
+1897	placed-canonical		frc-izomztcw	1078
+1898	placed-canonical		frc-qyblqv7r	2334
+1899	placed-canonical		frc-5kumq2wu	1040
+1900	placed-canonical		frc-g5uss5ge	1722
+1901	placed-canonical		frc-ooz6vr4y	640
+1902	placed-canonical		frc-34ronogt	577
+1903	placed-canonical		frc-pvwmzugp	1892
+1904	placed-canonical		frc-4tir3xxi	817
+1905	placed-canonical		frc-opxgwbzw	2270
+1906	placed-canonical		frc-h4uqn2xh	832
+1907	placed-canonical		frc-uc7sajet	661
+1908	placed-canonical		frc-keplxbqq	1782
+1909	placed-canonical		frc-6ia5r6qy	994
+1910	placed-canonical		frc-ugucg4cm	908
+1911	placed-canonical		frc-xfaphlxb	2237
+1912	placed-canonical		frc-gojxbpvl	734
+1913	placed-canonical		frc-h6prhcnn	2399
+1914	placed-canonical		frc-sgpn5l3l	871
+1915	placed-canonical		frc-7f6blia7	1950
+1916	placed-canonical		frc-rk6d3okc	1423
+1917	placed-canonical		frc-deaufmpc	1298
+1918	placed-canonical		frc-spepm3je	901
+1919	placed-canonical		frc-r6d62f42	849
+1920	placed-canonical		frc-l33x4s2h	1211
+1921	placed-canonical		frc-hupwltkf	1756
+1922	placed-canonical		frc-m45zn3kt	882
+1923	placed-canonical		frc-unav2nbb	852
+1924	placed-canonical		frc-n2xouk6s	795
+1925	placed-canonical		frc-vzsoh5tk	1461
+1926	placed-canonical		frc-o6w34qgk	819
+1927	placed-canonical		frc-k5b6vvq6	1075
+1928	placed-canonical		frc-hswt4n3i	1455
+1929	placed-canonical		frc-zgi6lmkm	909
+1930	placed-canonical		frc-p2w47ogm	804
+1931	placed-canonical		frc-axg22vp5	1514
+1932	placed-canonical		frc-bjlkfpu5	1204
+1933	placed-canonical		frc-mmjibwjp	784
+1934	placed-canonical		frc-764ppugh	1862
+1935	placed-canonical		frc-7xowixpn	1079
+1936	placed-canonical		frc-7n3mal3r	2410
+1937	placed-canonical		frc-wa5xuwtq	1164
+1938	placed-canonical		frc-eabxey5j	867
+1939	placed-canonical		frc-bt7oifun	1436
+1940	placed-canonical		frc-qdhoxmjx	1654
+1941	placed-canonical		frc-ewjkl6uw	1835
+1942	placed-canonical		frc-egnjjgxw	1174
+1943	placed-canonical		frc-3ttnc5ho	1632
+1944	placed-canonical		frc-m54a2jmk	1413
+1945	placed-canonical		frc-rcoyt6bm	1155
+1946	placed-canonical		frc-57ul3zvu	891
+1947	placed-canonical		frc-3reiqs7n	2173
+1948	placed-canonical		frc-mqef4fuo	856
+1949	placed-canonical		frc-kmzz2e6f	890
+1950	placed-canonical		frc-ckeh6y42	1539
+1951	placed-canonical		frc-33gjzxxb	886
+1952	placed-canonical		frc-6e2wbwlj	1222
+1953	placed-canonical		frc-zktf6mwz	1166
+1954	placed-canonical		frc-t7bl5w7h	2180
+1955	placed-canonical		frc-qm3clm72	1355
+1956	placed-canonical		frc-uurfarsx	1297
+1957	placed-canonical		frc-cfjcxzun	1060
+1958	placed-canonical		frc-z7lgg2mw	1496
+1959	placed-canonical		frc-qponioxd	1792
+1960	placed-canonical		frc-cjbo7mak	1495
+1961	placed-canonical		frc-arjzf652	1759
+1962	placed-canonical		frc-4zygitkb	2073
+1963	placed-canonical		frc-npturzak	1861
+1964	placed-canonical		frc-3744w353	797
+1965	placed-canonical		frc-gqdm25km	739
+1966	placed-canonical		frc-rs5gl4ny	1209
+1967	placed-canonical		frc-d3gtwumu	1193
+1968	placed-canonical		frc-ghnm6wel	1426
+1969	placed-canonical		frc-6erq5yrr	1083
+1970	placed-canonical		frc-u42tp7qx	1075
+1971	placed-canonical		frc-nj73qalp	1020
+1972	placed-canonical		frc-x4re2ibr	1359
+1973	placed-canonical		frc-qmfwvzif	1245
+1974	placed-canonical		frc-iq37df6j	968
+1975	placed-canonical		frc-2uffwpzl	991
+1976	placed-canonical		frc-yxui4iqt	2152
+1977	placed-canonical		frc-plk7yddf	683
+1978	placed-canonical		frc-xgxw47fv	890
+1979	placed-canonical		frc-7fvovmwh	1782
+1980	placed-canonical		frc-jt4p64fj	873
+1981	placed-canonical		frc-jlg2xzv2	801
+1982	placed-canonical		frc-7updpx4h	1669
+1983	placed-canonical		frc-otbxp5hu	1476
+1984	placed-canonical		frc-kfvkmdux	786
+1985	placed-canonical		frc-2x3smzau	951
+1986	placed-canonical		frc-dfaoc2nj	1075
+1987	placed-canonical		frc-prbssg6w	1064
+1988	placed-canonical		frc-damutweg	893
+1989	placed-canonical		frc-hjspyw54	1785
+1990	placed-canonical		frc-4uqdjhkg	766
+1991	placed-canonical		frc-4zdth64d	808
+1992	placed-canonical		frc-pqvyxsie	1410
+1993	placed-canonical		frc-4mkp3gg4	968
+1994	placed-canonical		frc-zisgesbt	1414
+1995	placed-canonical		frc-3phoeinq	1718
+1996	placed-canonical		frc-swu2ug5y	1179
+1997	placed-canonical		frc-uktn33mf	1684
+1998	placed-canonical		frc-5mpeijzd	974
+1999	placed-canonical		frc-rpunt2u6	927
+2000	placed-canonical		frc-exe2s3xr	922
+2001	placed-canonical		frc-msiy3bpy	1231
+2002	placed-canonical		frc-zrd2fg4q	1262
+2003	placed-canonical		frc-g5alqj4j	1194
+2004	placed-canonical		frc-g7bz266b	1365
+2005	placed-canonical		frc-mzsnhgjq	1576
+2006	placed-canonical		frc-42v44pxe	964
+2007	placed-canonical		frc-5fyhlkma	2341
+2008	placed-canonical		frc-von6jzde	2806
+2009	placed-canonical		frc-gy4e5abg	1847
+2010	placed-canonical		frc-7722epyo	1056
+2011	placed-canonical		frc-rx4q5zug	1650
+2012	placed-canonical		frc-74c6xqlf	1195
+2013	placed-canonical		frc-fctfodit	1164
+2014	placed-canonical		frc-qovwt75p	1988
+2015	placed-canonical		frc-pposud3j	1742
+2016	placed-canonical		frc-ytwee2s5	1030
+2017	placed-canonical		frc-tnzxgwpi	1253
+2018	placed-canonical		frc-piyns4xt	1849
+2019	placed-canonical		frc-jcwcji7l	2567
+2020	placed-canonical		frc-nubqxxct	1084
+2021	placed-canonical		frc-a2xphnco	1347
+2022	placed-canonical		frc-ap2rkwan	1577
+2023	placed-canonical		frc-rncbgpz5	1051
+2024	placed-canonical		frc-gzh4teoe	1805
+2025	placed-canonical		frc-ojfhcwjv	1630
+2026	placed-canonical		frc-x3e6mnaz	1248
+2027	placed-canonical		frc-kxa77y3j	1603
+2028	placed-canonical		frc-xzbppxfs	823
+2029	placed-canonical		frc-rxxj2chu	948
+2030	placed-canonical		frc-khy7k2ic	1430
+2031	placed-canonical		frc-62ipp24s	808
+2032	placed-canonical		frc-2whtrpsl	811
+2033	placed-canonical		frc-jaegnoke	1163
+2034	placed-canonical		frc-jj6wknk7	1309
+2035	placed-canonical		frc-3jli3nzd	1011
+2036	placed-canonical		frc-c3zlyuqk	842
+2037	placed-canonical		frc-62jccktc	1650
+2038	placed-canonical		frc-rmjlasrl	1869
+2039	placed-canonical		frc-jwzdnjob	1169
+2040	placed-canonical		frc-kd2euq6z	2901
+2041	placed-canonical		frc-g7wxsljw	2428
+2042	placed-canonical		frc-kdn2pavi	1253
+2043	placed-canonical		frc-qzohk75l	2208
+2044	placed-canonical		frc-alkcdqau	1556
+2045	placed-canonical		frc-qmy5oga5	2309
+2046	placed-canonical		frc-jcpksqoo	1445
+2047	placed-canonical		frc-qvdyidt2	1326
+2048	placed-canonical		frc-2nt46vlt	1321
+2049	placed-canonical		frc-xc5ygepz	2438
+2050	placed-canonical		frc-43uahbwc	1436
+2051	placed-canonical		frc-ryemhd2g	2373
+2052	placed-canonical		frc-6ksp4icf	1203
+2053	placed-canonical		frc-xzaomk2m	1435
+2054	placed-canonical		frc-23p7jnc3	1318
+2055	placed-canonical		frc-crh3t6ot	1330
+2056	placed-canonical		frc-lkuogirn	1360
+2057	placed-canonical		frc-h4yvbudy	896
+2058	placed-canonical		frc-k6hfgtce	822
+2059	placed-canonical		frc-uraen7rg	2026
+2060	placed-canonical		frc-ck7gybd2	905
+2061	placed-canonical		frc-udpf6evn	2245
+2062	placed-canonical		frc-5r5cfujb	1540
+2063	placed-canonical		frc-l2js332p	1096
+2064	placed-canonical		frc-kxxkr3co	1103
+2065	placed-canonical		frc-cu4myzmz	991
+2066	placed-canonical		frc-w6d7ixwr	983
+2067	placed-canonical		frc-htszuar3	1304
+2068	placed-canonical		frc-b7tkxhjg	1087
+2069	placed-canonical		frc-kxakvn6a	1949
+2070	placed-canonical		frc-gd2osnhh	1098
+2071	placed-canonical		frc-gwyphure	1114
+2072	placed-canonical		frc-4aan6n6g	660
+2073	placed-canonical		frc-yai5kbrn	1997
+2074	placed-canonical		frc-45rkpaid	1050
+2075	placed-canonical		frc-vsqo42hv	2426
+2076	placed-canonical		frc-dg3ukriw	1007
+2077	placed-canonical		frc-ndc6pq5t	2391
+2078	placed-canonical		frc-gorn6fxa	1314
+2079	placed-canonical		frc-ajnjairx	1055
+2080	placed-canonical		frc-rk4aigz6	879
+2081	placed-canonical		frc-ac5ar6qb	2724
+2082	placed-canonical		frc-gcvbhdlm	2461
+2083	placed-canonical		frc-p3wj7gnj	974
+2084	placed-canonical		frc-allo734a	2333
+2085	placed-canonical		frc-2b2ytw5l	1083
+2086	placed-canonical		frc-y3n3rjf2	1890
+2087	placed-canonical		frc-i2vn2ts2	1388
+2088	placed-canonical		frc-lotddbhp	1226
+2089	placed-canonical		frc-cs3wc5lv	1194
+2090	placed-canonical		frc-xzono3xa	2362
+2091	placed-canonical		frc-ss3gk37d	3021
+2092	placed-canonical		frc-jiat2s23	1303
+2093	placed-canonical		frc-h4qrvlrz	1173
+2094	placed-canonical		frc-wpunwo6a	1081
+2095	placed-canonical		frc-tdn7w6ho	1621
+2096	placed-canonical		frc-jcpcnlon	1138
+2097	placed-canonical		frc-7kcf37k4	1896
+2098	placed-canonical		frc-wqc33elx	2346
+2099	placed-canonical		frc-ialvwiva	1495
+2100	placed-canonical		frc-wzlh2azr	1815
+2101	placed-canonical		frc-o4fbhopx	843
+2102	placed-canonical		frc-fwptpfql	3021
+2103	placed-canonical		frc-p7wrvxvf	2358
+2104	placed-canonical		frc-3gabem6h	913
+2105	placed-canonical		frc-oxx3q5wr	2123
+2106	placed-canonical		frc-klezjgno	2118
+2107	placed-canonical		frc-a2mcf3hq	1267
+2108	placed-canonical		frc-swcbk7fc	2100
+2109	placed-canonical		frc-bitirdze	1001
+2110	placed-canonical		frc-t6vhuvsk	2142
+2111	placed-canonical		frc-mkuy7eus	1228
+2112	placed-canonical		frc-gp3ifj4q	1987
+2113	placed-canonical		frc-rafydlgb	2843
+2114	placed-canonical		frc-hbudaxmz	1309
+2115	placed-canonical		frc-asf2z275	1155
+2116	placed-canonical		frc-i2oyrn6o	1965
+2117	placed-canonical		frc-jnub5p6a	1213
+2118	placed-canonical		frc-6w7kpwuj	1534
+2119	placed-canonical		frc-6aismtvq	2100
+2120	placed-canonical		frc-duouyfw7	1345
+2121	placed-canonical		frc-4awtlfow	1516
+2122	placed-canonical		frc-p62uumab	1016
+2123	placed-canonical		frc-36gyfikj	2164
+2124	placed-canonical		frc-33b32tds	2239
+2125	placed-canonical		frc-g4ifbkm4	804
+2126	placed-canonical		frc-ww5eqvbw	2970
+2127	placed-canonical		frc-thxay5ub	2256
+2128	placed-canonical		frc-ruhmkmk6	1109
+2129	placed-canonical		frc-bzxlpops	719
+2130	placed-canonical		frc-vulh2hue	2322
+2131	placed-canonical		frc-ze7bo7c5	2598
+2132	placed-canonical		frc-fylfcjaw	1310
+2133	placed-canonical		frc-ygynschd	1791
+2134	placed-canonical		frc-szh4cmlu	2455
+2135	placed-canonical		frc-5sy7ay5v	1484
+2136	placed-canonical		frc-rk23onec	2153
+2137	placed-canonical		frc-ew5eqqqr	1325
+2138	placed-canonical		frc-3meydzoc	2484
+2139	placed-canonical		frc-tbt65bb4	1709
+2140	placed-canonical		frc-mnbzxpka	1131
+2141	placed-canonical		frc-6eshudvu	2213
+2142	placed-canonical		frc-xl3sbefj	2269
+2143	placed-canonical		frc-4etgvzny	1536
+2144	placed-canonical		frc-orp2hrt5	1101
+2145	placed-canonical		frc-oer2s3c3	2179
+2146	placed-canonical		frc-6kypj3kz	1194
+2147	placed-canonical		frc-r5ouj5eo	1136
+2148	placed-canonical		frc-dfu5pzga	2936
+2149	placed-canonical		frc-anysr2ua	1820
+2150	placed-canonical		frc-glttewfm	1700
+2151	placed-canonical		frc-zqcrsf2t	1077
+2152	placed-canonical		frc-zvp3emwn	2890
+2153	placed-canonical		frc-a7eyh3nt	1212
+2154	placed-canonical		frc-begbclsk	1491
+2155	placed-canonical		frc-dpsaiqxs	2658
+2156	placed-canonical		frc-hggtl2wn	1300
+2157	placed-canonical		frc-6om5ezv7	1077
+2158	placed-canonical		frc-o3oz4qg3	1889
+2159	placed-canonical		frc-kynrz2ug	2436
+2160	placed-canonical		frc-g4ia3giv	1396
+2161	placed-canonical		frc-r5cag7ou	1461
+2162	placed-canonical		frc-ocnem5t4	3161
+2163	placed-canonical		frc-f2drhpk4	3191
+2164	placed-canonical		frc-f6c35fpn	1376
+2165	placed-canonical		frc-7cdprstg	1197
+2166	placed-canonical		frc-cuaedagf	1652
+2167	placed-canonical		frc-w6juntzl	1309
+2168	placed-canonical		frc-dlckt4qn	1826
+2169	placed-canonical		frc-vxqs5nmd	1997
+2170	placed-canonical		frc-gaotmbmu	1625
+2171	placed-canonical		frc-sjoagl5o	1010
+2172	placed-canonical		frc-f3l6n3g6	1522
+2173	placed-canonical		frc-yx7vfnpx	1192
+2174	placed-canonical		frc-bll7lwbt	2205
+2175	placed-canonical		frc-osrikruw	1158
+2176	placed-canonical		frc-hx6up3jx	1761
+2177	placed-canonical		frc-qmxtp6bb	1216
+2178	placed-canonical		frc-lakrdqel	1132
+2179	placed-canonical		frc-w4ysdcy7	1582
+2180	placed-canonical		frc-yxpv5b3x	2627
+2181	placed-canonical		frc-pru6uzpm	1197
+2182	placed-canonical		frc-pb55j7ne	1668
+2183	placed-canonical		frc-ygdss2df	1103
+2184	placed-canonical		frc-gprrwnni	1819
+2185	placed-canonical		frc-tvmy3ecd	1354
+2186	placed-canonical		frc-eh4d7tfv	964
+2187	placed-canonical		frc-u34kcosq	1390
+2188	placed-canonical		frc-2ufyubs4	1244
+2189	placed-canonical		frc-prp4kyg7	1338
+2190	placed-canonical		frc-4itfkm25	1380
+2191	placed-canonical		frc-4sbbr5nd	1303
+2192	placed-canonical		frc-n64g5kxa	1123
+2193	placed-canonical		frc-4tdi57r7	1378
+2194	placed-canonical		frc-gs2dhu4l	1076
+2195	placed-canonical		frc-sb5iiwve	1301
+2196	placed-canonical		frc-6hopkf5w	1261
+2197	placed-canonical		frc-4r4dksll	1450
+2198	placed-canonical		frc-hyekkzqy	1390
+2199	placed-canonical		frc-bmv735nf	1367
+2200	placed-canonical		frc-q7e34utu	1360
+2201	placed-canonical		frc-zfzjxvt6	1419
+2202	placed-canonical		frc-vq24c6ie	1093
+2203	placed-canonical		frc-2yeq7iow	1383
+2204	placed-canonical		frc-43sdmaou	1331
+2205	placed-canonical		frc-xjv4mvvt	1029
+2206	placed-canonical		frc-3bcoexai	1442
+2207	placed-canonical		frc-7cq5wz4t	1274
+2208	placed-canonical		frc-lmmo6wfy	1259
+2209	placed-canonical		frc-cukoagpd	1327
+2210	placed-canonical		frc-uozrc3ee	1357
+2211	placed-canonical		frc-i2haypzl	1265
+2212	placed-canonical		frc-oqufztfu	1159
+2213	placed-canonical		frc-bwcubuoj	1240
+2214	placed-canonical		frc-dixifc5g	1436
+2215	placed-canonical		frc-o2py2kcy	1351
+2216	placed-canonical		frc-jmpj6zxq	1901
+2217	placed-canonical		frc-wgqqblcb	1224
+2218	placed-canonical		frc-t74mlzie	791
+2219	placed-canonical		frc-jvghvytk	1061
+2220	placed-canonical		frc-57hqk2fz	1216
+2221	placed-canonical		frc-2wbruti5	1612
+2222	placed-canonical		frc-bpd2mrd4	642
+2223	placed-canonical		frc-kxflthwo	1693
+2224	placed-canonical		frc-6vqhaieu	903
+2225	placed-canonical		frc-pjg2ihcf	2515
+2226	placed-canonical		frc-evtycohr	2520
+2227	placed-canonical		frc-qeupndpy	828
+2228	placed-canonical		frc-dr6yuvr2	1863
+2229	placed-canonical		frc-r7wigo6a	876
+2230	placed-canonical		frc-zyuefbio	1964
+2231	placed-canonical		frc-7zgasrmb	934
+2232	placed-canonical		frc-p4jjebrf	923
+2233	placed-canonical		frc-4zmuyhx7	1932
+2234	placed-canonical		frc-hebx2lse	1100
+2235	placed-canonical		frc-xot5jnda	2526
+2236	placed-canonical		frc-7dairo4n	1205
+2237	placed-canonical		frc-6ei4hwtc	1204
+2238	placed-canonical		frc-wtdsbdbn	1627
+2239	placed-canonical		frc-q7vpzky7	2529
+2240	placed-canonical		frc-xkzqpdb5	1439
+2241	placed-canonical		frc-qqswqmyj	2246
+2242	placed-canonical		frc-2u6qt65i	1656
+2243	placed-canonical		frc-qhmjqorr	818
+2244	placed-canonical		frc-5nqgd6lk	930
+2245	placed-canonical		frc-52vq6emm	939
+2246	placed-canonical		frc-2h4lrj2h	1769
+2247	placed-canonical		frc-isbkql5v	1001
+2248	placed-canonical		frc-zhgqxepp	837
+2249	placed-canonical		frc-idjix3gf	2130
+2250	placed-canonical		frc-znawvflu	1327
+2251	placed-canonical		frc-zdfvydff	2151
+2252	placed-canonical		frc-a44ynzsw	2434
+2253	placed-canonical		frc-dao7w5ef	1218
+2254	placed-canonical		frc-axmgulf3	1433
+2255	placed-canonical		frc-4jsbyae2	2489
+2256	placed-canonical		frc-4dpyalzy	1800
+2257	placed-canonical		frc-rlbrrsnf	2706
+2258	placed-canonical		frc-xdj4i2zd	1800
+2259	placed-canonical		frc-iem5m3ay	1485
+2260	placed-canonical		frc-siqy75x5	2327
+2261	placed-canonical		frc-gknvzp5j	1601
+2262	placed-canonical		frc-hedpgcc3	1693
+2263	placed-canonical		frc-q5k4f74i	1706
+2264	placed-canonical		frc-kv7qgvqk	1679
+2265	placed-canonical		frc-5kudhfsm	2634
+2266	placed-canonical		frc-3r3pjrdi	3619
+2267	placed-canonical		frc-nu5y4pfo	1428
+2268	placed-canonical		frc-j5iqwsnq	1788
+2269	placed-canonical		frc-l7cpf4hr	1669
+2270	placed-canonical		frc-qlgc6fwj	2417
+2271	placed-canonical		frc-vwncdy34	724
+2272	placed-canonical		frc-m7ngn6mc	2350
+2273	placed-canonical		frc-sron7h2m	1040
+2274	placed-canonical		frc-ffngqjcc	2440
+2275	placed-canonical		frc-ogdkazbc	1184
+2276	placed-canonical		frc-3u7dkxfs	2651
+2277	placed-canonical		frc-zekkmb3j	1443
+2278	placed-canonical		frc-wctp3qil	2591
+2279	placed-canonical		frc-afgp2xee	1485
+2280	placed-canonical		frc-aqtwnaf2	1481
+2281	placed-canonical		frc-xatyuyg2	1523
+2282	placed-canonical		frc-yvgtvcyt	1268
+2283	placed-canonical		frc-qhvjua6x	2504
+2284	placed-canonical		frc-z5egxuqj	1480
+2285	placed-canonical		frc-yxkwdyod	1421
+2286	placed-canonical		frc-rjrmrhce	1800
+2287	placed-canonical		frc-o73zvh2z	1845
+2288	placed-canonical		frc-vjuqmcst	1243
+2289	placed-canonical		frc-7csj7awq	3257
+2290	placed-canonical		frc-vijhjwgb	1420
+2291	placed-canonical		frc-xibolkxp	1222
+2292	placed-canonical		frc-pwi5axl4	1281
+2293	placed-canonical		frc-ylw6j4k6	1323
+2294	placed-canonical		frc-2zds5orw	1763
+2295	placed-canonical		frc-22lb4e6t	1383
+2296	placed-canonical		frc-y6owspxe	1768
+2297	placed-canonical		frc-lyinnnoj	1292
+2298	placed-canonical		frc-5o4d5nhb	1492
+2299	placed-canonical		frc-ufss6ic4	872
+2300	placed-canonical		frc-f5hczyt3	1689
+2301	placed-canonical		frc-65ouhbze	874
+2302	placed-canonical		frc-rtlgjupt	726
+2303	placed-canonical		frc-mgrelrr5	724
+2304	placed-canonical		frc-owoe5xqu	790
+2305	placed-canonical		frc-igvzsenb	2681
+2306	placed-canonical		frc-4a6aarwr	2898
+2307	placed-canonical		frc-74jtibsk	2541
+2308	placed-canonical		frc-tmohgzbg	1248
+2309	placed-canonical		frc-t5objjbg	1031
+2310	placed-canonical		frc-mrjm5vjh	2894
+2311	placed-canonical		frc-fu6li7pt	1989
+2312	placed-canonical		frc-emh3liid	1909
+2313	placed-canonical		frc-e5qb2mqe	2620
+2314	placed-canonical		frc-3dddbm7y	1329
+2315	placed-canonical		frc-q4lab5b7	2488
+2316	placed-canonical		frc-srnoyufb	1342
+2317	placed-canonical		frc-6ambqi2e	1209
+2318	placed-canonical		frc-4lyqcnji	3456
+2319	placed-canonical		frc-c4t24l2q	1189
+2320	placed-canonical		frc-cj5v5tio	939
+2321	placed-canonical		frc-d5tytmwp	2042
+2322	placed-canonical		frc-anpnntnd	1368
+2323	placed-canonical		frc-v2otdqxt	1850
+2324	placed-canonical		frc-pqnacu25	2258
+2325	placed-canonical		frc-hqves5mr	1150
+2326	placed-canonical		frc-vrhvx2ow	1741
+2327	placed-canonical		frc-ocxxz3om	582
+2328	placed-canonical		frc-obpiq5ce	598
+2329	placed-canonical		frc-hutxwqyq	1783
+2330	placed-canonical		frc-lgfqt4vq	756
+2331	placed-canonical		frc-kudonvu3	586
+2332	placed-canonical		frc-azjxqcdr	599
+2333	placed-canonical		frc-c3cekkd4	1696
+2334	placed-canonical		frc-s5346vkw	966
+2335	placed-canonical		frc-uqaw5p6j	2139
+2336	placed-canonical		frc-gus43myj	686
+2337	placed-canonical		frc-oynmmjnq	792
+2338	placed-canonical		frc-j5mieggx	716
+2339	placed-canonical		frc-32toxfwf	1955
+2340	placed-canonical		frc-twdhqm4b	986
+2341	placed-canonical		frc-s6t2vth5	990
+2342	placed-canonical		frc-owvlqlv5	943
+2343	placed-canonical		frc-5h4w4osy	824
+2344	placed-canonical		frc-v753nmuq	1622
+2345	placed-canonical		frc-kc4trgxl	855
+2346	placed-canonical		frc-7m3jecaa	769
+2347	placed-canonical		frc-gzsg2dib	2327
+2348	placed-canonical		frc-xhvxusvt	866
+2349	placed-canonical		frc-iykcvbpa	696
+2350	placed-canonical		frc-qpzzepko	1929
+2351	placed-canonical		frc-emluobqg	679
+2352	placed-canonical		frc-fn7fdzub	677
+2353	placed-canonical		frc-yvpzylzc	606
+2354	placed-canonical		frc-pwgyt2lt	1784
+2355	placed-canonical		frc-4vut45q4	737
+2356	placed-canonical		frc-bhkwd4tq	625
+2357	placed-canonical		frc-3d5qobto	750
+2358	placed-canonical		frc-vyqdzvwn	1036
+2359	placed-canonical		frc-6azhgp4h	957
+2360	placed-canonical		frc-664wv7ov	3809
+2361	placed-canonical		frc-zliea4va	949
+2362	placed-canonical		frc-kueojwni	712
+2363	placed-canonical		frc-ora3wuh3	771
+2364	placed-canonical		frc-ru6u66lz	1497
+2365	placed-canonical		frc-hwrcb4zb	621
+2366	placed-canonical		frc-dnuziv6q	598
+2367	placed-canonical		frc-ftksc7y7	657
+2368	placed-canonical		frc-2thao46o	773
+2369	placed-canonical		frc-clew4o5w	1539
+2370	placed-canonical		frc-c2krbicv	598
+2371	placed-canonical		frc-ti473wca	661
+2372	placed-canonical		frc-jnrb53rx	623
+2373	placed-canonical		frc-pfft3tm6	637
+2374	placed-canonical		frc-63w3og5h	728
+2375	placed-canonical		frc-ohiwcvuo	1346
+2376	placed-canonical		frc-4fsl3fzl	2038
+2377	placed-canonical		frc-tfhpcqhb	843
+2378	placed-canonical		frc-scptjj4t	1135
+2379	placed-canonical		frc-bybdzknq	634
+2380	placed-canonical		frc-n463ewnx	1065
+2381	placed-canonical		frc-m6a2dokl	1022
+2382	placed-canonical		frc-nfqwq4ir	604
+2383	placed-canonical		frc-svvpyzjc	1105
+2384	placed-canonical		frc-qikdkqxy	1592
+2385	placed-canonical		frc-vg5oieum	697
+2386	placed-canonical		frc-2nxrkpbw	1223
+2387	placed-canonical		frc-qmss4asa	852
+2388	placed-canonical		frc-undbowrs	1047
+2389	placed-canonical		frc-2d4pzdkk	715
+2390	placed-canonical		frc-hzsf5pqy	996
+2391	placed-canonical		frc-5dwphkul	742
+2392	placed-canonical		frc-m77q3ikf	1161
+2393	placed-canonical		frc-dnik5czq	786
+2394	placed-canonical		frc-yqtdsxc4	1334
+2395	placed-canonical		frc-cgfdcqqd	710
+2396	placed-canonical		frc-5hjiobo2	798
+2397	placed-canonical		frc-jw4e4imd	1051
+2398	placed-canonical		frc-ocp7gkpk	1730
+2399	placed-canonical		frc-tx54s7hu	745
+2400	placed-canonical		frc-snvxivoz	757
+2401	placed-canonical		frc-jezloocb	730
+2402	placed-canonical		frc-gbjsekbn	624
+2403	placed-canonical		frc-abqeiqhp	752
+2404	placed-canonical		frc-hjqq2ppy	1341
+2405	placed-canonical		frc-exj7rfbn	1135
+2406	placed-canonical		frc-5nv7kman	598
+2407	placed-canonical		frc-tevgewjm	607
+2408	placed-canonical		frc-pnnarok6	1123
+2409	placed-canonical		frc-db3p6gp3	1965
+2410	placed-canonical		frc-bnpwqref	701
+2411	placed-canonical		frc-vn4nutvv	690
+2412	placed-canonical		frc-y2dlcxks	1320
+2413	placed-canonical		frc-ewddpitu	797
+2414	placed-canonical		frc-gpgd23s3	1035
+2415	placed-canonical		frc-baxqxise	1451
+2416	placed-canonical		frc-e6zsyujs	1697
+2417	placed-canonical		frc-pexuc3mc	494
+2418	placed-canonical		frc-rexj766f	570
+2419	placed-canonical		frc-wrhkebi6	1479
+2420	placed-canonical		frc-ssii3jgu	721
+2421	placed-canonical		frc-fmbcxr22	652
+2422	placed-canonical		frc-6vl7a3mc	734
+2423	placed-canonical		frc-z2dsxarl	854
+2424	placed-canonical		frc-bk6a6cdn	1932
+2425	placed-canonical		frc-dhxmt7jc	670
+2426	placed-canonical		frc-pk5cfxmj	645
+2427	placed-canonical		frc-i5kvqhmf	813
+2428	placed-canonical		frc-57i32efg	623
+2429	placed-canonical		frc-27sy5orl	623
+2430	placed-canonical		frc-alnhtq32	745
+2431	placed-canonical		frc-mfwokbxw	765
+2432	placed-canonical		frc-ilw5k3eo	1605
+2433	placed-canonical		frc-2cynjdjv	1293
+2434	placed-canonical		frc-oyayyggd	720
+2435	placed-canonical		frc-fstyili3	1591
+2436	placed-canonical		frc-sjmbgl5s	627
+2437	placed-canonical		frc-zjnm7n7q	1624
+2438	placed-canonical		frc-pbqf4kl7	1075
+2439	placed-canonical		frc-vxt2gunh	706
+2440	placed-canonical		frc-th6n2ad3	754
+2441	placed-canonical		frc-yn3nydqv	934
+2442	placed-canonical		frc-mrell5fz	1238
+2443	placed-canonical		frc-3xi55d3m	512
+2444	placed-canonical		frc-wqtdnr2s	715
+2445	placed-canonical		frc-zx56fpj6	968
+2446	placed-canonical		frc-xgkyruxo	651
+2447	placed-canonical		frc-uiu7rjnt	1130
+2448	placed-canonical		frc-xrfntu36	815
+2449	placed-canonical		frc-ma3ic66w	1227
+2450	placed-canonical		frc-nejc42br	566
+2451	placed-canonical		frc-dndlohrk	710
+2452	placed-canonical		frc-e7xa6c34	1649
+2453	placed-canonical		frc-jxxjcgca	682
+2454	placed-canonical		frc-4gd6c235	696
+2455	placed-canonical		frc-i2yh3w63	671
+2456	placed-canonical		frc-asrchcvx	657
+2457	placed-canonical		frc-c6p7dbyp	494
+2458	placed-canonical		frc-i42uduce	575
+2459	placed-canonical		frc-br4jnz3j	592
+2460	placed-canonical		frc-ampfyqry	779
+2461	placed-canonical		frc-jyhwvdon	561
+2462	placed-canonical		frc-tatjizuo	587
+2463	placed-canonical		frc-xz3xiouh	1151
+2464	placed-canonical		frc-rmnz5ppd	764
+2465	placed-canonical		frc-znw4t3xn	1434
+2466	placed-canonical		frc-x2cwtul6	1277
+2467	placed-canonical		frc-xaastucr	655
+2468	placed-canonical		frc-pg6u2w6o	622
+2469	placed-canonical		frc-ihaib6qt	1402
+2470	placed-canonical		frc-7lc4fgp2	1603
+2471	placed-canonical		frc-3j3qo2pc	659
+2472	placed-canonical		frc-l3euaoy6	1782
+2473	placed-canonical		frc-wocton7k	749
+2474	placed-canonical		frc-7sjo27lj	1337
+2475	placed-canonical		frc-qiafp4u3	1276
+2476	placed-canonical		frc-ceqi2dvd	948
+2477	placed-canonical		frc-udotuvfz	755
+2478	placed-canonical		frc-qm6inykv	733
+2479	placed-canonical		frc-p4llalwi	663
+2480	placed-canonical		frc-ahmwbg6o	1274
+2481	placed-canonical		frc-7fo44myt	1383
+2482	placed-canonical		frc-ixse5mhz	712
+2483	placed-canonical		frc-govqipbv	702
+2484	placed-canonical		frc-jrzx52rj	1508
+2485	placed-canonical		frc-qn5lqcn2	850
+2486	placed-canonical		frc-viyuq6cr	889
+2487	placed-canonical		frc-ezuq6zeh	936
+2488	placed-canonical		frc-cmsfwzyp	885
+2489	placed-canonical		frc-o5rk33fo	945
+2490	placed-canonical		frc-mvgo5435	969
+2491	placed-canonical		frc-qikxul72	658
+2492	placed-canonical		frc-bb7quu5c	1344
+2493	placed-canonical		frc-xyyts7pf	2452
+2494	placed-canonical		frc-dkwsancv	735
+2495	placed-canonical		frc-mcnbgd7t	704
+2496	placed-canonical		frc-imyx23tk	793
+2497	placed-canonical		frc-nww73hzk	642
+2498	placed-canonical		frc-k7okuhki	589
+2499	placed-canonical		frc-oshudbww	879
+2500	placed-canonical		frc-wxsgakjh	670
+2501	placed-canonical		frc-qbfbdplc	1570
+2502	placed-canonical		frc-rxp2fosg	684
+2503	placed-canonical		frc-ekqhyzw3	1395
+2504	placed-canonical		frc-ikw2yo32	1115
+2505	placed-canonical		frc-tnoyiggy	1528
+2506	placed-canonical		frc-c3ww4sfi	1083
+2507	placed-canonical		frc-3i32qq4d	526
+2508	placed-canonical		frc-ygue7ok2	506
+2509	placed-canonical		frc-yjkgakr2	995
+2510	placed-canonical		frc-xskejlzz	1079
+2511	placed-canonical		frc-sfqyzzcb	789
+2512	placed-canonical		frc-35bdrqe6	1271
+2513	placed-canonical		frc-feiqlhdq	881
+2514	placed-canonical		frc-affv35pl	835
+2515	placed-canonical		frc-mvsdmxdq	682
+2516	placed-canonical		frc-ddyuvm3u	1061
+2517	placed-canonical		frc-fwffizlu	1716
+2518	placed-canonical		frc-7uggwnwu	775
+2519	placed-canonical		frc-t5oe4g6l	663
+2520	placed-canonical		frc-xyezxwxd	779
+2521	placed-canonical		frc-crqdyswy	667
+2522	placed-canonical		frc-zv2ztm7o	1256
+2523	placed-canonical		frc-uylminsl	845
+2524	placed-canonical		frc-ri3gfrwk	1095
+2525	placed-canonical		frc-623zt4zl	1139
+2526	placed-canonical		frc-6zzdkpvh	719
+2527	placed-canonical		frc-xd37p2rb	1624
+2528	placed-canonical		frc-vmungrn5	667
+2529	placed-canonical		frc-zf5ega4r	1693
+2530	placed-canonical		frc-rq7ecwy7	728
+2531	placed-canonical		frc-wzk5gdur	974
+2532	placed-canonical		frc-4oeobn73	776
+2533	placed-canonical		frc-iyxcql6v	674
+2534	placed-canonical		frc-kvvjvjsx	1411
+2535	placed-canonical		frc-7izmnto7	549
+2536	placed-canonical		frc-jthe6g5n	610
+2537	placed-canonical		frc-jv5fqx65	1244
+2538	placed-canonical		frc-4uddwguj	766
+2539	placed-canonical		frc-6ptykegb	573
+2540	placed-canonical		frc-7hdgt4kk	1355
+2541	placed-canonical		frc-75sih3ka	901
+2542	placed-canonical		frc-7hm2txbf	683
+2543	placed-canonical		frc-ijyyqoqt	700
+2544	placed-canonical		frc-xwz25vyr	939
+2545	placed-canonical		frc-xbrxqhxu	650
+2546	placed-canonical		frc-s7qb4nzv	1551
+2547	placed-canonical		frc-54gqdvo4	661
+2548	placed-canonical		frc-vo55losm	770
+2549	placed-canonical		frc-kt4phpm5	643
+2550	placed-canonical		frc-cblnzj2d	546
+2551	placed-canonical		frc-26drcp3h	866
+2552	placed-canonical		frc-rmzmqiyv	1224
+2553	placed-canonical		frc-73u3n7el	588
+2554	placed-canonical		frc-6c4gzxax	541
+2555	placed-canonical		frc-7ziaowgv	1545
+2556	placed-canonical		frc-6munubpq	645
+2557	placed-canonical		frc-i2xcow3s	556
+2558	placed-canonical		frc-yuayrd27	1514
+2559	placed-canonical		frc-5btsrqj5	655
+2560	placed-canonical		frc-zehrtlmt	656
+2561	placed-canonical		frc-3zo37uuz	1283
+2562	placed-canonical		frc-iav3tiva	753
+2563	placed-canonical		frc-q6ea2lbl	715
+2564	placed-canonical		frc-o5sksn46	1015
+2565	placed-canonical		frc-oddziehx	1154
+2566	placed-canonical		frc-tpnrzpvt	710
+2567	placed-canonical		frc-eh6wqehr	1419
+2568	placed-canonical		frc-zxtaxhht	1438
+2569	placed-canonical		frc-azen7qui	938
+2570	placed-canonical		frc-q2q77qxo	1088
+2571	placed-canonical		frc-4x5bjnxv	1134
+2572	placed-canonical		frc-b7eff6ip	906
+2573	placed-canonical		frc-53xyz4pa	1065
+2574	placed-canonical		frc-3x73fxq3	660
+2575	placed-canonical		frc-5dmu7v4o	1613
+2576	placed-canonical		frc-ogvu4twg	845
+2577	placed-canonical		frc-jefre6f4	754
+2578	placed-canonical		frc-2sqwf4fq	530
+2579	placed-canonical		frc-jtp4mhge	691
+2580	placed-canonical		frc-w6deeyga	679
+2581	placed-canonical		frc-4dyvjrgw	833
+2582	placed-canonical		frc-afxrkvkw	873
+2583	placed-canonical		frc-kyoam2zr	615
+2584	placed-canonical		frc-alrxteh2	1142
+2585	placed-canonical		frc-vzftbikx	1051
+2586	placed-canonical		frc-67c62svk	950
+2587	placed-canonical		frc-wcq2ufks	1752
+2588	placed-canonical		frc-kiy2hee3	1069
+2589	placed-canonical		frc-opjydkjq	959
+2590	placed-canonical		frc-g2lhvm66	808
+2591	placed-canonical		frc-cbdodlt6	1353
+2592	placed-canonical		frc-nukiojiu	797
+2593	placed-canonical		frc-5fin72au	901
+2594	placed-canonical		frc-ntvtw6tc	559
+2595	placed-canonical		frc-6ccag6er	961
+2596	placed-canonical		frc-ktucmy6p	495
+2597	placed-canonical		frc-5jxub5ri	659
+2598	placed-canonical		frc-cgz2sovk	686
+2599	placed-canonical		frc-boju5isq	1064
+2600	placed-canonical		frc-gxknrrm4	1261
+2601	placed-canonical		frc-hh4n4sfb	582
+2602	placed-canonical		frc-zlopw77c	617
+2603	placed-canonical		frc-tprxlkbg	615
+2604	placed-canonical		frc-j7dlvnx4	556
+2605	placed-canonical		frc-7kdgpc3m	606
+2606	placed-canonical		frc-n2tbhmw7	732
+2607	placed-canonical		frc-kzyus4rd	976
+2608	placed-canonical		frc-qw4qmmlw	543
+2609	placed-canonical		frc-zw6xsmua	1231
+2610	placed-canonical		frc-2cl26hr7	1186
+2611	placed-canonical		frc-4ir7kzte	797
+2612	placed-canonical		frc-gsjfdtbt	1716
+2613	placed-canonical		frc-ragi4sq5	760
+2614	placed-canonical		frc-nbw7j4yt	1215
+2615	placed-canonical		frc-ix35dkbf	1197
+2616	placed-canonical		frc-iwbzl2nz	835
+2617	placed-canonical		frc-jfkaolw3	1033
+2618	placed-canonical		frc-hvisiiy4	921
+2619	placed-canonical		frc-vgwuo2df	624
+2620	placed-canonical		frc-n4ej266v	1453
+2621	placed-canonical		frc-55nvcvg6	1992
+2622	placed-canonical		frc-peumvfiq	713
+2623	placed-canonical		frc-oc65xz7b	765
+2624	placed-canonical		frc-mljilpfd	624
+2625	placed-canonical		frc-jnq4pb3j	903
+2626	placed-canonical		frc-e5psmfos	1694
+2627	placed-canonical		frc-b7m6kg64	2092
+2628	placed-canonical		frc-3cm4o2oe	789
+2629	placed-canonical		frc-nsfa2uvm	720
+2630	placed-canonical		frc-xkpvv7fa	604
+2631	placed-canonical		frc-raatiida	674
+2632	placed-canonical		frc-4av3pqyh	874
+2633	placed-canonical		frc-5snreqvv	712
+2634	placed-canonical		frc-6yn5uwmv	1407
+2635	placed-canonical		frc-vt6u2qtm	728
+2636	placed-canonical		frc-eccrzodl	1376
+2637	placed-canonical		frc-ne4jlqbe	1237
+2638	placed-canonical		frc-qqyaregi	2004
+2639	placed-canonical		frc-tept45vf	662
+2640	placed-canonical		frc-g6b2ikou	1531
+2641	placed-canonical		frc-xkkkuanr	753
+2642	placed-canonical		frc-oto526tu	641
+2643	placed-canonical		frc-zdbsrqoo	1516
+2644	placed-canonical		frc-mexirxvr	842
+2645	placed-canonical		frc-brnah6bw	1696
+2646	placed-canonical		frc-gw3b7n72	844
+2647	placed-canonical		frc-cm66nc36	562
+2648	placed-canonical		frc-tpdnpsx3	1147
+2649	placed-canonical		frc-kqkkuuak	1039
+2650	placed-canonical		frc-v56up34f	564
+2651	placed-canonical		frc-5iyhmecz	517
+2652	placed-canonical		frc-2rl5l7ad	563
+2653	placed-canonical		frc-k65gx2cp	720
+2654	placed-canonical		frc-zefsrws4	879
+2655	placed-canonical		frc-dgrknelo	599
+2656	placed-canonical		frc-ihierfwq	1682
+2657	placed-canonical		frc-fygihn3c	601
+2658	placed-canonical		frc-qezwzvdt	510
+2659	placed-canonical		frc-f5qrduur	628
+2660	placed-canonical		frc-g5obapyw	971
+2661	placed-canonical		frc-rd4pm3fs	597
+2662	placed-canonical		frc-fhuqrikz	1073
+2663	placed-canonical		frc-kkwgiksc	592
+2664	placed-canonical		frc-ksgrzc6o	660
+2665	placed-canonical		frc-nup7dlbs	1284
+2666	placed-canonical		frc-2gthrmhh	1256
+2667	placed-canonical		frc-aa2y5tnk	746
+2668	placed-canonical		frc-agfdef6s	1657
+2669	placed-canonical		frc-iiumdi5g	572
+2670	placed-canonical		frc-aqu6qy6e	682
+2671	placed-canonical		frc-6z5uwnvn	1353
+2672	placed-canonical		frc-vlw53jbg	542
+2673	placed-canonical		frc-lhfwblwn	1284
+2674	placed-canonical		frc-32q3wma3	531
+2675	placed-canonical		frc-4ar2iqew	1385
+2676	placed-canonical		frc-jjj5zwfl	628
+2677	placed-canonical		frc-m2z64xwm	554
+2678	placed-canonical		frc-osb6rrqi	1181
+2679	placed-canonical		frc-jprdolth	624
+2680	placed-canonical		frc-w43cb2va	2212
+2681	placed-canonical		frc-jwfiysyr	697
+2682	placed-canonical		frc-fexzamzx	674
+2683	placed-canonical		frc-qxhcig7t	797
+2684	placed-canonical		frc-jbl55ob6	1086
+2685	placed-canonical		frc-nxusq66m	2142
+2686	placed-canonical		frc-o6g6kzxk	699
+2687	placed-canonical		frc-uiyt7tcg	658
+2688	placed-canonical		frc-zq2l7hxo	661
+2689	placed-canonical		frc-jw435cjx	496
+2690	placed-canonical		frc-wca5egw3	673
+2691	placed-canonical		frc-gop2qoql	597
+2692	placed-canonical		frc-j6zatnxa	970
+2693	placed-canonical		frc-vcyg7cze	618
+2694	placed-canonical		frc-afvihq2f	1513
+2695	placed-canonical		frc-5shptsj3	680
+2696	placed-canonical		frc-o5kakgfh	1580
+2697	placed-canonical		frc-57oinslp	1538
+2698	placed-canonical		frc-i6bubcsi	1992
+2699	placed-canonical		frc-vykzrbny	677
+2700	placed-canonical		frc-gdit4amj	788
+2701	placed-canonical		frc-7kpdzakv	1672
+2702	placed-canonical		frc-birbh5q3	1417
+2703	placed-canonical		frc-sjdvcd2j	1572
+2704	placed-canonical		frc-7g4q7zra	794
+2705	placed-canonical		frc-lhav3rr6	1084
+2706	placed-canonical		frc-w3u6kklh	1875
+2707	placed-canonical		frc-ygwdmujn	745
+2708	placed-canonical		frc-jntiq2lu	776
+2709	placed-canonical		frc-6uf2izf3	569
+2710	placed-canonical		frc-vntlytlk	530
+2711	placed-canonical		frc-wcwy2tga	610
+2712	placed-canonical		frc-qg5mypke	1285
+2713	placed-canonical		frc-lbq2gjva	1808
+2714	placed-canonical		frc-npovt3te	723
+2715	placed-canonical		frc-245x3fyd	740
+2716	placed-canonical		frc-jxt2tv62	643
+2717	placed-canonical		frc-ijm2sreu	667
+2718	placed-canonical		frc-yvlvrshw	671
+2719	placed-canonical		frc-gnc6up55	503
+2720	placed-canonical		frc-h36dgis4	622
+2721	placed-canonical		frc-4a3oasss	1064
+2722	placed-canonical		frc-xzclq6np	1202
+2723	placed-canonical		frc-3oykthyf	589
+2724	placed-canonical		frc-rgm6rhzp	617
+2725	placed-canonical		frc-vjpt7tab	1197
+2726	placed-canonical		frc-76pibj2e	488
+2727	placed-canonical		frc-upnxopvv	1015
+2728	placed-canonical		frc-ez7xisws	588
+2729	placed-canonical		frc-sysayoqg	1551
+2730	placed-canonical		frc-44c7dsmm	572
+2731	placed-canonical		frc-rna4gqgz	593
+2732	placed-canonical		frc-dzocszbe	955
+2733	placed-canonical		frc-pag222jr	729
+2734	placed-canonical		frc-sphqqc5x	961
+2735	placed-canonical		frc-eezfydtu	715
+2736	placed-canonical		frc-dotwmg57	971
+2737	placed-canonical		frc-7x53sj5q	647
+2738	placed-canonical		frc-lysntecb	2175
+2739	placed-canonical		frc-lv4rpi5b	731
+2740	placed-canonical		frc-kcpl526v	747
+2741	placed-canonical		frc-7r3nkinf	711
+2742	placed-canonical		frc-rrblwm6n	607
+2743	placed-canonical		frc-tvfjvgfv	2387
+2744	placed-canonical		frc-ohoryyft	699
+2745	placed-canonical		frc-5gz3zuxn	888
+2746	placed-canonical		frc-udyr6pni	647
+2747	placed-canonical		frc-ph6rtet4	633
+2748	placed-canonical		frc-7zzjkt65	779
+2749	placed-canonical		frc-mtz4h25x	1164
+2750	placed-canonical		frc-makfzr55	1729
+2751	placed-canonical		frc-qgd5nzy4	599
+2752	placed-canonical		frc-shyr4irx	663
+2753	placed-canonical		frc-l4u7bgec	622
+2754	placed-canonical		frc-miqgkjsk	614
+2755	placed-canonical		frc-pzqfz7un	603
+2756	placed-canonical		frc-zua4puxu	683
+2757	placed-canonical		frc-4szajpvd	756
+2758	placed-canonical		frc-ag4chvh7	612
+2759	placed-canonical		frc-cpwdr2dw	1408
+2760	placed-canonical		frc-jkni6x6h	638
+2761	placed-canonical		frc-al4vzaku	1217
+2762	placed-canonical		frc-jgvrrwkf	1034
+2763	placed-canonical		frc-dezseodw	1689
+2764	placed-canonical		frc-g2ap62ht	658
+2765	placed-canonical		frc-57bd3p27	498
+2766	placed-canonical		frc-eoid3jrw	1054
+2767	placed-canonical		frc-4gv3ghym	697
+2768	placed-canonical		frc-yhjwpgsi	534
+2769	placed-canonical		frc-pznpwcrt	935
+2770	placed-canonical		frc-fsma46fl	933
+2771	placed-canonical		frc-65oq6ucp	629
+2772	placed-canonical		frc-mda5lcfe	456
+2773	placed-canonical		frc-rnowsli5	1195
+2774	placed-canonical		frc-hcbxy3kg	1549
+2775	placed-canonical		frc-npvboman	987
+2776	placed-canonical		frc-vmvjy7nz	807
+2777	placed-canonical		frc-qrdiac7a	1033
+2778	placed-canonical		frc-yonuwzfh	632
+2779	placed-canonical		frc-qcxeco4k	1674
+2780	placed-canonical		frc-vptz47ma	641
+2781	placed-canonical		frc-r7dkvgyr	688
+2782	placed-canonical		frc-zfxxc7yg	638
+2783	placed-canonical		frc-54gkse5w	842
+2784	placed-canonical		frc-hqsmwn3j	1550
+2785	placed-canonical		frc-6mspiac5	1507
+2786	placed-canonical		frc-oanllcqg	548
+2787	placed-canonical		frc-enrd7bqg	1270
+2788	placed-canonical		frc-db2av5g7	586
+2789	placed-canonical		frc-hte3mgmb	1675
+2790	placed-canonical		frc-vtqqydkb	781
+2791	placed-canonical		frc-6wfhread	1288
+2792	placed-canonical		frc-mbwyij7m	844
+2793	placed-canonical		frc-yuj6jizd	1536
+2794	placed-canonical		frc-nxxcdcvq	1548
+2795	placed-canonical		frc-r5suyetr	698
+2796	placed-canonical		frc-47ydpyli	702
+2797	placed-canonical		frc-25do7mrg	732
+2798	placed-canonical		frc-nqtopbh5	1059
+2799	placed-canonical		frc-f7zblwwm	2009
+2800	placed-canonical		frc-7iqyakka	809
+2801	placed-canonical		frc-tiollthu	706
+2802	placed-canonical		frc-xtkaoabp	976
+2803	placed-canonical		frc-go4gbt7r	808
+2804	placed-canonical		frc-7drnbyrk	1618
+2805	placed-canonical		frc-o7nv5aha	675
+2806	placed-canonical		frc-izr3gqp2	662
+2807	placed-canonical		frc-63s6jvto	509
+2808	placed-canonical		frc-z6akt2kv	582
+2809	placed-canonical		frc-hehdkn22	738
+2810	placed-canonical		frc-kxn7a4hg	797
+2811	placed-canonical		frc-md7br5yj	1128
+2812	placed-canonical		frc-hd5l36xn	595
+2813	placed-canonical		frc-mfwzekr6	1420
+2814	placed-canonical		frc-r3mzhtwt	1083
+2815	placed-canonical		frc-3ldk4z57	1622
+2816	placed-canonical		frc-7nai5dan	739
+2817	placed-canonical		frc-z7ot3amq	1403
+2818	placed-canonical		frc-7atuidqo	784
+2819	placed-canonical		frc-xlposupk	1220
+2820	placed-canonical		frc-xfkpflr5	898
+2821	placed-canonical		frc-szhetmoj	654
+2822	placed-canonical		frc-bnopf5ue	696
+2823	placed-canonical		frc-7gg6kwgm	1456
+2824	placed-canonical		frc-iyg3igif	554
+2825	placed-canonical		frc-mcfkj3fe	573
+2826	placed-canonical		frc-uw5iwax7	1749
+2827	placed-canonical		frc-z2itwyac	584
+2828	placed-canonical		frc-ihywbp4y	652
+2829	placed-canonical		frc-amijq6ug	962
+2830	placed-canonical		frc-xagsbkx3	1062
+2831	placed-canonical		frc-725fjufg	1113
+2832	placed-canonical		frc-y6giyj2k	653
+2833	placed-canonical		frc-cc4jr74l	651
+2834	placed-canonical		frc-wxa3snid	535
+2835	placed-canonical		frc-5xp6czuv	614
+2836	placed-canonical		frc-vlj44xrn	661
+2837	placed-canonical		frc-ktrwfarv	995
+2838	placed-canonical		frc-p2w5frfi	958
+2839	placed-canonical		frc-ylcj6r3x	1228
+2840	placed-canonical		frc-w2djezke	1195
+2841	placed-canonical		frc-5szcde6d	630
+2842	placed-canonical		frc-tsrmed6d	1547
+2843	placed-canonical		frc-xufxwj6b	670
+2844	placed-canonical		frc-lsxykqr5	1505
+2845	placed-canonical		frc-vmtemznc	1129
+2846	placed-canonical		frc-a62vezxg	1146
+2847	placed-canonical		frc-m6hhidit	817
+2848	placed-canonical		frc-zy7rmh3y	553
+2849	placed-canonical		frc-vefvun5z	1131
+2850	placed-canonical		frc-i5cz3fvo	573
+2851	placed-canonical		frc-hjwppzgd	1437
+2852	placed-canonical		frc-xea5sm2u	841
+2853	placed-canonical		frc-a5du4mqy	1360
+2854	placed-canonical		frc-zgtstbm6	1455
+2855	placed-canonical		frc-iypqgbgv	690
+2856	placed-canonical		frc-cyap62on	680
+2857	placed-canonical		frc-24ziaawf	844
+2858	placed-canonical		frc-qmx3saoq	613
+2859	placed-canonical		frc-dgmtacfl	760
+2860	placed-canonical		frc-hvlrnj5f	1131
+2861	placed-canonical		frc-uu5asepp	957
+2862	placed-canonical		frc-na5hzfi7	660
+2863	placed-canonical		frc-rqfybcbh	1201
+2864	placed-canonical		frc-x4c4mejl	576
+2865	placed-canonical		frc-kaw66gx7	1171
+2866	placed-canonical		frc-a6vm7owp	731
+2867	placed-canonical		frc-zd66zbi4	1334
+2868	placed-canonical		frc-kxnmq2xt	720
+2869	placed-canonical		frc-tpfkfa6f	1118
+2870	placed-canonical		frc-4a3cvptm	715
+2871	placed-canonical		frc-xpnbuqkl	895
+2872	placed-canonical		frc-xpyswfy3	737
+2873	placed-canonical		frc-6mw7up5j	606
+2874	placed-canonical		frc-zkdwfebj	1116
+2875	placed-canonical		frc-6ss3nksz	1055
+2876	placed-canonical		frc-tw5porst	997
+2877	placed-canonical		frc-rvez5yb2	609
+2878	placed-canonical		frc-of6k44o2	680
+2879	placed-canonical		frc-3vworemm	1270
+2880	placed-canonical		frc-xwniarji	595
+2881	placed-canonical		frc-fzfllwxw	1935
+2882	placed-canonical		frc-ch4lcnkg	657
+2883	placed-canonical		frc-45x2euqb	675
+2884	placed-canonical		frc-dgybyt4d	657
+2885	placed-canonical		frc-yaanayvh	611
+2886	placed-canonical		frc-wviqe6j5	529
+2887	placed-canonical		frc-d3r6u46c	601
+2888	placed-canonical		frc-hsozkj2p	774
+2889	placed-canonical		frc-kyhed4cf	705
+2890	placed-canonical		frc-ll4h6gzu	1052
+2891	placed-canonical		frc-lp5zku6t	626
+2892	placed-canonical		frc-wmbarlto	1635
+2893	placed-canonical		frc-7jhfxffd	694
+2894	placed-canonical		frc-ahrdl6qj	602
+2895	placed-canonical		frc-ckgkd6ch	1150
+2896	placed-canonical		frc-y34kyfob	634
+2897	placed-canonical		frc-q2c5tyqe	598
+2898	placed-canonical		frc-xsmrpfsk	1682
+2899	placed-canonical		frc-bl55sqax	727
+2900	placed-canonical		frc-cfq2jkrb	538
+2901	placed-canonical		frc-tx5zrckx	1181
+2902	placed-canonical		frc-xudce2ai	786
+2903	placed-canonical		frc-zx644hu6	592
+2904	placed-canonical		frc-rivpy4rc	595
+2905	placed-canonical		frc-k3eb6szj	521
+2906	placed-canonical		frc-z2ogczd4	1144
+2907	placed-canonical		frc-6tpzzdrw	590
+2908	placed-canonical		frc-no5gds4i	1538
+2909	placed-canonical		frc-hbvgxdyf	737
+2910	placed-canonical		frc-wpzrubd2	1345
+2911	placed-canonical		frc-egroff6e	648
+2912	placed-canonical		frc-rvxwqh5w	1295
+2913	placed-canonical		frc-tlmtubr3	811
+2914	placed-canonical		frc-c5cm5y5o	1724
+2915	placed-canonical		frc-kzyficaw	768
+2916	placed-canonical		frc-3cwbidbf	1525
+2917	placed-canonical		frc-oocnk72x	690
+2918	placed-canonical		frc-zzdtmkfu	993
+2919	placed-canonical		frc-47yiriq6	1290
+2920	placed-canonical		frc-sfx7jgzq	705
+2921	placed-canonical		frc-6z7oygrh	726
+2922	placed-canonical		frc-cgt6s2rw	980
+2923	placed-canonical		frc-w4g7p6w5	642
+2924	placed-canonical		frc-tu24eb2y	2540
+2925	placed-canonical		frc-dgsmbqbk	666
+2926	placed-canonical		frc-qzpm7h63	631
+2927	placed-canonical		frc-ekykwkms	616
+2928	placed-canonical		frc-r4j457he	499
+2929	placed-canonical		frc-hdiemkpo	895
+2930	placed-canonical		frc-s5qwd7kl	1240
+2931	placed-canonical		frc-pmt2yaey	716
+2932	placed-canonical		frc-a34glenw	2093
+2933	placed-canonical		frc-i5hgajwf	732
+2934	placed-canonical		frc-7zwstcjr	612
+2935	placed-canonical		frc-z6lgavke	553
+2936	placed-canonical		frc-ljuzqbgp	724
+2937	placed-canonical		frc-uvfyj2ia	570
+2938	placed-canonical		frc-eouhch6j	597
+2939	placed-canonical		frc-s4yjgl4v	885
+2940	placed-canonical		frc-bo4khzke	1047
+2941	placed-canonical		frc-bnn5h43s	565
+2942	placed-canonical		frc-wmfwq6a7	1218
+2943	placed-canonical		frc-5fbb24p3	1102
+2944	placed-canonical		frc-jcseie32	1494
+2945	placed-canonical		frc-foirs2eg	625
+2946	placed-canonical		frc-bmdpjveu	1576
+2947	placed-canonical		frc-3yqehvpf	577
+2948	placed-canonical		frc-rhgsb5ni	903
+2949	placed-canonical		frc-5j7dgqa5	1137
+2950	placed-canonical		frc-s4ynnwhi	783
+2951	placed-canonical		frc-qorg4pm3	1123
+2952	placed-canonical		frc-lyfnkbzp	1185
+2953	placed-canonical		frc-crm2gtyv	671
+2954	placed-canonical		frc-ejhbhvnz	1339
+2955	placed-canonical		frc-6r6yfbcx	611
+2956	placed-canonical		frc-e5qxhnjh	1826
+2957	placed-canonical		frc-wgcn76g6	693
+2958	placed-canonical		frc-gjbxrl7u	785
+2959	placed-canonical		frc-t2wuccgg	740
+2960	placed-canonical		frc-susz5e7v	600
+2961	placed-canonical		frc-xmwt4vtj	866
+2962	placed-canonical		frc-rlveisgq	1035
+2963	placed-canonical		frc-iarxuwm5	558
+2964	placed-canonical		frc-rkqhkk2f	1282
+2965	placed-canonical		frc-2qv34apw	556
+2966	placed-canonical		frc-7nhhwskk	1215
+2967	placed-canonical		frc-zip3felb	745
+2968	placed-canonical		frc-u7mjaq5r	629
+2969	placed-canonical		frc-bcn7cl7y	1120
+2970	placed-canonical		frc-qyz7g3fs	1264
+2971	placed-canonical		frc-tnihnzvs	1850
+2972	placed-canonical		frc-xyhmvlja	614
+2973	placed-canonical		frc-emvxsdgg	587
+2974	placed-canonical		frc-c64fk752	1423
+2975	placed-canonical		frc-r3jh3yn6	749
+2976	placed-canonical		frc-qlxxokoc	683
+2977	placed-canonical		frc-lr7m3nk7	1272
+2978	placed-canonical		frc-fmiryexe	746
+2979	placed-canonical		frc-e73xk6xq	537
+2980	placed-canonical		frc-aacwgv6l	1195
+2981	placed-canonical		frc-5ks5frjk	508
+2982	placed-canonical		frc-oghezmun	673
+2983	placed-canonical		frc-re23667d	1299
+2984	placed-canonical		frc-sgkotibu	631
+2985	placed-canonical		frc-rjy3x7hu	1073
+2986	placed-canonical		frc-4v4gbusg	735
+2987	placed-canonical		frc-l6wsi5bz	993
+2988	placed-canonical		frc-oixe2h2h	1447
+2989	placed-canonical		frc-asg4q2np	731
+2990	placed-canonical		frc-cv35xgzl	621
+2991	placed-canonical		frc-cqzeh7tb	603
+2992	placed-canonical		frc-h6k4unuf	497
+2993	placed-canonical		frc-c5x5c3km	565
+2994	placed-canonical		frc-dx7jwubq	597
+2995	placed-canonical		frc-efgnf2ca	761
+2996	placed-canonical		frc-5ixafxhw	674
+2997	placed-canonical		frc-7ypktiaz	1060
+2998	placed-canonical		frc-cxj65b7a	1256
+2999	placed-canonical		frc-a3ew5ucu	1138
+3000	placed-canonical		frc-yxkgbcuj	542
+3001	placed-canonical		frc-itktcwfg	1717
+3002	placed-canonical		frc-izql4vu7	635
+3003	placed-canonical		frc-bmd6jvec	534
+3004	placed-canonical		frc-izky6vdf	1630
+3005	placed-canonical		frc-d4taou2l	497
+3006	placed-canonical		frc-6jmfen6k	723
+3007	placed-canonical		frc-qajkaynh	1155
+3008	placed-canonical		frc-4coqimv3	1062
+3009	placed-canonical		frc-vj7prfed	695
+3010	placed-canonical		frc-hyzzwnzb	596
+3011	placed-canonical		frc-o65xjmre	1584
+3012	placed-canonical		frc-htgt3nhy	647
+3013	placed-canonical		frc-vrnxqm4c	1050
+3014	placed-canonical		frc-ziegfbxo	868
+3015	placed-canonical		frc-yzrg33wv	768
+3016	placed-canonical		frc-5wx6rlsa	1210
+3017	placed-canonical		frc-ls35abt6	1476
+3018	placed-canonical		frc-grojotfv	740
+3019	placed-canonical		frc-evhq52e3	780
+3020	placed-canonical		frc-hhivr6ix	608
+3021	placed-canonical		frc-pafxtiow	608
+3022	placed-canonical		frc-hxaqgno7	938
+3023	placed-canonical		frc-pga56mzs	926
+3024	placed-canonical		frc-b22lhwvu	1514
+3025	placed-canonical		frc-vbbzb5jg	799
+3026	placed-canonical		frc-2pykjjf3	1353
+3027	placed-canonical		frc-4ppmtdgy	678
+3028	placed-canonical		frc-mqqhifj5	2025
+3029	placed-canonical		frc-iztxcihx	1779
+3030	placed-canonical		frc-y5dudhpd	911
+3031	placed-canonical		frc-txjruqgw	1446
+3032	placed-canonical		frc-gqk6azgn	659
+3033	placed-canonical		frc-tux6byoj	1586
+3034	placed-canonical		frc-7mukjrjn	1134
+3035	placed-canonical		frc-72gxseq3	788
+3036	placed-canonical		frc-llrhaf5i	1872
+3037	placed-canonical		frc-m5aeqvas	724
+3038	placed-canonical		frc-t24dzzte	603
+3039	placed-canonical		frc-bgcqgkwt	809
+3040	placed-canonical		frc-xhtthulf	1671
+3041	placed-canonical		frc-mnsdnvxi	887
+3042	placed-canonical		frc-ao45cad3	647
+3043	placed-canonical		frc-x73ijqi7	781
+3044	placed-canonical		frc-2riwqwd2	1026
+3045	placed-canonical		frc-nshptcbk	1778
+3046	placed-canonical		frc-pb27sqnh	709
+3047	placed-canonical		frc-2a2eu34d	595
+3048	placed-canonical		frc-uowzxppq	652
+3049	placed-canonical		frc-vmx3n4k2	564
+3050	placed-canonical		frc-hzd6omep	514
+3051	placed-canonical		frc-hohg5age	519
+3052	placed-canonical		frc-7oke5hka	565
+3053	placed-canonical		frc-2t4q5e6x	606
+3054	placed-canonical		frc-3aj7vh5f	786
+3055	placed-canonical		frc-4ur5sdxo	785
+3056	placed-canonical		frc-tbxxqqf2	1345
+3057	placed-canonical		frc-n7wfqors	596
+3058	placed-canonical		frc-5v4uj64u	1289
+3059	placed-canonical		frc-hibj3jax	742
+3060	placed-canonical		frc-khpggosr	928
+3061	placed-canonical		frc-eri5pp23	1506
+3062	placed-canonical		frc-oe7zi3ve	786
+3063	placed-canonical		frc-qporqgh4	2288
+3064	placed-canonical		frc-gthl55rh	2067
+3065	placed-canonical		frc-jris3y4l	721
+3066	placed-canonical		frc-snkvmgiq	1588
+3067	placed-canonical		frc-javhwjbp	1589
+3068	placed-canonical		frc-gdzpq34j	791
+3069	placed-canonical		frc-tphiobio	2095
+3070	placed-canonical		frc-fls5zyeh	788
+3071	placed-canonical		frc-txkndpmy	518
+3072	placed-canonical		frc-fm4oyhe3	1384
+3073	placed-canonical		frc-h3vzxytk	798
+3074	placed-canonical		frc-uydjzria	908
+3075	placed-canonical		frc-qwy3bn5i	1749
+3076	placed-canonical		frc-paq4op3c	620
+3077	placed-canonical		frc-jnqppyk5	649
+3078	placed-canonical		frc-qlhk6c26	624
+3079	placed-canonical		frc-2j6bbjz5	2720
+3080	placed-canonical		frc-5g3zpkbg	652
+3081	placed-canonical		frc-6eqp2w3e	737
+3082	placed-canonical		frc-d3hm6aui	674
+3083	placed-canonical		frc-abpht7rf	603
+3084	placed-canonical		frc-zo4yp2r3	715
+3085	placed-canonical		frc-dkuhashv	651
+3086	placed-canonical		frc-l4okmmny	1145
+3087	placed-canonical		frc-6rcp7nqh	683
+3088	placed-canonical		frc-756yz37e	1163
+3089	placed-canonical		frc-d5ey5qao	597
+3090	placed-canonical		frc-4t4jz3lo	1248
+3091	placed-canonical		frc-dtq7sgab	661
+3092	placed-canonical		frc-linpkzeh	805
+3093	placed-canonical		frc-c7j53dk3	1282
+3094	placed-canonical		frc-v2rbkpwr	698
+3095	placed-canonical		frc-wuxu4ops	769
+3096	placed-canonical		frc-ocje4srv	393
+3097	placed-canonical		frc-7pwfr4en	666
+3098	placed-canonical		frc-po22yoep	1254
+3099	placed-canonical		frc-2ditzant	603
+3100	placed-canonical		frc-hram5pds	1662
+3101	placed-canonical		frc-2rbdmaza	814
+3102	placed-canonical		frc-5gv4iiid	2054
+3103	placed-canonical		frc-xtd5yqho	1518
+3104	placed-canonical		frc-huv5umq2	1383
+3105	placed-canonical		frc-gbtusppu	2114
+3106	placed-canonical		frc-gi46vi32	916
+3107	placed-canonical		frc-kzfncoxx	1314
+3108	placed-canonical		frc-yulcsczn	653
+3109	placed-canonical		frc-vsrciyp7	699
+3110	placed-canonical		frc-joya47co	1633
+3111	placed-canonical		frc-q4awbmhw	750
+3112	placed-canonical		frc-bwnrkxje	911
+3113	placed-canonical		frc-7y6divyj	1197
+3114	placed-canonical		frc-g6as5sbx	2338
+3115	placed-canonical		frc-tvsppgsh	1066
+3116	placed-canonical		frc-cug54ya2	924
+3117	placed-canonical		frc-7oyxtpe4	528
+3118	placed-canonical		frc-a6v77yg2	711
+3119	placed-canonical		frc-daevoudg	643
+3120	placed-canonical		frc-5azotmpj	917
+3121	placed-canonical		frc-g7lur6f6	1180
+3122	placed-canonical		frc-3wsnbl37	730
+3123	placed-canonical		frc-n2b2uifu	557
+3124	placed-canonical		frc-ddxvikn6	729
+3125	placed-canonical		frc-xepjemma	848
+3126	placed-canonical		frc-4wcaxlna	825
+3127	placed-canonical		frc-d2e6n36x	1327
+3128	placed-canonical		frc-sxtgucq7	1814
+3129	placed-canonical		frc-f3pplduv	1690
+3130	placed-canonical		frc-ug5ot2e7	1555
+3131	placed-canonical		frc-at2gb3ee	809
+3132	placed-canonical		frc-yckl6qxo	681
+3133	placed-canonical		frc-2ubzaqee	581
+3134	placed-canonical		frc-i3npwfkg	1252
+3135	placed-canonical		frc-j2nclby6	1249
+3136	placed-canonical		frc-gvstenj5	747
+3137	placed-canonical		frc-245gmu7i	1189
+3138	placed-canonical		frc-ohwfzp5f	894
+3139	placed-canonical		frc-rhplyzvi	1595
+3140	placed-canonical		frc-wyofwa3e	738
+3141	placed-canonical		frc-aqmyp65h	994
+3142	placed-canonical		frc-mb3zoppf	714
+3143	placed-canonical		frc-qupximhc	1479
+3144	placed-canonical		frc-2g44cixo	778
+3145	placed-canonical		frc-qjgn6ea7	2067
+3146	placed-canonical		frc-b4t7bc2n	867
+3147	placed-canonical		frc-6mjovx4l	900
+3148	placed-canonical		frc-ahd72ur4	900
+3149	placed-canonical		frc-44rwqsi7	645
+3150	placed-canonical		frc-an7ziyg2	675
+3151	placed-canonical		frc-ors3ihpb	663
+3152	placed-canonical		frc-stb5h3w4	1116
+3153	placed-canonical		frc-ketq3ng4	815
+3154	placed-canonical		frc-g7gun77h	1417
+3155	placed-canonical		frc-fbbe7z5y	925
+3156	placed-canonical		frc-z5wmm27y	940
+3157	placed-canonical		frc-fawrukvt	1254
+3158	placed-canonical		frc-4ibrgmno	1284
+3159	placed-canonical		frc-3vqv66fs	645
+3160	placed-canonical		frc-2juect3x	1832
+3161	placed-canonical		frc-zm6b2di2	1810
+3162	placed-canonical		frc-rv4pilzn	899
+3163	placed-canonical		frc-ibytpdne	957
+3164	placed-canonical		frc-mctu4yhk	1474
+3165	placed-canonical		frc-ttpws7sf	727
+3166	placed-canonical		frc-nlwupgbq	600
+3167	placed-canonical		frc-gnhoce6n	1479
+3168	placed-canonical		frc-2v7eqf4d	900
+3169	placed-canonical		frc-ucztyehq	1358
+3170	placed-canonical		frc-pj5waqzl	896
+3171	placed-canonical		frc-4ldx2kcc	1037
+3172	placed-canonical		frc-cn4xemiz	716
+3173	placed-canonical		frc-yybvgoti	1451
+3174	placed-canonical		frc-ozg3cumu	1905
+3175	placed-canonical		frc-5aivofhb	1039
+3176	placed-canonical		frc-562rpzrj	503
+3177	placed-canonical		frc-u2wp76bx	774
+3178	placed-canonical		frc-24ggz6hs	897
+3179	placed-canonical		frc-lubekgrj	1281
+3180	placed-canonical		frc-6acgguhw	1241
+3181	placed-canonical		frc-c6dvkg77	846
+3182	placed-canonical		frc-jkm3inuj	1742
+3183	placed-canonical		frc-pj7bzjde	615
+3184	placed-canonical		frc-l65gu3f3	2010
+3185	placed-canonical		frc-l3dwc54f	536
+3186	placed-canonical		frc-tvi42bp3	1748
+3187	placed-canonical		frc-45hu543u	854
+3188	placed-canonical		frc-wbdtkwuq	679
+3189	placed-canonical		frc-qxgtztzf	1255
+3190	placed-canonical		frc-efkq5dgk	1851
+3191	placed-canonical		frc-3qfhld5x	879
+3192	placed-canonical		frc-dttacydh	944
+3193	placed-canonical		frc-wmfoas7d	796
+3194	placed-canonical		frc-sx5scbcc	759
+3195	placed-canonical		frc-ko2isrpo	1729
+3196	placed-canonical		frc-inbursqr	857
+3197	placed-canonical		frc-uzetudsu	781
+3198	placed-canonical		frc-m3ee2cba	1271
+3199	placed-canonical		frc-r34eckgs	830
+3200	placed-canonical		frc-pbvqp7xx	644
+3201	placed-canonical		frc-3zrfwo4w	2059
+3202	placed-canonical		frc-kpdkmhnh	801
+3203	placed-canonical		frc-cbqn7glv	896
+3204	placed-canonical		frc-jfy2hn6q	606
+3205	placed-canonical		frc-j4lwjva4	660
+3206	placed-canonical		frc-uev3rcdd	731
+3207	placed-canonical		frc-5bbzsdjb	713
+3208	placed-canonical		frc-5rap5tq5	1166
+3209	placed-canonical		frc-eteiwcxi	1558
+3210	placed-canonical		frc-mg4dmi2q	725
+3211	placed-canonical		frc-2mumcgmb	699
+3212	placed-canonical		frc-u6bpzydp	1150
+3213	placed-canonical		frc-rax4fldz	607
+3214	placed-canonical		frc-f4mp5sin	791
+3215	placed-canonical		frc-kq5u5736	1319
+3216	placed-canonical		frc-smsb3oje	910
+3217	placed-canonical		frc-yr6zhz5k	781
+3218	placed-canonical		frc-zsiapr3m	1298
+3219	placed-canonical		frc-e6unhdwp	1794
+3220	placed-canonical		frc-tfld4rwt	2335
+3221	placed-canonical		frc-tpfg4x2t	709
+3222	placed-canonical		frc-22x43rjq	1361
+3223	placed-canonical		frc-e4e56kfy	601
+3224	placed-canonical		frc-qfxnndn5	705
+3225	placed-canonical		frc-dqflzl3d	1044
+3226	placed-canonical		frc-me2q4ah2	1014
+3227	placed-canonical		frc-ivqkh3jp	766
+3228	placed-canonical		frc-vyxvk4np	1252
+3229	placed-canonical		frc-c5xnrrxn	698
+3230	placed-canonical		frc-drb422wn	1271
+3231	placed-canonical		frc-j2jgkhso	855
+3232	placed-canonical		frc-yoxlprwa	805
+3233	placed-canonical		frc-44ill56k	1383
+3234	placed-canonical		frc-f2o7ovmz	816
+3235	placed-canonical		frc-mqqawjf5	2477
+3236	placed-canonical		frc-aspwmtnw	750
+3237	placed-canonical		frc-hw5ag6y6	782
+3238	placed-canonical		frc-fmaenqbf	739
+3239	placed-canonical		frc-iob3z24d	981
+3240	placed-canonical		frc-xykihf4q	872
+3241	placed-canonical		frc-int6kwuw	1522
+3242	placed-canonical		frc-mbi4rvak	858
+3243	placed-canonical		frc-zdhdyw2b	1022
+3244	placed-canonical		frc-alc7phcf	1093
+3245	placed-canonical		frc-w4bpr6ki	1585
+3246	placed-canonical		frc-2pv4ro74	1321
+3247	placed-canonical		frc-kmtbfo3a	1108
+3248	placed-canonical		frc-is5skgyd	1373
+3249	placed-canonical		frc-dkunfmgo	862
+3250	placed-canonical		frc-g5hysycw	781
+3251	placed-canonical		frc-v3cxjjwa	798
+3252	placed-canonical		frc-4rodyhra	1205
+3253	placed-canonical		frc-vtdqarrr	1070
+3254	placed-canonical		frc-e4uhjwn6	982
+3255	placed-canonical		frc-i7nlwhlk	1606
+3256	placed-canonical		frc-mspv3o2s	703
+3257	placed-canonical		frc-lsqsb2uf	739
+3258	placed-canonical		frc-zyqvqf5e	541
+3259	placed-canonical		frc-ipqbdqvb	2614
+3260	placed-canonical		frc-z3r6urjs	812
+3261	placed-canonical		frc-mzv7rrls	843
+3262	placed-canonical		frc-36a6sv3c	829
+3263	placed-canonical		frc-mxp6uypx	676
+3264	placed-canonical		frc-6kksfuuj	884
+3265	placed-canonical		frc-n4doveiy	1209
