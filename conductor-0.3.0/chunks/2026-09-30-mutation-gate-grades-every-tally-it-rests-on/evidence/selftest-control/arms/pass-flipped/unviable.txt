@@ -1,1 +1,0 @@
-crates/fixture-unit/src/scan.rs:22:12: replace < with == in skip_digits
