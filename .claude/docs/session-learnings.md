@@ -1,6 +1,23 @@
 # Session Learnings
 
 _This file is curated by `/wrap-session`. Learnings captured here are too detailed or specific for CLAUDE.md but worth preserving as reference material for future sessions._
+## 2026-11-03 — Cite another repository's file by the text it holds, never by a line number
+A master citation `{repo} {file}:{N}` into a sibling repository cannot be kept current by this project's tools: the
+citation sweep resolves `{file}` in THIS tree (so a reader checks the number against the wrong file and fails), and
+`rec put` refuses a digit-only change of a citation as `digit moved`. The number goes stale with the sibling's next
+edit and is then held at every wrap with no tool able to move it. Name the sibling's line by its content instead — the
+pin, key or heading it carries (`blake3 = "1"` in `andromeda-pulse`'s `Cargo.toml`) — which stays true until the
+fact itself changes.
+
+---
+## 2026-11-03 — The SessionEnd stamp dirties the tree an operator-pass push guard reads
+A session's end hook writes a `## Session End Status` stamp into `.claude/session-handoff.md` after the wrap commit,
+so the operator pass's push entry (`git diff --quiet && git diff --cached --quiet && git push …`) meets a dirty tree
+in the next window and refuses. Commit the stamp alone first (`chore(handoff): record the last session end stamp
+before the push`) and then run the guarded push — never loosen the guard, and never fold the stamp into a chunk
+commit the operator pass did not make.
+
+---
 ## 2026-10-12 — `cascade.py sweep --pattern` takes its ids after ONE flag
 `cascade.py sweep --pattern` reads the pattern ids space-separated after a single flag (`--pattern a b c`). Repeating
 the flag (`--pattern a --pattern b`) keeps only the LAST id: seven repeated flags ran one pattern and printed

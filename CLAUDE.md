@@ -13,7 +13,7 @@ Conductor is a headless-drivable Rust core (its Tauri 2 control panel retired 20
 - `scenarios/` — declarative scenario config (serde + garde), each naming its Pulse P-IDs (a P-ID may be named by several)
 - `contracts/` — pinned MCP contract manifest + the SUT capability manifest + the SUT load envelope + the SUT run contract + the scenario-assertion audit ledger + the P-025 measurement contract + the real-model leg posture (the two members no shipped code reads)
 - `runs/` — per-run JSONL journal + Markdown report + `runs.db` SQLite index
-- `scripts/` — `agent-run.{sh,ps1}` headless source-of-truth entrypoint
+- `scripts/` — `agent-run.sh` headless source-of-truth entrypoint (the one harness script)
 <!-- GENERATED:setup:overview end -->
 
 ## Modules

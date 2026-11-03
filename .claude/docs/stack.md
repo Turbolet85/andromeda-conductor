@@ -5,7 +5,7 @@ _Mirrors `.andromeda/architecture.md` §Stack and Technologies. Convenience refe
 ## Languages & Runtimes
 - **Rust 2024** (cargo 1.85) — primary implementation language; Pulse-consistency mandate.
 - **Build toolchain 1.95.0 · MSRV 1.94.1** (`rust-toolchain.toml` channel + `[workspace.package].rust-version`) — clears tar-rs CVE-2026-33056 (per arch §Stack + security-plan §Dependency Security).
-- **tokio 1.52.3** — `current_thread` flavor (zero work-stealing → deterministic emission ordering).
+- **tokio 1.54.1** — `current_thread` flavor (zero work-stealing → deterministic emission ordering).
 - **rand_chacha 0.9 (`ChaCha8Rng`) + rand_core 0.9 (`SeedableRng`)** — seedable, platform-stable PRNG; the timeline scheduler's sole non-determinism (seeded per-gap jitter), `seed_from_u64` for cross-platform/version-stable reproducibility.
 
 ## Core Frameworks
@@ -40,7 +40,7 @@ _Mirrors `.andromeda/architecture.md` §Stack and Technologies. Convenience refe
 - **Operator instruments (host Python 3):** resolved by no lockfile and pinned by no toolchain file — the code-graph pipeline (`scripts/code-graph.py` + `scripts/scip_pb2.py` + `scripts/requirements.txt`, since 2026-06-18), the mutation-tally gate (`scripts/mutation-gate.py` + `scripts/mutation-roster.toml`, since 2026-09-13; a stdlib `selftest` verb over the committed `scripts/fixtures/mutation-gate/` since 2026-09-30) and the architecture-registry check (`scripts/arch-registry-check.py`, stdlib only, since 2026-09-24). None is CI-invoked; none adds a sixth `agent-run` command.
 - **Supply chain:** cargo-audit 0.22.2 + cargo-deny 0.19.8 (`deny.toml`) for the Rust tree. No npm tree remains (2026-10-11).
 - **A11y:** none since 2026-10-11 — the webview a11y leg and the `a11y` CI job left with the window; no a11y tooling remains in the stack.
-- **CI:** GitHub Actions — `cargo fmt --all --check` / `cargo build` / nextest / clippy + the static gates, each its own presence-guarded named step — over committed data (coverage-completeness · scenario-assertion audit) and repository hygiene (secret scan · workflow env-context, beside the `GITHUB_ENV context probe` pair) — + audit/deny + coverage. Dynamic live-Pulse proof is an operator/local gate, not CI.
+- **CI:** GitHub Actions on an `ubuntu-latest` runner (one job, `rust`) — `cargo fmt --all --check` / `cargo build` / nextest / clippy + the static gates, each its own presence-guarded named step — over committed data (coverage-completeness · scenario-assertion audit) and repository hygiene (secret scan · workflow env-context, beside the `GITHUB_ENV context probe` pair) — + audit/deny + coverage. Dynamic live-Pulse proof is an operator/local gate, not CI.
 
 ## Infrastructure
 - Local-only: `cargo build --release` → `conductor-cli` run beside Pulse via `scripts/agent-run.sh`. No Docker/K8s/serverless/cloud.

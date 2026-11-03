@@ -1,0 +1,70 @@
+[[pattern]]
+id = 'runner-os'
+regex = 'windows-latest|windows-20[0-9][0-9]|Windows runner|Windows-hosted|Windows image|runs-on'
+ignore_case = true
+
+[[pattern]]
+id = 'ps1-twin'
+regex = 'agent-run\.ps1|agent-run\.\{sh,ps1\}|Test-RunId|both shells|PowerShell twin|\.ps1\b'
+ignore_case = true
+
+[[pattern]]
+id = 'dogfood-pwsh'
+regex = 'PSNativeCommandUseErrorActionPreference|shell: pwsh|LASTEXITCODE'
+
+[[pattern]]
+id = 'ledger-gate'
+regex = 'matrix_ledger_gate|matrix-ledger gate|verification-ledger gate'
+ignore_case = true
+
+[[pattern]]
+id = 'spine-pair'
+regex = 'requirements\.md|verification-matrix\.json'
+
+[[pattern]]
+id = 'capture-locus'
+regex = 'tests/evidence|committed .?evidence/.? tree|copied elsewhere|chunks/\*/evidence|conductor-0\.[0-9]\.0/chunks'
+ignore_case = true
+
+[[pattern]]
+id = 'citation-home'
+fixed = 'citation_home'
+
+[[pattern]]
+id = 'product-row'
+regex = 'product. row|product row|\.andromeda/db/moved'
+ignore_case = true
+
+[[pattern]]
+id = 'tokio'
+regex = 'RUSTSEC-2026-0386|\btokio\s+v?1\.[0-9]+'
+ignore_case = true
+
+[[pattern]]
+id = 'first-interrupt'
+regex = 'the_first_interrupt_sets_the_stop_flag|first-interrupt|first interrupt'
+ignore_case = true
+
+[[pattern]]
+id = 'env-probe'
+fixed = 'GHA_ENV_CONTEXT_PROBE'
+
+[[pattern]]
+id = 'platform-line'
+regex = 'Platform[^\n]{0,80}Windows'
+ignore_case = true
+
+[[pattern]]
+id = 'audit-figures'
+regex = '[0-9]{3,4} (security )?advisories'
+ignore_case = true
+
+[[pattern]]
+id = 'title'
+fixed = 'Linux-only base CI'
+ignore_case = true
+
+[[pattern]]
+id = 'owned-by'
+regex = 'owned by a (route entry|CARRY)'
+ignore_case = true

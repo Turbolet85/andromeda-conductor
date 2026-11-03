@@ -898,5 +898,51 @@
 "unparsed": 0,
 "widening_without_word": 0
 }
+},
+{
+"tool": "gate",
+"v": "1.26",
+"sha8": "8622de0e",
+"ts": "2026-11-03T07:20:06Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-11-03T06-23-31-implement",
+"--marker",
+"2026-11-03-linux-only-base-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base 8e450f37 (the parent of the oldest pre-CI commit 48b42a1f)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"hygiene: clean — read 61 (runs 49 · evidence 1 · inputs 11) · trails 13 not read · copies 9 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 49,
+"evidence": 1,
+"inputs": 11,
+"trails": 13,
+"copies": 9,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
 }
 ]

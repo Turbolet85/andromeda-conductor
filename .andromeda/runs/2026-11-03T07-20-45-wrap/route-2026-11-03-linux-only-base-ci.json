@@ -1,0 +1,71 @@
+[
+{
+"tool": "route",
+"v": "1.12",
+"sha8": "58f7ef9d",
+"ts": "2026-11-03T07:59:29Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-03-linux-only-base-ci",
+"--date",
+"2026-11-03",
+"--run-dir",
+".andromeda/runs/2026-11-03T07-20-45-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-dwsuwxnr strip CARRY: 518ch \"CARRY: the matrix-ledger gate reads both\"",
+"pin cry-s4gsxxbs strip CARRY: 682ch \"CARRY: the spine's deletion left a produ\"",
+"pin cry-kbm6q3dx strip CARRY: 1122ch \"CARRY: Conductor's own code reads 49 fil\"",
+"pin next markerless chk-omysdwsy holds CARRY:×2",
+"2026-11-03-linux-only-base-ci · strip 3 block(s) · archive APPEND",
+"dry-run · would flip 2026-11-03-linux-only-base-ci pending -> complete"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.12",
+"sha8": "58f7ef9d",
+"ts": "2026-11-03T07:59:34Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-03-linux-only-base-ci",
+"--date",
+"2026-11-03",
+"--run-dir",
+".andromeda/runs/2026-11-03T07-20-45-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-dwsuwxnr strip CARRY: 518ch \"CARRY: the matrix-ledger gate reads both\"",
+"pin cry-s4gsxxbs strip CARRY: 682ch \"CARRY: the spine's deletion left a produ\"",
+"pin cry-kbm6q3dx strip CARRY: 1122ch \"CARRY: Conductor's own code reads 49 fil\"",
+"pin next markerless chk-omysdwsy holds CARRY:×2",
+"flip 2026-11-03-linux-only-base-ci pending -> complete · tx 77",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-03T05-54-47-2026-11-03-linux-only-base-ci.ndjson",
+"./.andromeda/master-route.md",
+"./conductor-0.4.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

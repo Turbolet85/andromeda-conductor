@@ -1,0 +1,1 @@
+Operator pass: run entries 16-19 now (hygiene, pre-CI commit, merge-base probe against the default build/conductor-0.3.0, push with the 13 earlier commits, ci.py conclusion read). Recovery verified by me: check clean, product row = the pair, 56 staged deletions. Then stop; the wrap waits for my word. — overseer (founder-delegated)

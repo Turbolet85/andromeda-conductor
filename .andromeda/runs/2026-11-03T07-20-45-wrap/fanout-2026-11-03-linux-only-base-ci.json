@@ -1,0 +1,921 @@
+[
+{
+"tool": "fanout",
+"v": "23",
+"sha8": "3820f358",
+"ts": "2026-11-03T07:28:32Z",
+"argv": [
+"status",
+"--run-dir",
+".andromeda/runs/2026-11-03T07-20-45-wrap",
+"--marker",
+"2026-11-03-linux-only-base-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"VERDICT: 0 batch(es) rendered under .andromeda/runs/2026-11-03T07-20-45-wrap/prompts · 0 unchecked"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "23",
+"sha8": "3820f358",
+"ts": "2026-11-03T07:30:34Z",
+"argv": [
+"render",
+"--batch",
+"cites",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--report",
+"doc:2026-11-03-linux-only-base-ci/report",
+"--run-dir",
+".andromeda/runs/2026-11-03T07-20-45-wrap",
+"--marker",
+"2026-11-03-linux-only-base-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"VERDICT: rendered 3 (cites 3) · batch cites · script ./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/cites.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/citedisp-architecture.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/citedisp-test-plan.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/citedisp-leaves.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/cites.workflow.js",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/cites.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "23",
+"sha8": "3820f358",
+"ts": "2026-11-03T07:31:15Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-03T07-20-45-wrap/prompts/cites.manifest.json",
+"--before",
+"tree bdce728e631aac977ab5975edaf3cd5b81e2215f index 4129a5f0554d0738e18a0e9daa6b59541feab29a head 59a5bfc40c2a0f6a1e1a732b39036747bc1342f9",
+"--after",
+"tree e797ae7f9546368c05838015e45a512900124f1c index 4129a5f0554d0738e18a0e9daa6b59541feab29a head 59a5bfc40c2a0f6a1e1a732b39036747bc1342f9",
+"--run-dir",
+".andromeda/runs/2026-11-03T07-20-45-wrap",
+"--marker",
+"2026-11-03-linux-only-base-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch cites · 3 agents · 3 with every named path · trails: none",
+"[PATH_CHECK] PASS · index and head unchanged",
+"cites: 3 agents · 2 pass · failed DISPOSITION 1",
+"citedisp-architecture · [DISPOSITION] line 3: `153` is no line range of Cargo.toml (84 lines)",
+"VERDICT: 2 of 3 pass · failed: citedisp-architecture [DISPOSITION]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "cites",
+"agents": {
+"citedisp-architecture": {
+"failed": {
+"DISPOSITION": [
+"[DISPOSITION] line 3: `153` is no line range of Cargo.toml (84 lines)"
+]
+},
+"yes": null
+},
+"citedisp-test-plan": {
+"failed": {},
+"yes": null
+},
+"citedisp-leaves": {
+"failed": {},
+"yes": null
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [],
+"harness": [],
+"notes": []
+}
+},
+{
+"tool": "fanout",
+"v": "23",
+"sha8": "3820f358",
+"ts": "2026-11-03T07:31:20Z",
+"argv": [
+"render",
+"--batch",
+"cites",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--report",
+"doc:2026-11-03-linux-only-base-ci/report",
+"--run-dir",
+".andromeda/runs/2026-11-03T07-20-45-wrap",
+"--marker",
+"2026-11-03-linux-only-base-ci",
+"--respawn",
+"citedisp-architecture",
+"--failed",
+"DISPOSITION"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"MOVE .andromeda/runs/2026-11-03T07-20-45-wrap/citedisp-architecture.md → .andromeda/runs/2026-11-03T07-20-45-wrap/.raw-citedisp-architecture.md",
+"VERDICT: rendered 1 (cites 1) · batch cites-r1 · script ./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/cites-r1.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/citedisp-architecture.r1.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/cites-r1.workflow.js",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/cites-r1.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "23",
+"sha8": "3820f358",
+"ts": "2026-11-03T07:31:59Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-03T07-20-45-wrap/prompts/cites-r1.manifest.json",
+"--before",
+"tree 48ed4b3bde02e55f9223c0fcffc0091b017f4ddf index 4129a5f0554d0738e18a0e9daa6b59541feab29a head 59a5bfc40c2a0f6a1e1a732b39036747bc1342f9",
+"--after",
+"tree f18dd07a9ae5914372fb915cc4d1f10ff66a1e1d index 4129a5f0554d0738e18a0e9daa6b59541feab29a head 59a5bfc40c2a0f6a1e1a732b39036747bc1342f9",
+"--run-dir",
+".andromeda/runs/2026-11-03T07-20-45-wrap",
+"--marker",
+"2026-11-03-linux-only-base-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch cites-r1 · 1 agents · 1 with every named path · trails: none",
+"[PATH_CHECK] PASS · index and head unchanged",
+"cites: 1 agents · 1 pass",
+"VERDICT: 1 of 1 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "cites-r1",
+"agents": {
+"citedisp-architecture": {
+"failed": {},
+"yes": null
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [],
+"harness": [],
+"notes": []
+}
+},
+{
+"tool": "fanout",
+"v": "23",
+"sha8": "3820f358",
+"ts": "2026-11-03T07:32:16Z",
+"argv": [
+"render",
+"--batch",
+"stage1",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--report",
+"doc:2026-11-03-linux-only-base-ci/report",
+"--run-dir",
+".andromeda/runs/2026-11-03T07-20-45-wrap",
+"--marker",
+"2026-11-03-linux-only-base-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"VERDICT: rendered 7 (doc 7) · batch stage1 · script ./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/stage1.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/fanout-architecture.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/fanout-security-plan.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/fanout-design-system.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/fanout-layout-templates.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/fanout-test-plan.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/fanout-obs-plan.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/fanout-a11y-plan.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/stage1.workflow.js",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/stage1.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "23",
+"sha8": "3820f358",
+"ts": "2026-11-03T07:36:08Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-03T07-20-45-wrap/prompts/stage1.manifest.json",
+"--before",
+"tree eb613ab040b188aa6a7d020c49224651b271c2d3 index 4129a5f0554d0738e18a0e9daa6b59541feab29a head 59a5bfc40c2a0f6a1e1a732b39036747bc1342f9",
+"--after",
+"tree b873b3f60c587f3e7680a820e523880786f1fd76 index 4129a5f0554d0738e18a0e9daa6b59541feab29a head 59a5bfc40c2a0f6a1e1a732b39036747bc1342f9",
+"--run-dir",
+".andromeda/runs/2026-11-03T07-20-45-wrap",
+"--marker",
+"2026-11-03-linux-only-base-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch stage1 · 7 agents · 7 with every named path · trails: .andromeda/runs/2026-11-03T07-20-45-wrap/rec-2026-11-03-linux-only-base-ci.json, .andromeda/runs/2026-11-03T07-20-45-wrap/rec-read-2026-11-03-linux-only-base-ci.ndjson",
+"[PATH_CHECK] PASS · index and head unchanged",
+"doc: 7 agents · 7 pass",
+"proposals: architecture 15 · security-plan 8 · design-system 1 · layout-templates 2 · test-plan 25 · obs-plan 2 · a11y-plan 0",
+"VERDICT: 7 of 7 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "stage1",
+"agents": {
+"fanout-architecture": {
+"failed": {},
+"yes": null
+},
+"fanout-security-plan": {
+"failed": {},
+"yes": null
+},
+"fanout-design-system": {
+"failed": {},
+"yes": null
+},
+"fanout-layout-templates": {
+"failed": {},
+"yes": null
+},
+"fanout-test-plan": {
+"failed": {},
+"yes": null
+},
+"fanout-obs-plan": {
+"failed": {},
+"yes": null
+},
+"fanout-a11y-plan": {
+"failed": {},
+"yes": null
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [
+".andromeda/runs/2026-11-03T07-20-45-wrap/rec-2026-11-03-linux-only-base-ci.json",
+".andromeda/runs/2026-11-03T07-20-45-wrap/rec-read-2026-11-03-linux-only-base-ci.ndjson"
+],
+"harness": [],
+"notes": []
+}
+},
+{
+"tool": "fanout",
+"v": "23",
+"sha8": "3820f358",
+"ts": "2026-11-03T07:39:26Z",
+"argv": [
+"render",
+"--batch",
+"apply",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--report",
+"doc:2026-11-03-linux-only-base-ci/report",
+"--run-dir",
+".andromeda/runs/2026-11-03T07-20-45-wrap",
+"--marker",
+"2026-11-03-linux-only-base-ci"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"UNSUBSTITUTED {marker} in apply-architecture",
+"UNSUBSTITUTED {marker} in apply-security-plan",
+"UNSUBSTITUTED {marker} in apply-test-plan.p1"
+],
+"stderr": "render: 3 self-check refusal(s) — nothing written",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "23",
+"sha8": "3820f358",
+"ts": "2026-11-03T07:40:08Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-03T07-20-45-wrap/prompts/stage1.manifest.json",
+"--before",
+"tree eb613ab040b188aa6a7d020c49224651b271c2d3 index 4129a5f0554d0738e18a0e9daa6b59541feab29a head 59a5bfc40c2a0f6a1e1a732b39036747bc1342f9",
+"--after",
+"tree b873b3f60c587f3e7680a820e523880786f1fd76 index 4129a5f0554d0738e18a0e9daa6b59541feab29a head 59a5bfc40c2a0f6a1e1a732b39036747bc1342f9",
+"--run-dir",
+".andromeda/runs/2026-11-03T07-20-45-wrap",
+"--marker",
+"2026-11-03-linux-only-base-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch stage1 · 7 agents · 7 with every named path · trails: .andromeda/runs/2026-11-03T07-20-45-wrap/rec-2026-11-03-linux-only-base-ci.json, .andromeda/runs/2026-11-03T07-20-45-wrap/rec-read-2026-11-03-linux-only-base-ci.ndjson",
+"[PATH_CHECK] PASS · index and head unchanged",
+"doc: 7 agents · 7 pass",
+"proposals: architecture 15 · security-plan 8 · design-system 1 · layout-templates 2 · test-plan 25 · obs-plan 2 · a11y-plan 0",
+"VERDICT: 7 of 7 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "stage1",
+"agents": {
+"fanout-architecture": {
+"failed": {},
+"yes": null
+},
+"fanout-security-plan": {
+"failed": {},
+"yes": null
+},
+"fanout-design-system": {
+"failed": {},
+"yes": null
+},
+"fanout-layout-templates": {
+"failed": {},
+"yes": null
+},
+"fanout-test-plan": {
+"failed": {},
+"yes": null
+},
+"fanout-obs-plan": {
+"failed": {},
+"yes": null
+},
+"fanout-a11y-plan": {
+"failed": {},
+"yes": null
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [
+".andromeda/runs/2026-11-03T07-20-45-wrap/rec-2026-11-03-linux-only-base-ci.json",
+".andromeda/runs/2026-11-03T07-20-45-wrap/rec-read-2026-11-03-linux-only-base-ci.ndjson"
+],
+"harness": [],
+"notes": []
+}
+},
+{
+"tool": "fanout",
+"v": "23",
+"sha8": "3820f358",
+"ts": "2026-11-03T07:40:16Z",
+"argv": [
+"render",
+"--batch",
+"apply",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--report",
+"doc:2026-11-03-linux-only-base-ci/report",
+"--run-dir",
+".andromeda/runs/2026-11-03T07-20-45-wrap",
+"--marker",
+"2026-11-03-linux-only-base-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"VERDICT: rendered 7 (apply 7) · batch apply · script ./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/apply.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/apply-architecture.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/apply-security-plan.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/apply-design-system.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/apply-layout-templates.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/apply-test-plan.p1.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/apply-test-plan.p2.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/apply-obs-plan.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/apply.workflow.js",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/apply.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "23",
+"sha8": "3820f358",
+"ts": "2026-11-03T07:42:55Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-03T07-20-45-wrap/prompts/apply.manifest.json",
+"--before",
+"tree 937793a82be599fd46f45bb53a429b386bd0a9dd index 4129a5f0554d0738e18a0e9daa6b59541feab29a head 59a5bfc40c2a0f6a1e1a732b39036747bc1342f9",
+"--after",
+"tree a347b7d9564aec44d3dbc896cfa13f9a2c0fe9bc index 4129a5f0554d0738e18a0e9daa6b59541feab29a head 59a5bfc40c2a0f6a1e1a732b39036747bc1342f9",
+"--run-dir",
+".andromeda/runs/2026-11-03T07-20-45-wrap",
+"--marker",
+"2026-11-03-linux-only-base-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch apply · 7 agents · 7 with every named path · trails: .andromeda/runs/2026-11-03T07-20-45-wrap/rec-read-2026-11-03-linux-only-base-ci.ndjson",
+"[PATH_CHECK] PASS · index and head unchanged",
+"apply: 7 agents · 7 pass",
+"VERDICT: 7 of 7 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "apply",
+"agents": {
+"apply-architecture": {
+"failed": {},
+"yes": null
+},
+"apply-security-plan": {
+"failed": {},
+"yes": null
+},
+"apply-design-system": {
+"failed": {},
+"yes": null
+},
+"apply-layout-templates": {
+"failed": {},
+"yes": null
+},
+"apply-test-plan.p1": {
+"failed": {},
+"yes": null
+},
+"apply-test-plan.p2": {
+"failed": {},
+"yes": null
+},
+"apply-obs-plan": {
+"failed": {},
+"yes": null
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [
+".andromeda/runs/2026-11-03T07-20-45-wrap/rec-read-2026-11-03-linux-only-base-ci.ndjson"
+],
+"harness": [],
+"notes": []
+}
+},
+{
+"tool": "fanout",
+"v": "23",
+"sha8": "3820f358",
+"ts": "2026-11-03T07:45:19Z",
+"argv": [
+"render",
+"--batch",
+"entry",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--report",
+"doc:2026-11-03-linux-only-base-ci/report",
+"--run-dir",
+".andromeda/runs/2026-11-03T07-20-45-wrap",
+"--marker",
+"2026-11-03-linux-only-base-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"VERDICT: rendered 6 (entry 6) · batch entry · script ./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/entry.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/architecture-entries.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/design-system-entries.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/layout-templates-entries.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/obs-plan-entries.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/security-plan-entries.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/test-plan-entries.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/entry.workflow.js",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/entry.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "23",
+"sha8": "3820f358",
+"ts": "2026-11-03T07:48:10Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-03T07-20-45-wrap/prompts/entry.manifest.json",
+"--before",
+"tree 253875d8073a224e1ff696fcd1fffb90848103b9 index 4129a5f0554d0738e18a0e9daa6b59541feab29a head 59a5bfc40c2a0f6a1e1a732b39036747bc1342f9",
+"--after",
+"tree c5b77ca4c3ec993a3cb9231b6bedbb1c3bca67ea index 4129a5f0554d0738e18a0e9daa6b59541feab29a head 59a5bfc40c2a0f6a1e1a732b39036747bc1342f9",
+"--run-dir",
+".andromeda/runs/2026-11-03T07-20-45-wrap",
+"--marker",
+"2026-11-03-linux-only-base-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch entry · 6 agents · 6 with every named path · trails: .andromeda/runs/2026-11-03T07-20-45-wrap/rec-read-2026-11-03-linux-only-base-ci.ndjson",
+"[PATH_CHECK] PASS · index and head unchanged",
+"entry: 6 agents · 6 pass",
+"VERDICT: 6 of 6 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "entry",
+"agents": {
+"architecture-entries": {
+"failed": {},
+"yes": null
+},
+"design-system-entries": {
+"failed": {},
+"yes": null
+},
+"layout-templates-entries": {
+"failed": {},
+"yes": null
+},
+"obs-plan-entries": {
+"failed": {},
+"yes": null
+},
+"security-plan-entries": {
+"failed": {},
+"yes": null
+},
+"test-plan-entries": {
+"failed": {},
+"yes": null
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [
+".andromeda/runs/2026-11-03T07-20-45-wrap/rec-read-2026-11-03-linux-only-base-ci.ndjson"
+],
+"harness": [],
+"notes": []
+}
+},
+{
+"tool": "fanout",
+"v": "23",
+"sha8": "3820f358",
+"ts": "2026-11-03T07:48:59Z",
+"argv": [
+"render",
+"--batch",
+"leaf",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--report",
+"doc:2026-11-03-linux-only-base-ci/report",
+"--run-dir",
+".andromeda/runs/2026-11-03T07-20-45-wrap",
+"--marker",
+"2026-11-03-linux-only-base-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"VERDICT: rendered 10 (leaf 10) · batch leaf · script ./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/leaf.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/leaf-architecture.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/leaf-architecture+security-plan.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/leaf-architecture+security-plan+design-system+layout-templates+test-plan+obs-plan.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/leaf-architecture+design-system+layout-templates.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/leaf-architecture+test-plan.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/leaf-security-plan.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/leaf-design-system+layout-templates.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/leaf-test-plan.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/leaf-test-plan+obs-plan.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/leaf-obs-plan.md",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/leaf.workflow.js",
+"./.andromeda/runs/2026-11-03T07-20-45-wrap/prompts/leaf.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "23",
+"sha8": "3820f358",
+"ts": "2026-11-03T07:50:59Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-03T07-20-45-wrap/prompts/leaf.manifest.json",
+"--before",
+"tree 28c2c04483db8cbeef7f0724a82f9806142ff0e4 index 4129a5f0554d0738e18a0e9daa6b59541feab29a head 59a5bfc40c2a0f6a1e1a732b39036747bc1342f9",
+"--after",
+"tree f56b07d27b97a7b099a7db8d1b96ca375e6d6ffd index 4129a5f0554d0738e18a0e9daa6b59541feab29a head 59a5bfc40c2a0f6a1e1a732b39036747bc1342f9",
+"--run-dir",
+".andromeda/runs/2026-11-03T07-20-45-wrap",
+"--marker",
+"2026-11-03-linux-only-base-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch leaf · 10 agents · 10 with every named path · trails: none",
+"[PATH_CHECK] PASS · index and head unchanged",
+"leaf: 10 agents · 10 pass",
+"VERDICT: 10 of 10 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "leaf",
+"agents": {
+"leaf-architecture": {
+"failed": {},
+"yes": null
+},
+"leaf-architecture+security-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-architecture+security-plan+design-system+layout-templates+test-plan+obs-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-architecture+design-system+layout-templates": {
+"failed": {},
+"yes": null
+},
+"leaf-architecture+test-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-security-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-design-system+layout-templates": {
+"failed": {},
+"yes": null
+},
+"leaf-test-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-test-plan+obs-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-obs-plan": {
+"failed": {},
+"yes": null
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [],
+"harness": [],
+"notes": []
+}
+},
+{
+"tool": "fanout",
+"v": "23",
+"sha8": "3820f358",
+"ts": "2026-11-03T07:51:07Z",
+"argv": [
+"render",
+"--batch",
+"leaf",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--report",
+"doc:2026-11-03-linux-only-base-ci/report",
+"--run-dir",
+".andromeda/runs/2026-11-03T07-20-45-wrap",
+"--marker",
+"2026-11-03-linux-only-base-ci",
+"--respawn",
+"leaf-design-system+layout-templates",
+"--failed",
+"HEADER"
+],
+"cwd": ".",
+"exit": 2,
+"stdout": [],
+"stderr": "--respawn leaf-design-system+layout-templates: it failed none of HEADER (its last check: all pass)",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "23",
+"sha8": "3820f358",
+"ts": "2026-11-03T07:51:13Z",
+"argv": [
+"render",
+"--batch",
+"leaf",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--report",
+"doc:2026-11-03-linux-only-base-ci/report",
+"--run-dir",
+".andromeda/runs/2026-11-03T07-20-45-wrap",
+"--marker",
+"2026-11-03-linux-only-base-ci",
+"--respawn",
+"leaf-design-system+layout-templates",
+"--failed",
+"RULED",
+"--rows",
+"leaf-design-system+layout-templates=cascade.py leaves --apply refused the file: `read: .claude/docs/design-summary.md` says 35 lines, the file holds 34 — the read: line must carry the leaf line count and last line exactly as the file holds them (count lines as wc -l does, with the final terminator)"
+],
+"cwd": ".",
+"exit": 2,
+"stdout": [],
+"stderr": "--rows leaf-design-system+layout-templates: feeds only a judged check (none for leaf) — RULED take their rows from the trail",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "23",
+"sha8": "3820f358",
+"ts": "2026-11-03T07:51:18Z",
+"argv": [
+"render",
+"--batch",
+"leaf",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--report",
+"doc:2026-11-03-linux-only-base-ci/report",
+"--run-dir",
+".andromeda/runs/2026-11-03T07-20-45-wrap",
+"--marker",
+"2026-11-03-linux-only-base-ci",
+"--respawn",
+"leaf-design-system+layout-templates",
+"--failed",
+"RULED"
+],
+"cwd": ".",
+"exit": 2,
+"stdout": [],
+"stderr": "--respawn leaf-design-system+layout-templates: it failed none of RULED (its last check: all pass)",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "23",
+"sha8": "3820f358",
+"ts": "2026-11-03T07:52:33Z",
+"argv": [
+"census",
+"--run-dir",
+".andromeda/runs/2026-11-03T07-20-45-wrap",
+"--marker",
+"2026-11-03-linux-only-base-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"cites · 3 agents · first try 2 (cites 2/3) · wall 41 s",
+"stage1 · 7 agents · first try 7 (doc 7/7) · wall 232 s",
+"apply · 7 agents · first try 7 (apply 7/7) · wall 159 s",
+"entry · 6 agents · first try 6 (entry 6/6) · wall 171 s",
+"leaf · 10 agents · first try 10 (leaf 10/10) · wall 120 s",
+"re-spawned 1 agent(s) · DISPOSITION 1 · wall 39 s",
+"cascade-tally.tsv: absent — no cascade tallied",
+"cascade-sample.txt: absent",
+"SIGNALS: [\"agents-cites:3\", \"first-cites:2\", \"wall-cites:41\", \"agents-doc:7\", \"first-doc:7\", \"wall-stage1:232\", \"agents-apply:7\", \"first-apply:7\", \"wall-apply:159\", \"agents-entry:6\", \"first-entry:6\", \"wall-entry:171\", \"agents-leaf:10\", \"first-leaf:10\", \"wall-leaf:120\", \"respawn-agents:1\", \"respawn-disposition:1\", \"wall-respawn:39\", \"unchecked:0\"]",
+"VERDICT: 19 signals · 5 batch(es) · trail .andromeda/runs/2026-11-03T07-20-45-wrap/fanout-2026-11-03-linux-only-base-ci.json"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "census",
+"signals": [
+"agents-cites:3",
+"first-cites:2",
+"wall-cites:41",
+"agents-doc:7",
+"first-doc:7",
+"wall-stage1:232",
+"agents-apply:7",
+"first-apply:7",
+"wall-apply:159",
+"agents-entry:6",
+"first-entry:6",
+"wall-entry:171",
+"agents-leaf:10",
+"first-leaf:10",
+"wall-leaf:120",
+"respawn-agents:1",
+"respawn-disposition:1",
+"wall-respawn:39",
+"unchecked:0"
+]
+}
+}
+]
