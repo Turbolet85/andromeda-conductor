@@ -45,25 +45,27 @@ Conductor is a headless-drivable Rust core (its Tauri 2 control panel retired 20
 
 ## Where to Look
 <!-- GENERATED:setup:pointer-table start -->
+The masters live in the store, no file: fire `python -X utf8 ~/.claude/skills/andromeda-tools/scripts/rec.py {verb} --root .` with `tree doc:{name}` · `render doc:{name} --section "{heading}"` · `find --doc {name} --text T` · `get {fct-…}` · an old `get {path}[:{n}]`, which names the fact it stood on (an agent reads a whole master by `read doc:{name}`, in pages).
+
 | Topic | Source |
 |---|---|
-| Architecture decisions | `.andromeda/architecture.md` |
-| Directory tree · resource registry | `.andromeda/architecture.md` §Infrastructure Patterns (keyed: `.andromeda/registries/architecture-contracts.toml`, one file per key) / §Occupied Resources |
+| Architecture decisions | `doc:architecture` |
+| Directory tree · resource registry | `doc:architecture` §Infrastructure Patterns (keyed: `rec.py contracts architecture`, one file per key) / §Occupied Resources |
 | Build plan / chunk route | `.andromeda/master-route.md` · the active version's `working-route.md` (master-route's last `## {project}-{version}` heading) |
 | Code map / impact (symbols · callers · crate deps) | `.andromeda/cache/{plane}/tree.db` — one DB per plane (`rust` · `ts`); query via `scripts/code-graph.py query <run_dir> <marker> "<sql>" <plane>` (plane REQUIRED — two are detected); schema + templates in `scripts/code-graph-cookbook.md` |
-| MCP read-back contract + preflight gate | `.andromeda/architecture.md` §Standard Contracts |
-| Run-report envelope | `.andromeda/architecture.md` §Standard Contracts · `.andromeda/test-plan.md` §3 (keyed: `.andromeda/registries/test-plan-contracts.toml`) |
-| Scenario config validation | `.andromeda/security-plan.md` §Input Validation |
-| Dependency security / cargo-audit | `.andromeda/security-plan.md` §Dependency Security |
-| Subprocess-spawn hardening | `.andromeda/security-plan.md` §Security Anti-Patterns |
-| Design tokens / palette (the cli's ANSI map) / typography (retired 2026-10-11 — the cli sets no face) | `.andromeda/design-system.md` §Color Palette / §Typography |
-| Layout / surfaces (cli) | `.andromeda/layout-templates.md` |
-| Test harness (5-command) | `.andromeda/test-plan.md` §3 (keyed: `.andromeda/registries/test-plan-contracts.toml`, one file per key) |
-| CI integration / quality gates | `.andromeda/test-plan.md` §9 / §10 |
-| Observability / log JSON schema | `.andromeda/obs-plan.md` §3 (keyed: `.andromeda/registries/obs-plan-contracts.toml`, one file per key) / §6 |
-| WCAG / a11y harness (retired 2026-10-11 — no assertable surface) | `.andromeda/a11y-plan.md` |
-| Determinism discipline | `.andromeda/architecture.md` §Cross-cutting Patterns |
-| Coverage matrix (manifest set) | `contracts/pulse-capabilities.toml` · `.andromeda/input.md` §Coverage classification |
+| MCP read-back contract + preflight gate | `doc:architecture` §Standard Contracts |
+| Run-report envelope | `doc:architecture` §Standard Contracts · `doc:test-plan` §3 (keyed: `rec.py contracts test-plan`) |
+| Scenario config validation | `doc:security-plan` §Input Validation |
+| Dependency security / cargo-audit | `doc:security-plan` §Dependency Security |
+| Subprocess-spawn hardening | `doc:security-plan` §Security Anti-Patterns |
+| Design tokens / palette (the cli's ANSI map) / typography (retired 2026-10-11 — the cli sets no face) | `doc:design-system` §Color Palette / §Typography |
+| Layout / surfaces (cli) | `doc:layout-templates` |
+| Test harness (5-command) | `doc:test-plan` §3 (keyed: `rec.py contracts test-plan`, one file per key) |
+| CI integration / quality gates | `doc:test-plan` §9 / §10 |
+| Observability / log JSON schema | `doc:obs-plan` §3 (keyed: `rec.py contracts obs-plan`, one file per key) / §6 |
+| WCAG / a11y harness (retired 2026-10-11 — no assertable surface) | `doc:a11y-plan` |
+| Determinism discipline | `doc:architecture` §Cross-cutting Patterns |
+| Coverage matrix (manifest set) | `contracts/pulse-capabilities.toml` · `doc:input` §Coverage classification |
 | Agent harness commands | `scripts/agent-run.sh` · `.claude/rules/verification-harness.md` |
 | Stack / versions | `.claude/docs/stack.md` |
 | Conventions | `.claude/docs/conventions.md` |
@@ -89,7 +91,7 @@ Conductor is a modular monolith realized as a crate-per-seam Cargo workspace: th
 
 Determinism is enforced in the runtime flavor: the timeline runs on a `current_thread` tokio runtime so the same scenario+seed always yields the same emission-stream shape. Verification outcomes are typed VALUES (`Verdict`/`ReportState`); `Result::Err` is reserved for Conductor's own harness faults, so the report classifies a model-backed SUT by matching types, not catching exceptions. Every SLO is measured journal-relative (`read_back_observed_at − journal_emitted_at`) against the on-disk JSONL journal — the agent-parseable ground truth.
 
-**Primary source:** `.andromeda/architecture.md` (the pointer table's row — not imported; read explicitly where a step needs it).
+**Primary source:** `doc:architecture` (the pointer table's row — not imported; read by the verbs above that table where a step needs it).
 <!-- GENERATED:setup:architecture end -->
 
 <!-- GENERATED:setup:imports start -->
