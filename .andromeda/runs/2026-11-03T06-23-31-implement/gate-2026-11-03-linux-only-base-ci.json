@@ -755,5 +755,148 @@
 },
 "indeterminate": 0
 }
+},
+{
+"tool": "gate",
+"v": "1.26",
+"sha8": "8622de0e",
+"ts": "2026-11-03T07:12:25Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-11-03T06-23-31-implement",
+"--marker",
+"2026-11-03-linux-only-base-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base 8e450f37 (the parent of the oldest pre-CI commit 48b42a1f)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"hygiene: clean — read 59 (runs 48 · evidence 1 · inputs 10) · trails 13 not read · copies 8 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 48,
+"evidence": 1,
+"inputs": 10,
+"trails": 13,
+"copies": 8,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.26",
+"sha8": "8622de0e",
+"ts": "2026-11-03T07:15:13Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-11-03T06-23-31-implement",
+"--marker",
+"2026-11-03-linux-only-base-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base 8e450f37 (the parent of the oldest pre-CI commit 48b42a1f)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"hygiene: clean — read 61 (runs 49 · evidence 1 · inputs 11) · trails 13 not read · copies 9 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 49,
+"evidence": 1,
+"inputs": 11,
+"trails": 13,
+"copies": 9,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.26",
+"sha8": "8622de0e",
+"ts": "2026-11-03T07:15:18Z",
+"argv": [
+"scope",
+"--chunk",
+"2026-11-03-linux-only-base-ci",
+"--run-dir",
+".andromeda/runs/2026-11-03T06-23-31-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base 8e450f37 (the parent of the oldest pre-CI commit 48b42a1f) · lists new 1 · modify 22 · derived 0 · record 1",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"recorded widening Cargo.lock",
+"list crates/conductor-run/tests/evidence/ (dir) ×46",
+"list conductor-0.2.0/chunks/ (dir) ×0",
+"list conductor-0.3.0/chunks/ (dir) ×0",
+"list .andromeda/db/log/ (dir) ×0",
+"scope: clean — changed 59 · listed 58 · recorded 1 (companion 0 · mechanical 0 · in-intent 0 · widening 1) · absorbed 46 · excluded 110"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "8e450f3726dfa49c65481072ef20e4db5b645f54",
+"base_why": "the parent of the oldest pre-CI commit 48b42a1f",
+"counts": {
+"changed": 59,
+"listed": 58,
+"recorded": 1,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 46
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 1
+},
+"excluded": 110,
+"unparsed": 0,
+"widening_without_word": 0
+}
 }
 ]

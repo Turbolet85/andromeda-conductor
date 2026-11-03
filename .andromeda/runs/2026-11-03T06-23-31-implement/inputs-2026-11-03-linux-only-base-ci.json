@@ -157,5 +157,58 @@
 "step": "implement",
 "why": "F412: the reconcile heals what it drops and its dry-run is silent on it; recovery by git only: restore then git rm -f the six; restore the 49 from HEAD, docs reconcile --product none after its dry-run, then git rm the 49; check clean; row = the architecture pair; then gates 1-15 once"
 }
+},
+{
+"tool": "inputs",
+"v": "1.5",
+"sha8": "97027a5c",
+"ts": "2026-11-03T07:13:20Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-03-linux-only-base-ci",
+"--message-file",
+".andromeda/runs/2026-11-03T06-23-31-implement/relay-4.md",
+"--origin",
+"overseer (founder-delegated, PROVISIONAL), 2026-11-03, the tokio-fix word",
+"--kind",
+"relay",
+"--why",
+"RUSTSEC-2026-0386 (tokio 1.52.3, unsound) reds cargo deny on the Linux CI leg; the fix is taken inside this chunk: cargo update -p tokio to >=1.53.3, Cargo.lock only, no other crate moved; deny + agent-run.sh run once locally; commit, push, CI read",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-11-03T06-23-31-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I9 · copy message · message: overseer (founder-delegated, PROVISIONAL), 2026-11-03, the tokio-fix word",
+"cite: inputs#I9"
+],
+"stderr": null,
+"wrote": [
+"inputs/I9-relay-4.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I9",
+"kind": "relay",
+"repo": null,
+"path": "message: overseer (founder-delegated, PROVISIONAL), 2026-11-03, the tokio-fix word",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "f701a062e3346989572e1aa55e04ece7e907d8e7731043d239a8337ca0b37720",
+"copy": "I9-relay-4.md.txt",
+"link": false,
+"read_at": "2026-11-03T07:13:19Z",
+"step": "implement",
+"why": "RUSTSEC-2026-0386 (tokio 1.52.3, unsound) reds cargo deny on the Linux CI leg; the fix is taken inside this chunk: cargo update -p tokio to >=1.53.3, Cargo.lock only, no other crate moved; deny + agent-run.sh run once locally; commit, push, CI read"
+}
 }
 ]
