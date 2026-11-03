@@ -44,3 +44,6 @@
 - **Deferred learnings:**
   - recurrence-despite-learning: `host-linux.md` §Paths (`cd` only inside a subshell) — this window's first three calls
     opened with a bare `cd <root> &&` (the cwd was already the root; nothing moved).
+
+## Session End Status
+Completed normally at 2026-11-03 09:01:15
