@@ -7,6 +7,9 @@
 /.andromeda/cache/
 __pycache__/
 
+# --- Rendered agent prompts (fanout.py render's record, every P2 agent's prompt — kept out of every commit) ---
+.andromeda/runs/*/prompts/
+
 # --- Rust (andromeda-setup-project) ---
 /target/
 **/*.rs.bk
