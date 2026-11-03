@@ -192,7 +192,7 @@ When `ready` is false, every dependent auto scenario is emitted into the report 
 
 ## Infrastructure Patterns
 
-Contracts: .andromeda/registries/architecture-contracts.toml — ask registry.py contracts; read one contracts/architecture/{key}.md; never whole.
+Contracts: ask `rec.py contracts architecture` — one row per key, each with its address; read one key by `rec.py render` of that address; never whole.
 
 ## Cross-cutting Patterns
 
