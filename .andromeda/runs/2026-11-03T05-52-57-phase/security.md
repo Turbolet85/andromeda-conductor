@@ -1,0 +1,34 @@
+# security extract
+
+## Relevance
+relevant: the chunk moves the CI job that carries the supply-chain and secret-scan gates, removes the PowerShell harness twin that holds one of the two run-id rejection points, touches the `#[cfg(windows)]` console-suppression duty, and moves real-model capture files whose committed locus the Data Protection exception scopes.
+
+## Constraints
+- The Linux `rust` job must keep the `cargo audit` and `cargo deny check` supply-chain steps, failing the build on an advisory hit. Tool versions are floors (cargo-audit >= 0.22, cargo-deny >= 0.19), not lockable pins, and nothing may be weakened through a `deny.toml` ignore or a CI edit that softens either step (per security-plan §Dependency Security).
+- The `Secret-scan gate` step must stay a presence-guarded invocation of the in-repo test target `crates/conductor-core/tests/secret_scan_gate.rs`. The move to Linux must not replace it with a job-time-fetched scanner such as a marketplace action or a downloaded binary (per security-plan §Secret Management, Secret-scan gate shape).
+- The runner change must not reopen the retired third dependency class (a job-time-fetched program). It must also add no non-loopback egress beyond what the job needs today. A newly fetched tool is an escalated, operator-ratified boundary widening, never routine (per security-plan §Dependency Security, the third dependency class).
+- With `scripts/agent-run.ps1` gone, `scripts/agent-run.sh` must keep its own run-id rejection (`valid_run_id`) ahead of the teardown spawn `conductor cleanup <run_id>`. The run_id must stay a separate array-form argv word, never part of a shell string. It must also keep the closed `case` allowlist for `run --live [real-model]` (per security-plan §Security Anti-Patterns → Code Patterns, rule (b), and §Input Validation, CLI-arguments row).
+- The plan records the `CREATE_NO_WINDOW` creation flag and its `#[cfg(windows)]` unit test in `crates/conductor-verify/src/spawn.rs` as a SHIPPED duty of the sidecar spawn on Windows. Whether removing those arms fits that duty on a Linux-only target is P4's question. Either way, the plan's record changes only through the wrap's amendment, never a phase edit. Rule (a) still requires a fixed, PATH-resolved program name plus `.env(...)` whatever happens to those arms (per security-plan §Security Anti-Patterns → Code Patterns, rule (a)).
+- The capture files that carry `cry-kbm6q3dx` moves into a crate fixture folder hold corpus-rendered model text. The ratified exception allows that text in a chunk's committed `evidence/` tree, and only after scrubbing. Whether a fixture folder inside `crates/conductor-run/tests/` is inside the exception's scope, or widens it and so needs operator ratification, is research's and P4's question. Test source must hold no capture text, the 2026-09-29 breach class (per security-plan §Security Anti-Patterns → Data Protection).
+- Re-pointed capture readers must still resolve from `CARGO_MANIFEST_DIR` plus a hard-coded path, with no `CONDUCTOR_*` handle. They must check each file against its sha256 pin over LF-normalized content before grading it, and report read faults by error kind only, never the path (per security-plan §Input Validation, real-model capture ingest row).
+
+## Patterns to follow
+- The secret-scan gate shape: one in-repo Rust test target, a presence-guarded CI step, and the same target run locally through `agent-run.sh run`'s workspace nextest. This satisfies v4-07's "each can be run on the developer's host" without a fetched tool (per security-plan §Secret Management, Secret-scan gate shape).
+- The `agent-run.sh` readers of `contracts/pulse-run-contract.toml` treat the contract as never defaulted. A missing `warmup_ms` or `min_canary_poll_seconds` term is a hard exit 2, and a lowered `CONDUCTOR_PREFLIGHT_TIMEOUT` clamps up to the contract floor. This must survive as the only harness (per security-plan §Input Validation, committed SUT-facing manifests row).
+- Each sha256 digest pin per evidence file, graded only after its digest matches, together with the harvest's population count and inverse control. The relocation keeps every pin as it stands (per security-plan §Security Anti-Patterns → Data Protection).
+
+## Anti-patterns to avoid
+- NEVER skip the secret-scanning CI gate. It is the only thing that keeps the no-secrets invariant over time (per security-plan §Security Anti-Patterns → Secrets).
+- NEVER let `Cargo.lock` drift, and never merge or release without cargo-audit and cargo-deny green. The job's locked build must stay locked (per security-plan §Security Anti-Patterns → Universal).
+- NEVER put committed capture text in test source. Capture content enters only as digest-pinned files graded after their pin matches (per security-plan §Security Anti-Patterns → Data Protection).
+
+## Contract bindings
+- The CI security gates bind to tests §CI Integration: one workflow with the supply-chain and secret-scan gates as steps of the single `rust` job. Moving that job to Linux moves them together (per security-plan §Threat Model Summary, Infrastructure CI/CD).
+- The capture relocation binds to the tests-domain harvest arms (`no_committed_capture_text_sits_in_test_source`, `every_committed_capture_carries_no_un_elided_fingerprint_value`, the population count and its inverse control). The harvest walk named over `conductor-0.3.0/chunks/*/evidence/` changes subject when the files move (per security-plan §Input Validation, real-model capture ingest row).
+- The plan names several things this chunk removes: the `agent-run.{sh,ps1}` pairs, `Test-RunId`, the `.ps1` position-count binding, and the `%APPDATA%` platform default in the spawn row. Those records change through the wrap's security amendments, never a phase edit (per security-plan §Security Anti-Patterns → Code Patterns).
+
+## Acceptance criteria contributions
+- At the chunk's end, `.github/workflows/ci.yml` runs on a Linux runner and still holds steps that run `cargo audit` and `cargo deny check`. Diffed against `8e450f3`, neither step is removed or softened and `deny.toml` gains no ignore entry (per security-plan §Dependency Security).
+- `ci.yml` still holds the presence-guarded `Secret-scan gate` step that runs `secret_scan_gate`. Diffed against `8e450f3`, no step that fetches a scanner or third-party binary is added (per security-plan §Secret Management).
+- `scripts/agent-run.sh` still rejects a malformed run_id through `valid_run_id` before `conductor cleanup <run_id>`, and still exits 2 on an unknown `run --live` token (per security-plan §Security Anti-Patterns → Code Patterns).
+- `cargo test -p conductor-run --locked` is green with every capture sha256 pin byte-unchanged, and `no_committed_capture_text_sits_in_test_source` is green over the relocated fixtures (per security-plan §Security Anti-Patterns → Data Protection).

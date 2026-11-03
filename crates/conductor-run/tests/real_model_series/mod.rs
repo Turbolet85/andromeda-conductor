@@ -14,7 +14,7 @@ pub struct Drive {
 
 /// The committed captures' directory, relative to the workspace root.
 pub const EVIDENCE: &str =
-    "conductor-0.3.0/chunks/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin/evidence";
+    "crates/conductor-run/tests/evidence/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin";
 
 pub const SERIES: [Drive; 6] = [
     Drive {
@@ -51,8 +51,7 @@ pub const SERIES: [Drive; 6] = [
 
 /// The 2026-09-30 series' committed captures (`contracts/pulse-real-model-leg-posture.md`, The 2026-09-30
 /// series), relative to the workspace root.
-pub const EVIDENCE_2026_09_30: &str =
-    "conductor-0.3.0/chunks/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/evidence";
+pub const EVIDENCE_2026_09_30: &str = "crates/conductor-run/tests/evidence/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir";
 
 /// The 2026-09-30 series: three drives on one fresh letters-only data dir, against andromeda-pulse `fcc31b2`.
 pub const SERIES_2026_09_30: [Drive; 3] = [
@@ -75,7 +74,7 @@ pub const SERIES_2026_09_30: [Drive; 3] = [
 
 /// The 2026-10-01 series' committed captures (`contracts/pulse-real-model-leg-posture.md`, The 2026-10-01
 /// series), relative to the workspace root.
-pub const EVIDENCE_2026_10_01: &str = "conductor-0.3.0/chunks/2026-10-01-interpretation-re-proven-after-the-incident-surfacing-fix/evidence";
+pub const EVIDENCE_2026_10_01: &str = "crates/conductor-run/tests/evidence/2026-10-01-interpretation-re-proven-after-the-incident-surfacing-fix";
 
 /// The 2026-10-01 series: three drives on one fresh letters-only data dir, against andromeda-pulse `a2addb3`.
 pub const SERIES_2026_10_01: [Drive; 3] = [
@@ -98,7 +97,7 @@ pub const SERIES_2026_10_01: [Drive; 3] = [
 
 /// The 2026-10-06 series' committed captures (`contracts/pulse-real-model-leg-posture.md`, The 2026-10-06
 /// series), relative to the workspace root.
-pub const EVIDENCE_2026_10_06: &str = "conductor-0.3.0/chunks/2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09/evidence";
+pub const EVIDENCE_2026_10_06: &str = "crates/conductor-run/tests/evidence/2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09";
 
 /// The 2026-10-06 series: three drives on one fresh letters-only data dir, against andromeda-pulse `5f77859`.
 pub const SERIES_2026_10_06: [Drive; 3] = [
@@ -121,8 +120,7 @@ pub const SERIES_2026_10_06: [Drive; 3] = [
 
 /// The 2026-10-07 series' committed captures (`contracts/pulse-real-model-leg-posture.md`, The 2026-10-07
 /// series), relative to the workspace root.
-pub const EVIDENCE_2026_10_07: &str =
-    "conductor-0.3.0/chunks/2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09/evidence";
+pub const EVIDENCE_2026_10_07: &str = "crates/conductor-run/tests/evidence/2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09";
 
 /// The 2026-10-07 series: three drives on one fresh letters-only data dir, against andromeda-pulse `f70be92`.
 pub const SERIES_2026_10_07: [Drive; 3] = [
@@ -145,7 +143,7 @@ pub const SERIES_2026_10_07: [Drive; 3] = [
 
 /// The 2026-10-07 capture run's committed captures (`contracts/pulse-real-model-leg-posture.md`, The
 /// 2026-10-07 capture run), relative to the workspace root.
-pub const EVIDENCE_CAPTURE_RUN_2026_10_07: &str = "conductor-0.3.0/chunks/2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive/evidence";
+pub const EVIDENCE_CAPTURE_RUN_2026_10_07: &str = "crates/conductor-run/tests/evidence/2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive";
 
 /// The 2026-10-07 capture run: three drives on one fresh letters-only data dir, against andromeda-pulse
 /// `f70be92`. A capture, never a series: its grades are observations.
@@ -169,8 +167,7 @@ pub const CAPTURE_RUN_2026_10_07: [Drive; 3] = [
 
 /// The 2026-10-07 sixth series' committed captures (`contracts/pulse-real-model-leg-posture.md`, The
 /// 2026-10-07 sixth series), relative to the workspace root.
-pub const EVIDENCE_2026_10_07_SIXTH: &str =
-    "conductor-0.3.0/chunks/2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09/evidence";
+pub const EVIDENCE_2026_10_07_SIXTH: &str = "crates/conductor-run/tests/evidence/2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09";
 
 /// The 2026-10-07 sixth series: three drives on one fresh letters-only data dir, against andromeda-pulse
 /// `9bfefb8`.

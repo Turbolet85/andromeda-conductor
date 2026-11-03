@@ -61,7 +61,7 @@ mod tests {
     #[test]
     fn round_the_p025_window_derives_from_frozen_self_obs() {
         let selfobs = evidence_pin::committed(
-            "conductor-0.3.0/chunks/2026-09-29-hue-shift-budget-graded-hard/evidence/h.jsonl",
+            "crates/conductor-run/tests/evidence/2026-09-29-hue-shift-budget-graded-hard/h.jsonl",
         );
         assert_eq!(
             p025_window(&selfobs),
@@ -88,7 +88,7 @@ mod tests {
     // filtered by target; run ids, counts and the censuses are in `evidence/round-ledger.md`.
 
     const ROUND_EVIDENCE: &str =
-        "conductor-0.3.0/chunks/2026-10-02-p-075-assert-round-against-pulse/evidence/";
+        "crates/conductor-run/tests/evidence/2026-10-02-p-075-assert-round-against-pulse/";
 
     fn round_lines(name: &str, sha256: &str) -> Vec<String> {
         evidence_pin::pinned(&format!("{ROUND_EVIDENCE}{name}"), sha256)
@@ -180,7 +180,7 @@ mod tests {
     // prior round's, and the run ids, counts and censuses are in that chunk's `evidence/round-ledger.md`.
 
     const REROUND_EVIDENCE: &str =
-        "conductor-0.3.0/chunks/2026-10-03-p-075-re-round-on-incident-events/evidence/";
+        "crates/conductor-run/tests/evidence/2026-10-03-p-075-re-round-on-incident-events/";
 
     fn reround_lines(name: &str, sha256: &str) -> Vec<String> {
         evidence_pin::pinned(&format!("{REROUND_EVIDENCE}{name}"), sha256)

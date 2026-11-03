@@ -62,7 +62,7 @@ tally = "missed"
 class = "ratified"
 member = "member-emit-1"
 rule = "EQUIVALENT MUTANT: the two branches meet at u = 0.5 with the same value — u / 0.5 is exactly 1.0 and (u - 0.5) / 0.45 is exactly 0.0 there, both yielding exactly p50 — and u = 0.5 is the only input the flip re-routes, so the mutated fn returns a bit-identical f64 for every input. Measured under EXACT f64 comparison over 5 profiles x 10008 points: 0 differing points. Scoped to THIS mutant, never the comparison class: four siblings of the same shape are killable, because the later branches are one line algebraically but not in IEEE754."
-citation_home = "conductor-0.3.0/chunks/2026-09-14-emit-scrubber-and-percentile-math-under-test/evidence/disposition-ledger.md"
+citation_home = ".andromeda/runs/2026-10-04T01-45-46-wrap/u35/logs/test-plan.md"
 
 [[entry]]
 unit = "conductor-cli"
@@ -72,7 +72,7 @@ tally = "missed"
 class = "ratified"
 member = "member-5"
 rule = "test-plan §12 conductor-cli PAIR (2026-09-05): the surviving arm reads the HOST's own state, so the only kill available is host-dependent, and a roster must mean the same thing on every host (§10 zero-flakiness)."
-citation_home = "conductor-0.2.0/chunks/2026-09-05-audit-corrective/evidence/disposition-ledger.md"
+citation_home = ".andromeda/runs/2026-10-04T01-45-46-wrap/u35/logs/test-plan.md"
 
 [[entry]]
 unit = "conductor-cli"
@@ -82,7 +82,7 @@ tally = "missed"
 class = "ratified"
 member = "member-5"
 rule = "test-plan §12 conductor-cli PAIR (2026-09-05): acceptance is scoped to the unobservable DIRECTION, not the function — `stderr_color -> true` IS killed, and the three-condition logic is killed through the pure `color_enabled` seam."
-citation_home = "conductor-0.2.0/chunks/2026-09-05-audit-corrective/evidence/disposition-ledger.md"
+citation_home = ".andromeda/runs/2026-10-04T01-45-46-wrap/u35/logs/test-plan.md"
 
 [[entry]]
 unit = "conductor-verify"
@@ -92,7 +92,7 @@ tally = "missed"
 class = "ratified"
 member = "member-4"
 rule = "test-plan §12 conductor-verify PAIR (2026-09-04): the whole body IS the PATH/PATHEXT read, so the env-at-the-caller rule's mechanism lives in this function. An agreement test against the real PATH was considered and REJECTED — it kills one arm or the other depending on whether andromeda-pulse-mcp happens to be on PATH."
-citation_home = "conductor-0.2.0/chunks/2026-09-04-sidecar-spawn-without-a-console-window/report.md"
+citation_home = ".andromeda/runs/2026-10-04T01-45-46-wrap/u35/logs/test-plan.md"
 
 [[entry]]
 unit = "conductor-verify"
@@ -102,7 +102,7 @@ tally = "missed"
 class = "ratified"
 member = "member-4"
 rule = "test-plan §12 conductor-verify PAIR (2026-09-04): the second polarity of the same whole-body replacement; its pure half `resolves_on` is tested on both arms and its own mutants were caught."
-citation_home = "conductor-0.2.0/chunks/2026-09-04-sidecar-spawn-without-a-console-window/report.md"
+citation_home = ".andromeda/runs/2026-10-04T01-45-46-wrap/u35/logs/test-plan.md"
 
 [[entry]]
 unit = "conductor-verify"

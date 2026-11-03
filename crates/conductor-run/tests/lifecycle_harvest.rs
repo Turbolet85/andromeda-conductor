@@ -537,7 +537,7 @@ fn round_assertion_7_a_truncated_read_is_ungraded_never_met() {
 /// data dir, the leg fired first on the launch). Run ids, pre-leg counts and the censuses are in
 /// `evidence/round-ledger.md`.
 const ROUND_CAPTURE: &str =
-    "conductor-0.3.0/chunks/2026-10-02-p-075-assert-round-against-pulse/evidence/p075-leg.txt";
+    "crates/conductor-run/tests/evidence/2026-10-02-p-075-assert-round-against-pulse/p075-leg.txt";
 const ROUND_CAPTURE_SHA256: &str =
     "85773fb075f5bf7ac199613c9db5f0523f38a7f11a181595721515aace7a4e72";
 
@@ -582,7 +582,7 @@ fn p075_round_capture_digest_pin_fails_on_a_tampered_byte() {
 // — the launch-posture deviation recorded in `evidence/round-ledger.md`), the leg fired first on it.
 
 const REROUND_CAPTURE: &str =
-    "conductor-0.3.0/chunks/2026-10-03-p-075-re-round-on-incident-events/evidence/p075-leg.txt";
+    "crates/conductor-run/tests/evidence/2026-10-03-p-075-re-round-on-incident-events/p075-leg.txt";
 const REROUND_CAPTURE_SHA256: &str =
     "aebc50ee41f3993929788bd424dcfae40cfaab26480efe29381ad93062aaafac";
 

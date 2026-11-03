@@ -1,0 +1,170 @@
+[
+{
+"tool": "ci",
+"v": "1.3",
+"sha8": "48325dfc",
+"ts": "2026-11-03T05:53:18Z",
+"argv": [
+"conclusion",
+"--sha",
+"8e450f3726dfa49c65481072ef20e4db5b645f54",
+"--sha",
+"4e5a69c9a838883c5b655a405a978fb2a5eccfcb",
+"--sha",
+"d4b4fd03cf75ce76cd8d07e11dd61291dd6b6f5f",
+"--sha",
+"401d9b69b818fa8e9adf09dd0b780e41a7f5275d",
+"--sha",
+"351b89c829776aacb493b51c785b1e50c55d355d",
+"--sha",
+"87cdfb83ff8933aaf55d164614c02dc6a7845e3f",
+"--sha",
+"ad43ee1ed8629292a4c161ea11b7ebc57a334378",
+"--sha",
+"a3065ce410aa7cfe3de07b8ca20b419acba67c13",
+"--sha",
+"783e9fe0ab64bb52d205de1f703f4e16888fffb4",
+"--sha",
+"45aaedb795b80c803a0844aff253df956e255835",
+"--sha",
+"fbb2da5812078d69fdad83d933906e43409e5413",
+"--sha",
+"f0d5d3418d1181948b470964095ae075933d6874",
+"--sha",
+"93b7c95376c93c688468f5ee30ffc3dfaf814aee",
+"--sha",
+"16eac1199398e2f1da63c434041154774de2bfeb",
+"--run-dir",
+".andromeda/runs/2026-11-03T05-52-57-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"repo Turbolet85/andromeda-conductor (the push remote `origin`)",
+"8e450f3726df verdict: not on the remote",
+"4e5a69c9a838 verdict: not on the remote",
+"d4b4fd03cf75 verdict: not on the remote",
+"401d9b69b818 verdict: not on the remote",
+"351b89c82977 verdict: not on the remote",
+"87cdfb83ff89 verdict: not on the remote",
+"ad43ee1ed862 verdict: not on the remote",
+"a3065ce410aa verdict: not on the remote",
+"783e9fe0ab64 verdict: not on the remote",
+"45aaedb795b8 verdict: not on the remote",
+"fbb2da581207 verdict: not on the remote",
+"f0d5d3418d11 verdict: not on the remote",
+"93b7c95376c9 verdict: not on the remote",
+"16eac1199398 verdict: green · checks 1/1 · wall 291 s · runs CI#38222138060 completed/success"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"repo": "Turbolet85/andromeda-conductor",
+"host": "github.com",
+"repo_source": "the push remote `origin`",
+"names": [],
+"shas": [
+{
+"sha": "8e450f3726dfa49c65481072ef20e4db5b645f54",
+"word": "not on the remote",
+"polls": [
+"not on the remote"
+]
+},
+{
+"sha": "4e5a69c9a838883c5b655a405a978fb2a5eccfcb",
+"word": "not on the remote",
+"polls": [
+"not on the remote"
+]
+},
+{
+"sha": "d4b4fd03cf75ce76cd8d07e11dd61291dd6b6f5f",
+"word": "not on the remote",
+"polls": [
+"not on the remote"
+]
+},
+{
+"sha": "401d9b69b818fa8e9adf09dd0b780e41a7f5275d",
+"word": "not on the remote",
+"polls": [
+"not on the remote"
+]
+},
+{
+"sha": "351b89c829776aacb493b51c785b1e50c55d355d",
+"word": "not on the remote",
+"polls": [
+"not on the remote"
+]
+},
+{
+"sha": "87cdfb83ff8933aaf55d164614c02dc6a7845e3f",
+"word": "not on the remote",
+"polls": [
+"not on the remote"
+]
+},
+{
+"sha": "ad43ee1ed8629292a4c161ea11b7ebc57a334378",
+"word": "not on the remote",
+"polls": [
+"not on the remote"
+]
+},
+{
+"sha": "a3065ce410aa7cfe3de07b8ca20b419acba67c13",
+"word": "not on the remote",
+"polls": [
+"not on the remote"
+]
+},
+{
+"sha": "783e9fe0ab64bb52d205de1f703f4e16888fffb4",
+"word": "not on the remote",
+"polls": [
+"not on the remote"
+]
+},
+{
+"sha": "45aaedb795b80c803a0844aff253df956e255835",
+"word": "not on the remote",
+"polls": [
+"not on the remote"
+]
+},
+{
+"sha": "fbb2da5812078d69fdad83d933906e43409e5413",
+"word": "not on the remote",
+"polls": [
+"not on the remote"
+]
+},
+{
+"sha": "f0d5d3418d1181948b470964095ae075933d6874",
+"word": "not on the remote",
+"polls": [
+"not on the remote"
+]
+},
+{
+"sha": "93b7c95376c93c688468f5ee30ffc3dfaf814aee",
+"word": "not on the remote",
+"polls": [
+"not on the remote"
+]
+},
+{
+"sha": "16eac1199398e2f1da63c434041154774de2bfeb",
+"word": "green",
+"polls": [
+"green"
+]
+}
+]
+}
+}
+]

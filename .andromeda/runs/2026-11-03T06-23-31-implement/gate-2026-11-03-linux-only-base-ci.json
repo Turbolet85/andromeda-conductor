@@ -1,0 +1,759 @@
+[
+{
+"tool": "gate",
+"v": "1.26",
+"sha8": "8622de0e",
+"ts": "2026-11-03T07:03:39Z",
+"argv": [
+"run",
+"--chunk",
+"2026-11-03-linux-only-base-ci",
+"--run-dir",
+".andromeda/runs/2026-11-03T06-23-31-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-11-03-linux-only-base-ci · entries 19",
+"logs $TMPDIR/andromeda-gate/2026-11-03-linux-only-base-ci/implement-2026-11-03T06-23-31 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 70 · python 3 · rust 9 · unmapped 84",
+"walk-class rust 8 (crates/conductor-core/src/drift.rs, crates/conductor-core/src/load_envelope.rs, crates/conductor-core/src/scenario_catalog.rs, +5 in the trail) · uncommitted 166",
+"prose L133-138: No live leg and no boot-path in this chunk: no Pulse is driven, and `agent-run.sh run` is … (593 chars)",
+"  1 lint        green · exit 0 · 0.3s · 0 B → 1.log · cargo fmt --all --check",
+"  2 unit        green · exit 0 · 14.47s · 152411 B → 2.log · bash scripts/agent-run.sh run",
+"  3 unit        green · exit 0 · 0.85s · 35831 B → 3.log · cargo test -p conductor-run --locked",
+"  4 probe       green · exit 0 · 0.04s · 461 B → 4.log · python -X utf8 scripts/mutation-gate.py selftest",
+"  5 probe       green · exit 0 · 0.02s · 2 B → 5.log · python3 -c \"import tomllib, pathlib; r = tomllib.load(open… (182 chars)",
+"  6 probe       green · exit 1 · 0.01s · 0 B → 6.log · git grep -n -E 'conductor-0\\.[0-9]\\.0/chunks/' -- crates s… (64 chars)",
+"  7 probe       green · exit 1 · 0.01s · 0 B → 7.log · git grep -n -E 'agent-run\\.ps1|agent-run\\.\\{sh,ps1\\}|windo… (94 chars)",
+"  8 probe       green · exit 0 · 0.0s · 2 B → 8.log · grep -c -E '^    runs-on: ubuntu-latest$|^        run: bas… (112 chars)",
+"  9 probe       green · exit 1 · 0.0s · 2 B → 9.log · grep -c -i -E 'pwsh|windows|\\.ps1' .github/workflows/ci.ym… (59 chars)",
+" 10 probe       green · exit 2 · 0.01s · 2 B → 10.log · { git ls-files -- scripts/agent-run.ps1 conductor-0.2.0/re… (402 chars)",
+" 11 probe       green · exit 0 · 0.19s · 0 B → 11.log · git show 8e450f3:.andromeda/db/moved | grep '^product' | c… (322 chars)",
+" 12 probe       green · exit 0 · 0.0s · 3 B → 12.log · find crates/conductor-run/tests/evidence -type f | wc -l",
+" 13 probe       green · exit 1 · 0.01s · 2 B → 13.log · git diff -U0 8e450f3 -- crates/conductor-run/tests ':!crat… (126 chars)",
+" 14 probe       green · exit 0 · 0.0s · 65 B → 14.log · grep '^product' .andromeda/db/moved | cut -f2 | tr ',' '\\n… (79 chars)",
+" 15 probe       green · exit 0 · 0.0s · 0 B → 15.log · git diff --quiet 8e450f3 -- scripts/agent-run.sh",
+" 16 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ga… (71 chars)",
+" 17 probe       not run — leg operator (the letter drives it) · git fetch origin build/conductor-0.4.0 && git merge-base -… (104 chars)",
+" 18 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (86 chars)",
+" 19 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ci… (95 chars)",
+"entries 19 · green 15 · red 0 · recorded 0 · timeout 0 · not-run 4"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-11-03-linux-only-base-ci",
+"plan": "doc:2026-11-03-linux-only-base-ci/plan",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-11-03-linux-only-base-ci/implement-2026-11-03T06-23-31",
+"delta": {
+"docs": [
+".andromeda/db/log/2026-11-03T05-44-03-session-2026-11-03.ndjson",
+".andromeda/db/moved",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"conductor-0.2.0/chunks/2026-09-04-sidecar-spawn-without-a-console-window/report.md",
+"conductor-0.2.0/chunks/2026-09-05-audit-corrective/evidence/disposition-ledger.md",
+"conductor-0.3.0/chunks/2026-09-14-emit-scrubber-and-percentile-math-under-test/evidence/disposition-ledger.md",
+"conductor-0.3.0/chunks/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin/evidence/attempt-ledger.md",
+"conductor-0.3.0/chunks/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/evidence/attempt-ledger.md",
+"conductor-0.3.0/chunks/2026-10-01-interpretation-re-proven-after-the-incident-surfacing-fix/evidence/attempt-ledger.md",
+"conductor-0.3.0/chunks/2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09/evidence/attempt-ledger.md",
+"conductor-0.3.0/chunks/2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive/evidence/attempt-ledger.md",
+"conductor-0.3.0/chunks/2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09/evidence/attempt-ledger.md",
+"conductor-0.3.0/chunks/2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09/evidence/attempt-ledger.md",
+"conductor-0.4.0/working-route.md",
+".andromeda/db/log/2026-11-03T05-54-47-2026-11-03-linux-only-base-ci.ndjson",
+".andromeda/runs/2026-11-03T05-52-57-phase/a11y.md",
+".andromeda/runs/2026-11-03T05-52-57-phase/arch-history.md",
+".andromeda/runs/2026-11-03T05-52-57-phase/arch.md",
+".andromeda/runs/2026-11-03T05-52-57-phase/ci-no-marker.json",
+".andromeda/runs/2026-11-03T05-52-57-phase/design-history.md",
+".andromeda/runs/2026-11-03T05-52-57-phase/design.md",
+".andromeda/runs/2026-11-03T05-52-57-phase/detail-2026-11-03-linux-only-base-ci.json",
+".andromeda/runs/2026-11-03T05-52-57-phase/evolve-2026-11-03-linux-only-base-ci.json",
+".andromeda/runs/2026-11-03T05-52-57-phase/fanout-2026-11-03-linux-only-base-ci.json",
+".andromeda/runs/2026-11-03T05-52-57-phase/gate-2026-11-03-linux-only-base-ci.json",
+".andromeda/runs/2026-11-03T05-52-57-phase/inputs-2026-11-03-linux-only-base-ci.json",
+".andromeda/runs/2026-11-03T05-52-57-phase/layouts-history.md",
+".andromeda/runs/2026-11-03T05-52-57-phase/layouts.md",
+".andromeda/runs/2026-11-03T05-52-57-phase/master-desc.txt",
+".andromeda/runs/2026-11-03T05-52-57-phase/matrix-2026-11-03-linux-only-base-ci.json",
+".andromeda/runs/2026-11-03T05-52-57-phase/note-v4-07.md",
+".andromeda/runs/2026-11-03T05-52-57-phase/obs-history.md",
+".andromeda/runs/2026-11-03T05-52-57-phase/obs.md",
+".andromeda/runs/2026-11-03T05-52-57-phase/p5-card-1.md",
+".andromeda/runs/2026-11-03T05-52-57-phase/p5-controls.md",
+".andromeda/runs/2026-11-03T05-52-57-phase/planlint-2026-11-03-linux-only-base-ci.json",
+".andromeda/runs/2026-11-03T05-52-57-phase/rec-2026-11-03-linux-only-base-ci.json",
+".andromeda/runs/2026-11-03T05-52-57-phase/rec-read-2026-11-03-linux-only-base-ci.ndjson",
+".andromeda/runs/2026-11-03T05-52-57-phase/relay-1.md",
+".andromeda/runs/2026-11-03T05-52-57-phase/relay-2.md",
+".andromeda/runs/2026-11-03T05-52-57-phase/relay-3.md",
+".andromeda/runs/2026-11-03T05-52-57-phase/relay-4.md",
+".andromeda/runs/2026-11-03T05-52-57-phase/research-edit-1.md",
+".andromeda/runs/2026-11-03T05-52-57-phase/route-2026-11-03-linux-only-base-ci.json",
+".andromeda/runs/2026-11-03T05-52-57-phase/scope-cite-1.md",
+".andromeda/runs/2026-11-03T05-52-57-phase/scope-closure-1.md",
+".andromeda/runs/2026-11-03T05-52-57-phase/scope-closure-2.md",
+".andromeda/runs/2026-11-03T05-52-57-phase/scope-pin.json",
+".andromeda/runs/2026-11-03T05-52-57-phase/scope-val1-1.md",
+".andromeda/runs/2026-11-03T05-52-57-phase/security-history.md",
+".andromeda/runs/2026-11-03T05-52-57-phase/security.md",
+".andromeda/runs/2026-11-03T05-52-57-phase/tests-history.md",
+".andromeda/runs/2026-11-03T05-52-57-phase/tests.md",
+".andromeda/runs/2026-11-03T05-52-57-phase/tree-query-2026-11-03-linux-only-base-ci.json",
+".andromeda/runs/2026-11-03T06-23-31-implement/evolve-2026-11-03-linux-only-base-ci.json",
+".andromeda/runs/2026-11-03T06-23-31-implement/inputs-2026-11-03-linux-only-base-ci.json",
+".andromeda/runs/2026-11-03T06-23-31-implement/outcome-2026-11-03-linux-only-base-ci.md",
+".andromeda/runs/2026-11-03T06-23-31-implement/rec-2026-11-03-linux-only-base-ci.json",
+".andromeda/runs/2026-11-03T06-23-31-implement/relay-1.md",
+".andromeda/runs/2026-11-03T06-23-31-implement/relay-2.md",
+".andromeda/runs/2026-11-03T06-23-31-implement/relay-3.md",
+".andromeda/runs/2026-11-03T06-23-31-implement/the-49.txt",
+"crates/conductor-run/tests/evidence/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin/attempt-ledger.md",
+"crates/conductor-run/tests/evidence/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/attempt-ledger.md",
+"crates/conductor-run/tests/evidence/2026-10-01-interpretation-re-proven-after-the-incident-surfacing-fix/attempt-ledger.md",
+"crates/conductor-run/tests/evidence/2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09/attempt-ledger.md",
+"crates/conductor-run/tests/evidence/2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive/attempt-ledger.md",
+"crates/conductor-run/tests/evidence/2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09/attempt-ledger.md",
+"crates/conductor-run/tests/evidence/2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09/attempt-ledger.md"
+],
+"python": [
+"conductor-0.2.0/requirements.md",
+"conductor-0.3.0/requirements.md",
+"conductor-0.4.0/requirements.md"
+],
+"rust": [
+"crates/conductor-core/tests/workflow_env_gate.rs",
+"crates/conductor-report/tests/matrix_ledger_gate.rs",
+"crates/conductor-run/tests/delegated_timing_harvest.rs",
+"crates/conductor-run/tests/lifecycle_harvest.rs",
+"crates/conductor-run/tests/live_suite.rs",
+"crates/conductor-run/tests/real_model_grading/capture_population.rs",
+"crates/conductor-run/tests/real_model_harvest.rs",
+"crates/conductor-run/tests/real_model_live.rs",
+"crates/conductor-run/tests/real_model_series/mod.rs"
+]
+},
+"unmapped": [
+".github/workflows/ci.yml",
+"conductor-0.2.0/verification-matrix.json",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/evidence/rm-capture.txt",
+"conductor-0.3.0/chunks/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin/evidence/rm-capture-a1-pipeline-fault.txt",
+"conductor-0.3.0/chunks/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin/evidence/rm-capture-a1.txt",
+"conductor-0.3.0/chunks/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin/evidence/rm-capture-a2.txt",
+"conductor-0.3.0/chunks/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin/evidence/rm-capture-a3.txt",
+"conductor-0.3.0/chunks/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin/evidence/rm-capture-b1.txt",
+"conductor-0.3.0/chunks/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin/evidence/rm-capture-b2.txt",
+"conductor-0.3.0/chunks/2026-09-29-hue-shift-budget-graded-hard/evidence/h.jsonl",
+"conductor-0.3.0/chunks/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/evidence/rm-capture-2026-09-22-elided.txt",
+"conductor-0.3.0/chunks/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/evidence/rm-capture-d1.txt",
+"conductor-0.3.0/chunks/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/evidence/rm-capture-d2.txt",
+"conductor-0.3.0/chunks/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/evidence/rm-capture-d3.txt",
+"conductor-0.3.0/chunks/2026-10-01-interpretation-re-proven-after-the-incident-surfacing-fix/evidence/rm-capture-d1.txt",
+"conductor-0.3.0/chunks/2026-10-01-interpretation-re-proven-after-the-incident-surfacing-fix/evidence/rm-capture-d2.txt",
+"conductor-0.3.0/chunks/2026-10-01-interpretation-re-proven-after-the-incident-surfacing-fix/evidence/rm-capture-d3.txt",
+"conductor-0.3.0/chunks/2026-10-02-p-075-assert-round-against-pulse/evidence/h.jsonl",
+"conductor-0.3.0/chunks/2026-10-02-p-075-assert-round-against-pulse/evidence/p075-leg.txt",
+"conductor-0.3.0/chunks/2026-10-02-p-075-assert-round-against-pulse/evidence/pulse-d.jsonl",
+"conductor-0.3.0/chunks/2026-10-02-p-075-assert-round-against-pulse/evidence/pulse-f.jsonl",
+"conductor-0.3.0/chunks/2026-10-02-p-075-assert-round-against-pulse/evidence/pulse-h.jsonl",
+"conductor-0.3.0/chunks/2026-10-02-p-075-assert-round-against-pulse/evidence/pulse-r.jsonl",
+"conductor-0.3.0/chunks/2026-10-03-p-075-re-round-on-incident-events/evidence/h.jsonl",
+"conductor-0.3.0/chunks/2026-10-03-p-075-re-round-on-incident-events/evidence/p075-leg.txt",
+"conductor-0.3.0/chunks/2026-10-03-p-075-re-round-on-incident-events/evidence/pulse-d.jsonl",
+"conductor-0.3.0/chunks/2026-10-03-p-075-re-round-on-incident-events/evidence/pulse-f.jsonl",
+"conductor-0.3.0/chunks/2026-10-03-p-075-re-round-on-incident-events/evidence/pulse-h.jsonl",
+"conductor-0.3.0/chunks/2026-10-03-p-075-re-round-on-incident-events/evidence/pulse-r.jsonl",
+"conductor-0.3.0/chunks/2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09/evidence/rm-capture-d1.txt",
+"conductor-0.3.0/chunks/2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09/evidence/rm-capture-d2.txt",
+"conductor-0.3.0/chunks/2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09/evidence/rm-capture-d3.txt",
+"conductor-0.3.0/chunks/2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive/evidence/rm-capture-d1.txt",
+"conductor-0.3.0/chunks/2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive/evidence/rm-capture-d2.txt",
+"conductor-0.3.0/chunks/2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive/evidence/rm-capture-d3.txt",
+"conductor-0.3.0/chunks/2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09/evidence/rm-capture-d1.txt",
+"conductor-0.3.0/chunks/2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09/evidence/rm-capture-d2.txt",
+"conductor-0.3.0/chunks/2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09/evidence/rm-capture-d3.txt",
+"conductor-0.3.0/chunks/2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09/evidence/rm-capture-d1.txt",
+"conductor-0.3.0/chunks/2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09/evidence/rm-capture-d2.txt",
+"conductor-0.3.0/chunks/2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09/evidence/rm-capture-d3.txt",
+"conductor-0.3.0/verification-matrix.json",
+"conductor-0.4.0/verification-matrix.json",
+"scripts/agent-run.ps1",
+"scripts/mutation-roster.toml",
+"crates/conductor-run/tests/evidence/2026-09-22-interpretation-proven-live/rm-capture.txt",
+"crates/conductor-run/tests/evidence/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin/rm-capture-a1-pipeline-fault.txt",
+"crates/conductor-run/tests/evidence/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin/rm-capture-a1.txt",
+"crates/conductor-run/tests/evidence/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin/rm-capture-a2.txt",
+"crates/conductor-run/tests/evidence/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin/rm-capture-a3.txt",
+"crates/conductor-run/tests/evidence/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin/rm-capture-b1.txt",
+"crates/conductor-run/tests/evidence/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin/rm-capture-b2.txt",
+"crates/conductor-run/tests/evidence/2026-09-29-hue-shift-budget-graded-hard/h.jsonl",
+"crates/conductor-run/tests/evidence/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/rm-capture-2026-09-22-elided.txt",
+"crates/conductor-run/tests/evidence/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/rm-capture-d1.txt",
+"crates/conductor-run/tests/evidence/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/rm-capture-d2.txt",
+"crates/conductor-run/tests/evidence/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/rm-capture-d3.txt",
+"crates/conductor-run/tests/evidence/2026-10-01-interpretation-re-proven-after-the-incident-surfacing-fix/rm-capture-d1.txt",
+"crates/conductor-run/tests/evidence/2026-10-01-interpretation-re-proven-after-the-incident-surfacing-fix/rm-capture-d2.txt",
+"crates/conductor-run/tests/evidence/2026-10-01-interpretation-re-proven-after-the-incident-surfacing-fix/rm-capture-d3.txt",
+"crates/conductor-run/tests/evidence/2026-10-02-p-075-assert-round-against-pulse/h.jsonl",
+"crates/conductor-run/tests/evidence/2026-10-02-p-075-assert-round-against-pulse/p075-leg.txt",
+"crates/conductor-run/tests/evidence/2026-10-02-p-075-assert-round-against-pulse/pulse-d.jsonl",
+"crates/conductor-run/tests/evidence/2026-10-02-p-075-assert-round-against-pulse/pulse-f.jsonl",
+"crates/conductor-run/tests/evidence/2026-10-02-p-075-assert-round-against-pulse/pulse-h.jsonl",
+"crates/conductor-run/tests/evidence/2026-10-02-p-075-assert-round-against-pulse/pulse-r.jsonl",
+"crates/conductor-run/tests/evidence/2026-10-03-p-075-re-round-on-incident-events/h.jsonl",
+"crates/conductor-run/tests/evidence/2026-10-03-p-075-re-round-on-incident-events/p075-leg.txt",
+"crates/conductor-run/tests/evidence/2026-10-03-p-075-re-round-on-incident-events/pulse-d.jsonl",
+"crates/conductor-run/tests/evidence/2026-10-03-p-075-re-round-on-incident-events/pulse-f.jsonl",
+"crates/conductor-run/tests/evidence/2026-10-03-p-075-re-round-on-incident-events/pulse-h.jsonl",
+"crates/conductor-run/tests/evidence/2026-10-03-p-075-re-round-on-incident-events/pulse-r.jsonl",
+"crates/conductor-run/tests/evidence/2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09/rm-capture-d1.txt",
+"crates/conductor-run/tests/evidence/2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09/rm-capture-d2.txt",
+"crates/conductor-run/tests/evidence/2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09/rm-capture-d3.txt",
+"crates/conductor-run/tests/evidence/2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive/rm-capture-d1.txt",
+"crates/conductor-run/tests/evidence/2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive/rm-capture-d2.txt",
+"crates/conductor-run/tests/evidence/2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive/rm-capture-d3.txt",
+"crates/conductor-run/tests/evidence/2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09/rm-capture-d1.txt",
+"crates/conductor-run/tests/evidence/2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09/rm-capture-d2.txt",
+"crates/conductor-run/tests/evidence/2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09/rm-capture-d3.txt",
+"crates/conductor-run/tests/evidence/2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09/rm-capture-d1.txt",
+"crates/conductor-run/tests/evidence/2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09/rm-capture-d2.txt",
+"crates/conductor-run/tests/evidence/2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09/rm-capture-d3.txt"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"crates/conductor-core/src/drift.rs",
+"crates/conductor-core/src/load_envelope.rs",
+"crates/conductor-core/src/scenario_catalog.rs",
+"crates/conductor-core/tests/scenario_audit_gate.rs",
+"crates/conductor-core/tests/secret_scan_gate.rs",
+"crates/conductor-core/tests/workflow_env_gate.rs",
+"crates/conductor-run/tests/real_model_grading/capture_population.rs",
+"crates/conductor-run/tests/real_model_harvest.rs"
+]
+},
+"uncommitted": 166,
+"problem": null
+},
+"prose": [
+{
+"from": 133,
+"to": 138,
+"text": "No live leg and no boot-path in this chunk: no Pulse is driven, and `agent-run.sh run` is the bundled default gate with no `SCENARIO`, so no smoke entry. Zero dependency delta (no manifest is touched), so `cargo audit` / `cargo deny check` are read through CI's own steps (entry 19), not re-run here. Entries 1-15 run once, at step 11, after the `git rm` (step 8) and the reconcile (step 9): entries 10-12 and 14 read what those two leave. If step 9 halts on the tool's refusal, the run waits with it, and entry 14 would read red until the reconcile lands. Entries 16-19 are the operator pass."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-11-03-linux-only-base-ci/implement-2026-11-03T06-23-31/1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.3,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run",
+"run_sha8": "21443cdf",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-11-03-linux-only-base-ci/implement-2026-11-03T06-23-31/2.log",
+"bytes": 152411,
+"log_sha8": "667f1928",
+"exit": 0,
+"seconds": 14.47,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "cargo test -p conductor-run --locked",
+"run_sha8": "ce1ad4a2",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-11-03-linux-only-base-ci/implement-2026-11-03T06-23-31/3.log",
+"bytes": 35831,
+"log_sha8": "a5c88c82",
+"exit": 0,
+"seconds": 0.85,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "probe",
+"run": "python -X utf8 scripts/mutation-gate.py selftest",
+"run_sha8": "67224408",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-11-03-linux-only-base-ci/implement-2026-11-03T06-23-31/4.log",
+"bytes": 461,
+"log_sha8": "e7c1ebcd",
+"exit": 0,
+"seconds": 0.04,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "probe",
+"run": "python3 -c \"import tomllib, pathlib; r = tomllib.load(open('scripts/mutation-roster.toml', 'rb')); print(sum(1 for e in r['entry'] if not pathlib.Path(e['citation_home']).exists()))\"",
+"run_sha8": "a3e5313b",
+"expect": [
+"exit 0",
+"last line 0"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-03-linux-only-base-ci/implement-2026-11-03T06-23-31/5.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 0,
+"seconds": 0.02,
+"readings": [
+"exit 0 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "git grep -n -E 'conductor-0\\.[0-9]\\.0/chunks/' -- crates scripts",
+"run_sha8": "6f51a657",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-03-linux-only-base-ci/implement-2026-11-03T06-23-31/6.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.01,
+"readings": [
+"exit 1 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "git grep -n -E 'agent-run\\.ps1|agent-run\\.\\{sh,ps1\\}|windows-latest' -- crates scripts .github",
+"run_sha8": "bdf03854",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-03-linux-only-base-ci/implement-2026-11-03T06-23-31/7.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.01,
+"readings": [
+"exit 1 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "grep -c -E '^    runs-on: ubuntu-latest$|^        run: bash scripts/agent-run\\.sh run$' .github/workflows/ci.yml",
+"run_sha8": "45e2c76b",
+"expect": [
+"exit 0",
+"last line 2"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-03-linux-only-base-ci/implement-2026-11-03T06-23-31/8.log",
+"bytes": 2,
+"log_sha8": "53c234e5",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '2' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "grep -c -i -E 'pwsh|windows|\\.ps1' .github/workflows/ci.yml",
+"run_sha8": "5e0b0a65",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-03-linux-only-base-ci/implement-2026-11-03T06-23-31/9.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.0,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "{ git ls-files -- scripts/agent-run.ps1 conductor-0.2.0/requirements.md conductor-0.2.0/verification-matrix.json conductor-0.3.0/requirements.md conductor-0.3.0/verification-matrix.json conductor-0.4.0/requirements.md conductor-0.4.0/verification-matrix.json conductor-0.2.0/chunks conductor-0.3.0/chunks; ls -d scripts/agent-run.ps1 conductor-0.2.0/chunks conductor-0.3.0/chunks 2>/dev/null; } | wc -l",
+"run_sha8": "fa512e7b",
+"expect": [
+"last line 0"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-03-linux-only-base-ci/implement-2026-11-03T06-23-31/10.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 2,
+"seconds": 0.01,
+"readings": [
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "git show 8e450f3:.andromeda/db/moved | grep '^product' | cut -f2 | tr ',' '\\n' | grep '^conductor-0.3.0/chunks/' | grep -v '/disposition-ledger\\.md$' | while read -r p; do m=$(echo \"$p\" | cut -d/ -f3); f=$(basename \"$p\"); git show \"8e450f3:$p\" | cmp -s - \"crates/conductor-run/tests/evidence/$m/$f\" || echo \"DIFF $p\"; done",
+"run_sha8": "257fb822",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-03-linux-only-base-ci/implement-2026-11-03T06-23-31/11.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.19,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "find crates/conductor-run/tests/evidence -type f | wc -l",
+"run_sha8": "afbc1e3c",
+"expect": [
+"exit 0",
+"last line 46"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-03-linux-only-base-ci/implement-2026-11-03T06-23-31/12.log",
+"bytes": 3,
+"log_sha8": "a5331f18",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '46' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "git diff -U0 8e450f3 -- crates/conductor-run/tests ':!crates/conductor-run/tests/evidence' | grep -c -E '^[-+].*[0-9a-f]{64}' ",
+"run_sha8": "a2f69244",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-03-linux-only-base-ci/implement-2026-11-03T06-23-31/13.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.01,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "grep '^product' .andromeda/db/moved | cut -f2 | tr ',' '\\n' | sort | paste -sd,",
+"run_sha8": "31669384",
+"expect": [
+"exit 0",
+"last line .andromeda/architecture-amendments.md,.andromeda/architecture.md"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-03-linux-only-base-ci/implement-2026-11-03T06-23-31/14.log",
+"bytes": 65,
+"log_sha8": "cbc6010e",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '.andromeda/architecture-amendments.md,.andromeda/architecture.md' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "git diff --quiet 8e450f3 -- scripts/agent-run.sh",
+"run_sha8": "a606fc67",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-11-03-linux-only-base-ci/implement-2026-11-03T06-23-31/15.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "3c62df70",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "git fetch origin build/conductor-0.4.0 && git merge-base --is-ancestor origin/build/conductor-0.4.0 HEAD",
+"run_sha8": "5503ca40",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin build/conductor-0.4.0",
+"run_sha8": "8e03f911",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "20f114b9",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.26",
+"sha8": "8622de0e",
+"ts": "2026-11-03T07:04:39Z",
+"argv": [
+"scope",
+"--chunk",
+"2026-11-03-linux-only-base-ci",
+"--run-dir",
+".andromeda/runs/2026-11-03T06-23-31-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base HEAD (no pre-CI commit) · lists new 1 · modify 22 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"list crates/conductor-run/tests/evidence/ (dir) ×46",
+"list conductor-0.2.0/chunks/ (dir) ×0",
+"list conductor-0.3.0/chunks/ (dir) ×0",
+"list .andromeda/db/log/ (dir) ×0",
+"scope: clean — changed 58 · listed 58 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 46 · excluded 109"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "HEAD",
+"base_why": "no pre-CI commit",
+"counts": {
+"changed": 58,
+"listed": 58,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 46
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 109,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.26",
+"sha8": "8622de0e",
+"ts": "2026-11-03T07:04:40Z",
+"argv": [
+"census",
+"--comm",
+"cargo",
+"--comm",
+"cargo-nextest",
+"--comm",
+"rustc",
+"--comm",
+"conductor",
+"--comm",
+"andromeda-pulse-mcp",
+"--run-dir",
+".andromeda/runs/2026-11-03T06-23-31-implement",
+"--marker",
+"2026-11-03-linux-only-base-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"census · ps · comm cargo, cargo-nextest, rustc, conductor, andromeda-pulse-mcp · args — · own tree excluded: 8",
+"census: none running"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"census": {
+"comm": [
+"cargo",
+"cargo-nextest",
+"rustc",
+"conductor",
+"andromeda-pulse-mcp"
+],
+"args": [],
+"running": []
+}
+}
+},
+{
+"tool": "gate",
+"v": "1.26",
+"sha8": "8622de0e",
+"ts": "2026-11-03T07:05:13Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-11-03T06-23-31-implement",
+"--marker",
+"2026-11-03-linux-only-base-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base HEAD (no pre-CI commit)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"hygiene: clean — read 58 (runs 48 · evidence 0 · inputs 10) · trails 13 not read · copies 8 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 48,
+"evidence": 0,
+"inputs": 10,
+"trails": 13,
+"copies": 8,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+}
+]

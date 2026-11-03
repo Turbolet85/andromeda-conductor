@@ -1,0 +1,64 @@
+[
+{
+"sql": "SELECT callee_name, caller, file, line FROM calls WHERE callee_name IN ('console_suppressing_flags','executable_extensions','platform_default','build_command','sidecar_resolves_on_path') AND callee_kind = 'fn' AND callee_file LIKE '%spawn.rs' ORDER BY callee_name, file, line",
+"rows": 9,
+"result": [
+{
+"callee_name": "build_command",
+"caller": "rust-analyzer cargo conductor-verify 0.2.0 client/impl#[ReadbackClient]connect().",
+"file": "crates/conductor-verify/src/client.rs",
+"line": 48
+},
+{
+"callee_name": "build_command",
+"caller": "rust-analyzer cargo conductor-verify 0.2.0 spawn/tests/build_command_targets_the_fixed_program_and_sets_only_the_data_dir_env().",
+"file": "crates/conductor-verify/src/spawn.rs",
+"line": 318
+},
+{
+"callee_name": "executable_extensions",
+"caller": "rust-analyzer cargo conductor-verify 0.2.0 spawn/resolves_on().",
+"file": "crates/conductor-verify/src/spawn.rs",
+"line": 128
+},
+{
+"callee_name": "executable_extensions",
+"caller": "rust-analyzer cargo conductor-verify 0.2.0 spawn/tests/the_bare_name_always_participates().",
+"file": "crates/conductor-verify/src/spawn.rs",
+"line": 282
+},
+{
+"callee_name": "executable_extensions",
+"caller": "rust-analyzer cargo conductor-verify 0.2.0 spawn/tests/",
+"file": "crates/conductor-verify/src/spawn.rs",
+"line": 288
+},
+{
+"callee_name": "platform_default",
+"caller": "rust-analyzer cargo conductor-verify 0.2.0 spawn/resolve_data_dir().",
+"file": "crates/conductor-verify/src/spawn.rs",
+"line": 48
+},
+{
+"callee_name": "sidecar_resolves_on_path",
+"caller": "rust-analyzer cargo conductor-run 0.2.0 preconditions/",
+"file": "crates/conductor-run/src/preconditions.rs",
+"line": 16
+},
+{
+"callee_name": "sidecar_resolves_on_path",
+"caller": "rust-analyzer cargo conductor-run 0.2.0 preconditions/observe_preconditions_for().",
+"file": "crates/conductor-run/src/preconditions.rs",
+"line": 87
+},
+{
+"callee_name": "sidecar_resolves_on_path",
+"caller": "rust-analyzer cargo conductor-verify 0.2.0 crate/",
+"file": "crates/conductor-verify/src/lib.rs",
+"line": 55
+}
+],
+"db_state": "regenerated",
+"plane": "rust"
+}
+]

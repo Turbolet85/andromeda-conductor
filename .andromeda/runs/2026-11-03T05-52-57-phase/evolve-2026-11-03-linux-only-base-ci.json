@@ -1,0 +1,162 @@
+[
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "5ba875d2",
+"ts": "2026-11-03T05:55:46Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-03T05-52-57-phase",
+"--marker",
+"2026-11-03-linux-only-base-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 3 record(s) in the store · tx 15 · 2026-11-03T05-54-47-2026-11-03-linux-only-base-ci.ndjson",
+"ts 2026-11-03T05:55:34Z · clock 2026-11-03T05:55:46Z · bound 2026-11-03T05:50:04Z (line 3266)",
+"ids 2026-11-03T05:55:34Z-a … 2026-11-03T05:55:34Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-03T05-54-47-2026-11-03-linux-only-base-ci.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "5ba875d2",
+"ts": "2026-11-03T06:01:05Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-03T05-52-57-phase",
+"--marker",
+"2026-11-03-linux-only-base-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 16 · 2026-11-03T05-54-47-2026-11-03-linux-only-base-ci.ndjson",
+"ts 2026-11-03T06:00:53Z · clock 2026-11-03T06:01:04Z · bound 2026-11-03T05:55:34Z (line 3269)",
+"ids 2026-11-03T06:00:53Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-03T05-54-47-2026-11-03-linux-only-base-ci.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "5ba875d2",
+"ts": "2026-11-03T06:07:31Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-03T05-52-57-phase",
+"--marker",
+"2026-11-03-linux-only-base-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 20 · 2026-11-03T05-54-47-2026-11-03-linux-only-base-ci.ndjson",
+"ts 2026-11-03T06:07:16Z · clock 2026-11-03T06:07:31Z · bound 2026-11-03T06:00:53Z (line 3270)",
+"ids 2026-11-03T06:07:16Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-03T05-54-47-2026-11-03-linux-only-base-ci.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "5ba875d2",
+"ts": "2026-11-03T06:13:08Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-03T05-52-57-phase",
+"--marker",
+"2026-11-03-linux-only-base-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 24 · 2026-11-03T05-54-47-2026-11-03-linux-only-base-ci.ndjson",
+"ts 2026-11-03T06:12:57Z · clock 2026-11-03T06:13:07Z · bound 2026-11-03T06:07:16Z (line 3271)",
+"ids 2026-11-03T06:12:57Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-03T05-54-47-2026-11-03-linux-only-base-ci.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "5ba875d2",
+"ts": "2026-11-03T06:22:23Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-03T05-52-57-phase",
+"--marker",
+"2026-11-03-linux-only-base-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 3 record(s) in the store · tx 32 · 2026-11-03T05-54-47-2026-11-03-linux-only-base-ci.ndjson",
+"ts 2026-11-03T06:22:08Z · clock 2026-11-03T06:22:23Z · bound 2026-11-03T06:12:57Z (line 3272)",
+"ids 2026-11-03T06:22:08Z-a … 2026-11-03T06:22:08Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-03T05-54-47-2026-11-03-linux-only-base-ci.ndjson"
+],
+"before": null,
+"after": null
+}
+]

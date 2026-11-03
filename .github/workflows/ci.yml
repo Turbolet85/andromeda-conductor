@@ -15,7 +15,7 @@ concurrency:
 jobs:
   rust:
     name: Rust gate (build · test · lint · supply-chain · coverage)
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -34,7 +34,7 @@ jobs:
 
       - uses: Swatinem/rust-cache@v2
 
-      # Prebuilt binaries (not cargo-install-from-source) keep the Windows runner fast.
+      # Prebuilt binaries (not cargo-install-from-source) keep the runner fast.
       - name: Install cargo subcommands
         uses: taiki-e/install-action@v2
         with:
@@ -92,14 +92,12 @@ jobs:
           cargo nextest run -p conductor-core --test workflow_env_gate --profile ci
 
       # Dogfood the source-of-truth release gate: agent-run `run` = nextest --profile ci (zero-retry,
-      # emits target/nextest/ci/junit.xml) + test --doc + clippy -D warnings. Setting
-      # $PSNativeCommandUseErrorActionPreference makes the script fail-fast on the first native
-      # non-zero exit regardless of the pwsh default (mirrors the .sh `set -e`).
+      # emits target/nextest/ci/junit.xml) + test --doc + clippy -D warnings. The red path is
+      # agent-run.sh's own `set -euo pipefail`, which stops at the first non-zero cargo line, under
+      # the step's `bash -e`, which reds the step on the script's non-zero exit.
       - name: Test + lint (dogfood agent-run)
-        shell: pwsh
-        run: |
-          $PSNativeCommandUseErrorActionPreference = $true
-          .\scripts\agent-run.ps1 run
+        shell: bash
+        run: bash scripts/agent-run.sh run
 
       # Coverage-completeness gate (test-plan §1 Critical Path 6 — the definition-of-done gate).
       # The subject is the COMMITTED coverage-matrix.md; the gate byte-compares it to the production

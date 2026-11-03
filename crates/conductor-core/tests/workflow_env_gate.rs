@@ -187,7 +187,7 @@ fn the_committed_workflows_read_only_declared_env_keys() {
     );
 }
 
-const STEP_HEAD: &str = "jobs:\n  build:\n    runs-on: windows-latest\n    steps:\n";
+const STEP_HEAD: &str = "jobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n";
 
 fn undeclared_in(steps: &str) -> Vec<String> {
     analyse(&format!("{STEP_HEAD}{steps}")).undeclared("ci.yml")

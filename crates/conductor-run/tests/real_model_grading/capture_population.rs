@@ -4,19 +4,19 @@ use crate::*;
 
 // ---- every committed capture -----------------------------------------------------------------------
 
-/// The committed real-model captures — every `conductor-0.3.0/chunks/*/evidence/rm-capture*.txt` —
+/// The committed real-model captures — every `crates/conductor-run/tests/evidence/*/rm-capture*.txt` —
 /// pinned by count, so a walk that finds nothing can never pass.
 const COMMITTED_CAPTURES: usize = 26;
 
-// andromeda:walks-tree — walks every chunk's evidence dir for capture files, whatever their names.
+// andromeda:walks-tree — walks every source chunk's evidence folder for capture files, whatever their names.
 /// Every committed real-model capture, repo-relative and sorted.
 fn committed_captures() -> Vec<String> {
     let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
-    let chunks = "conductor-0.3.0/chunks";
+    let folders = "crates/conductor-run/tests/evidence";
     let mut names = Vec::new();
-    for chunk in std::fs::read_dir(root.join(chunks)).expect("the chunks dir is readable") {
+    for chunk in std::fs::read_dir(root.join(folders)).expect("the evidence dir is readable") {
         let chunk = chunk.expect("a chunk entry").file_name();
-        let evidence = format!("{chunks}/{}/evidence", chunk.to_string_lossy());
+        let evidence = format!("{folders}/{}", chunk.to_string_lossy());
         let Ok(files) = std::fs::read_dir(root.join(&evidence)) else {
             continue;
         };

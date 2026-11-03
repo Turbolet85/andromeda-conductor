@@ -4,7 +4,7 @@
 //! default `nextest` / `clippy` / release never compiles it, so a host with no Pulse cannot red the
 //! suite. The feature declares no dependency, so it adds nothing to `Cargo.lock`.
 //!
-//! It reads what `scripts/agent-run.{sh,ps1} run --live` already PRODUCED and PRINTS the three
+//! It reads what `scripts/agent-run.sh run --live` already PRODUCED and PRINTS the three
 //! observables' measured values. It mints nothing: `logs/agent-latest.jsonl` is written only when
 //! `conductor-cli`'s `main` selects the file sink under `--agent-mode`, so an in-process test could
 //! never produce it. The capture is the deliverable; the grading lives in `live_suite_harvest.rs`

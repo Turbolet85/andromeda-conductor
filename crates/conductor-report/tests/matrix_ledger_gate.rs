@@ -1,96 +1,110 @@
 //! The verification-ledger gate — Conductor's own delivery is coverage-tracked, and the tracking
 //! is complete (v2-21; test-plan §1 Critical Path 6).
 //!
-//! Three arms over every version directory that carries BOTH ledger files: the id sets in
-//! `requirements.md` and `verification-matrix.json` are EQUAL, the matrix's ids are unique, and no
-//! Pulse `P-NNN` occupies an id position (P-IDs belong in acceptance text, never in the id space —
-//! the two id spaces are kept visibly separate).
+//! The subject is each version's `coverage.md`, the store's render of that version's ledger: a
+//! capability line names every capability once, as a column-0 list item opening with its id in
+//! either form the ledger contract allows — `- {id} · ` or `- **{id}** · `. Three arms hold over
+//! every version that keeps a ledger: its file declares at least one capability id (a file
+//! declaring none fails rather than passing vacuously), the ids are unique, and no Pulse `P-NNN`
+//! stands at an id position (P-IDs belong in acceptance text, never in the id space — the two id
+//! spaces are kept visibly separate).
 //!
-//! Set equality, never a count: a literal `32` would pass while one id was swapped for another,
-//! and it would have to be edited by hand every time a capability is added (test-plan §1 forbids
-//! the count assertion for exactly that reason).
+//! An earlier form held the id sets of `requirements.md` and `verification-matrix.json` EQUAL.
+//! That arm left with its subject: the two files retired once a requirement's line came to live on
+//! its capability's own record, so no second file remains for a set to be compared against.
 //!
 //! The version directories are RESOLVED BY SCAN rather than named: a baked `conductor-0.2.0`
 //! would silently stop covering the ledger at 0.3.0, which is the failure mode this gate exists
-//! to prevent. A version predating the matrix feature carries no `verification-matrix.json` and is
-//! skipped by the both-files filter rather than by a version literal.
+//! to prevent. A version predating the ledger renders the `no ledger` line and is skipped by that
+//! line rather than by a version literal.
 //!
 //! The ID SPACE is matched the same way and for the same reason: by SHAPE (`v{major}-{index}`),
 //! never a prefix literal. A baked `v2-` stops covering the ledger the moment the version
 //! advances — the identical failure one axis over, and the one this gate went red on at 0.3.0.
-//! The filter cannot simply be dropped either: `requirements.md` bolds prose titles beside its
-//! declared ids, so a predicate is what separates the id space from the rest of the document.
 //!
 //! Paths resolve from `CARGO_MANIFEST_DIR`, never a CWD-relative default: a cargo test binary runs
 //! with its CWD at the package root, where no version directory exists.
 
 use std::path::{Path, PathBuf};
 
-use serde_json::Value;
-
 fn repo_root() -> PathBuf {
     Path::new(env!("CARGO_MANIFEST_DIR")).join("../..")
 }
 
-/// Every version directory carrying both ledger files, sorted for a stable failure message.
-fn ledger_dirs() -> Vec<PathBuf> {
+/// Every version directory carrying a `coverage.md`, sorted for a stable failure message.
+fn coverage_dirs() -> Vec<PathBuf> {
     let mut dirs: Vec<PathBuf> = std::fs::read_dir(repo_root())
         .expect("the workspace root is readable")
         .filter_map(|e| e.ok())
         .map(|e| e.path())
-        .filter(|p| {
-            p.join("requirements.md").is_file() && p.join("verification-matrix.json").is_file()
-        })
+        .filter(|p| p.join("coverage.md").is_file())
         .collect();
     dirs.sort();
     dirs
 }
 
-/// The declaring form in `requirements.md`: a list item whose first token is the bolded id.
-fn requirement_ids(markdown: &str) -> Vec<String> {
-    markdown
-        .lines()
-        .filter_map(|l| l.strip_prefix("- **"))
-        .filter_map(|rest| rest.split_once("**").map(|(id, _)| id.to_string()))
-        .filter(|id| is_version_capability_id(id))
+/// What one `coverage.md` is to this gate.
+#[derive(Debug, PartialEq)]
+enum Coverage {
+    /// The version keeps no ledger: its file reads the `no ledger` line.
+    NoLedger,
+    /// The tokens standing at a capability line's id position, in file order.
+    Ledger(Vec<String>),
+}
+
+fn read_coverage(markdown: &str) -> Coverage {
+    if markdown.lines().any(|l| l == "no ledger") {
+        return Coverage::NoLedger;
+    }
+    Coverage::Ledger(markdown.lines().filter_map(id_position).collect())
+}
+
+const SEPARATOR: &str = " · ";
+
+/// The token at a capability line's id position: a column-0 list item opening `- {id} · ` or
+/// `- **{id}** · `. Any other line has no id position.
+fn id_position(line: &str) -> Option<String> {
+    let rest = line.strip_prefix("- ")?;
+    let token = match rest.strip_prefix("**") {
+        Some(bolded) => {
+            let (token, after) = bolded.split_once("**")?;
+            after.strip_prefix(SEPARATOR)?;
+            token
+        }
+        None => rest.split_once(SEPARATOR)?.0,
+    };
+    (!token.is_empty() && !token.contains(char::is_whitespace)).then(|| token.to_string())
+}
+
+/// The declared capability ids: the id-position tokens in the version id space.
+fn capability_ids(tokens: &[String]) -> Vec<String> {
+    tokens
+        .iter()
+        .filter(|t| is_version_capability_id(t))
+        .cloned()
         .collect()
 }
 
-/// Every value sitting at an `id` key, at any depth — "an id position anywhere in the matrix".
-fn id_positions(node: &Value, path: &str, found: &mut Vec<(String, String)>) {
-    match node {
-        Value::Object(map) => {
-            for (key, value) in map {
-                if key == "id"
-                    && let Some(s) = value.as_str()
-                {
-                    found.push((format!("{path}/id"), s.to_string()));
-                }
-                id_positions(value, &format!("{path}/{key}"), found);
-            }
+/// Every id a file repeats, once per repeat.
+fn duplicates(ids: &[String]) -> Vec<String> {
+    let mut seen: Vec<&str> = Vec::new();
+    let mut repeated = Vec::new();
+    for id in ids {
+        if seen.contains(&id.as_str()) {
+            repeated.push(id.clone());
+        } else {
+            seen.push(id);
         }
-        Value::Array(items) => {
-            for (i, item) in items.iter().enumerate() {
-                id_positions(item, &format!("{path}[{i}]"), found);
-            }
-        }
-        _ => {}
     }
+    repeated
 }
 
-/// `(declared-but-absent, present-but-undeclared)` — both directions, so a failure names which.
-fn set_difference(required: &[String], matrix: &[String]) -> (Vec<String>, Vec<String>) {
-    let missing = required
+fn p_id_positions(tokens: &[String]) -> Vec<String> {
+    tokens
         .iter()
-        .filter(|id| !matrix.contains(id))
+        .filter(|t| is_pulse_p_id(t))
         .cloned()
-        .collect();
-    let extra = matrix
-        .iter()
-        .filter(|id| !required.contains(id))
-        .cloned()
-        .collect();
-    (missing, extra)
+        .collect()
 }
 
 fn is_pulse_p_id(s: &str) -> bool {
@@ -115,101 +129,59 @@ fn is_version_capability_id(s: &str) -> bool {
 
 struct Ledger {
     label: String,
-    requirement_ids: Vec<String>,
-    id_positions: Vec<(String, String)>,
+    tokens: Vec<String>,
 }
 
 fn ledgers() -> Vec<Ledger> {
-    let dirs = ledger_dirs();
+    let dirs = coverage_dirs();
     assert!(
         !dirs.is_empty(),
-        "no version directory carries both requirements.md and verification-matrix.json — \
-         the gate would pass vacuously"
+        "no version directory carries a coverage.md — the gate would pass vacuously"
     );
 
-    dirs.into_iter()
-        .map(|dir| {
+    let ledgers: Vec<Ledger> = dirs
+        .into_iter()
+        .filter_map(|dir| {
             let label = dir
                 .file_name()
                 .map(|n| n.to_string_lossy().into_owned())
                 .unwrap_or_else(|| dir.display().to_string());
-
-            let markdown = std::fs::read_to_string(dir.join("requirements.md"))
-                .unwrap_or_else(|e| panic!("{label}/requirements.md is readable ({})", e.kind()));
-            let raw =
-                std::fs::read_to_string(dir.join("verification-matrix.json")).unwrap_or_else(|e| {
-                    panic!(
-                        "{label}/verification-matrix.json is readable ({})",
-                        e.kind()
-                    )
-                });
-            let json: Value = serde_json::from_str(&raw)
-                .unwrap_or_else(|e| panic!("{label}/verification-matrix.json parses: {e}"));
-
-            let mut positions = Vec::new();
-            id_positions(&json, "", &mut positions);
-
-            Ledger {
-                label,
-                requirement_ids: requirement_ids(&markdown),
-                id_positions: positions,
+            let markdown = std::fs::read_to_string(dir.join("coverage.md"))
+                .unwrap_or_else(|e| panic!("{label}/coverage.md is readable ({})", e.kind()));
+            match read_coverage(&markdown) {
+                Coverage::NoLedger => None,
+                Coverage::Ledger(tokens) => Some(Ledger { label, tokens }),
             }
         })
-        .collect()
+        .collect();
+    assert!(
+        !ledgers.is_empty(),
+        "every coverage.md reads `no ledger` — the gate would pass vacuously"
+    );
+    ledgers
 }
 
 #[test]
-fn every_requirement_capability_has_exactly_one_matrix_entry() {
+fn every_ledger_declares_a_capability() {
     for ledger in ledgers() {
-        let Ledger {
-            label,
-            requirement_ids: required,
-            id_positions: positions,
-        } = ledger;
-
         assert!(
-            !required.is_empty(),
-            "{label}/requirements.md declares no version-capability id — the gate would pass \
-             vacuously"
-        );
-        assert!(
-            !positions.is_empty(),
-            "{label}/verification-matrix.json holds no id — the gate would pass vacuously"
-        );
-
-        let matrix: Vec<String> = positions.iter().map(|(_, id)| id.clone()).collect();
-
-        let (missing, extra) = set_difference(&required, &matrix);
-
-        assert!(
-            missing.is_empty() && extra.is_empty(),
-            "{label}: the requirements and matrix id sets differ — \
-             declared in requirements.md but absent from the matrix: {missing:?}; \
-             present in the matrix but not declared in requirements.md: {extra:?} \
-             ({} requirement ids, {} matrix ids)",
-            required.len(),
-            matrix.len()
+            !capability_ids(&ledger.tokens).is_empty(),
+            "{}/coverage.md keeps a ledger and declares no version-capability id — the gate \
+             would pass vacuously",
+            ledger.label
         );
     }
 }
 
 #[test]
-fn matrix_ids_are_unique() {
+fn capability_ids_are_unique() {
     for ledger in ledgers() {
-        let mut seen: Vec<&str> = Vec::new();
-        let mut duplicates: Vec<&str> = Vec::new();
-        for (_, id) in &ledger.id_positions {
-            if seen.contains(&id.as_str()) {
-                duplicates.push(id);
-            } else {
-                seen.push(id);
-            }
-        }
+        let repeated = duplicates(&capability_ids(&ledger.tokens));
         assert!(
-            duplicates.is_empty(),
-            "{}: verification-matrix.json repeats {} id(s): {duplicates:?}",
+            repeated.is_empty(),
+            "{}/coverage.md repeats {} capability id(s): {repeated:?}",
             ledger.label,
-            duplicates.len()
+            repeated.len()
         );
     }
 }
@@ -217,34 +189,43 @@ fn matrix_ids_are_unique() {
 #[test]
 fn no_pulse_p_id_occupies_an_id_position() {
     for ledger in ledgers() {
-        let offenders: Vec<&(String, String)> = ledger
-            .id_positions
-            .iter()
-            .filter(|(_, id)| is_pulse_p_id(id))
-            .collect();
-
+        let offenders = p_id_positions(&ledger.tokens);
         assert!(
             offenders.is_empty(),
-            "{}: a Pulse P-ID occupies an id position — the version-capability and P-NNN id spaces \
-             must stay visibly separate, with P-IDs confined to acceptance text: {offenders:?}",
+            "{}/coverage.md: a Pulse P-ID occupies an id position — the version-capability and \
+             P-NNN id spaces must stay visibly separate, with P-IDs confined to acceptance text: \
+             {offenders:?}",
             ledger.label
         );
+    }
+}
+
+fn ledger_tokens(markdown: &str) -> Vec<String> {
+    match read_coverage(markdown) {
+        Coverage::Ledger(tokens) => tokens,
+        Coverage::NoLedger => panic!("a ledger fixture read as `no ledger`"),
     }
 }
 
 #[test]
 fn the_gate_discriminates() {
     // A gate that cannot fail is not evidence. Each arm is driven against an input it must reject.
-    // One predicate admits every version's id space — a prefix literal fails exactly here.
-    let cross_version = requirement_ids("- **v2-01** · a\n- **v3-11** · b\n");
+    // Both line forms, across versions, are extracted alike — a prefix literal or a one-form
+    // parser fails exactly here.
+    let both_forms = capability_ids(&ledger_tokens(
+        "# Coverage — x\n\n## verified (3)\n- v2-01 · a\n- **v3-11** · b\n- v10-7 · c · marker\n",
+    ));
     assert_eq!(
-        cross_version,
-        vec!["v2-01".to_string(), "v3-11".to_string()],
-        "ids of different versions are extracted alike"
+        both_forms,
+        vec![
+            "v2-01".to_string(),
+            "v3-11".to_string(),
+            "v10-7".to_string()
+        ],
+        "the bare and the bolded form, of different versions, are extracted alike"
     );
 
-    // `requirements.md` bolds prose titles beside its ids, which is why the filter cannot be dropped.
-    let prose_title = requirement_ids(
+    let prose_title = ledger_tokens(
         "- **`secret-scanning-ci-gate` — unrealized security-plan bootstrap item.**\n",
     );
     assert!(
@@ -252,39 +233,50 @@ fn the_gate_discriminates() {
         "a bolded prose title is not a declared id, got {prose_title:?}"
     );
 
-    let bolded_p_id = requirement_ids("- **P-017** · a\n");
+    let bolded_p_id = ledger_tokens("- **P-017** · a\n");
     assert!(
-        bolded_p_id.is_empty(),
+        capability_ids(&bolded_p_id).is_empty(),
         "the Pulse id space stays out of the version id space, got {bolded_p_id:?}"
     );
 
-    let prose_only = requirement_ids("v2-01 mentioned in prose, not declared\n- not an id\n");
+    let prose_only = ledger_tokens(
+        "v2-01 mentioned in prose, not declared\n- not an id\n  - v2-02 · indented\n\
+         * v2-03 · another bullet\n-v2-04 · no space\n- v2-05 without the separator\n",
+    );
     assert!(
-        prose_only.is_empty(),
-        "only the bolded list-item declaring form counts, got {prose_only:?}"
+        capability_ids(&prose_only).is_empty(),
+        "only a column-0 `- ` item opening with the id and its separator declares, got \
+         {prose_only:?}"
     );
 
-    let json: Value = serde_json::from_str(
-        r#"{"capabilities":[{"id":"v2-01"},{"id":"P-017"},{"nested":{"id":"P-9"}}]}"#,
-    )
-    .unwrap();
-    let mut positions = Vec::new();
-    id_positions(&json, "", &mut positions);
+    let repeated = duplicates(&capability_ids(&ledger_tokens(
+        "- v4-01 · a\n- **v4-02** · b\n- v4-01 · a again\n",
+    )));
     assert_eq!(
-        positions.len(),
-        3,
-        "id positions at any depth: {positions:?}"
+        repeated,
+        vec!["v4-01".to_string()],
+        "a duplicate id is caught, across the two forms too"
+    );
+    assert!(duplicates(&["v4-01".to_string(), "v4-02".to_string()]).is_empty());
+
+    let p_id_lines = p_id_positions(&ledger_tokens("- v4-01 · a\n- P-017 · b\n- **P-9** · c\n"));
+    assert_eq!(
+        p_id_lines,
+        vec!["P-017".to_string(), "P-9".to_string()],
+        "a P-ID at an id position is caught in either form"
     );
 
-    let flagged: Vec<&String> = positions
-        .iter()
-        .filter(|(_, id)| is_pulse_p_id(id))
-        .map(|(_, id)| id)
-        .collect();
     assert_eq!(
-        flagged,
-        vec!["P-017", "P-9"],
-        "the P-ID predicate must catch a nested id position too"
+        read_coverage("# Coverage — conductor-0.1.0\n\nno ledger\n"),
+        Coverage::NoLedger,
+        "a `no ledger` file is skipped by its line"
+    );
+    let empty_ledger = ledger_tokens(
+        "# Coverage — x\n\nverified 0/0 · deferred 0 · planned 0 · implemented 0 · unclaimed 0\n",
+    );
+    assert!(
+        capability_ids(&empty_ledger).is_empty(),
+        "a ledger file with zero capability lines yields no id, which the declares arm fails"
     );
 
     assert!(!is_pulse_p_id("v2-01"));
@@ -304,19 +296,5 @@ fn the_gate_discriminates() {
     assert!(
         !is_version_capability_id("P-017"),
         "the two id spaces stay disjoint"
-    );
-
-    // The set-equality arm must FAIL on a divergence, in each direction independently —
-    // an equal-CARDINALITY swap is the case a count assertion would wave through.
-    let required = vec!["v2-01".to_string(), "v2-02".to_string()];
-    let swapped = vec!["v2-01".to_string(), "v2-99".to_string()];
-    let (missing, extra) = set_difference(&required, &swapped);
-    assert_eq!(missing, vec!["v2-02".to_string()], "declared but unmatched");
-    assert_eq!(extra, vec!["v2-99".to_string()], "matched but undeclared");
-
-    let (none_missing, none_extra) = set_difference(&required, &required);
-    assert!(
-        none_missing.is_empty() && none_extra.is_empty(),
-        "equal sets must produce no difference"
     );
 }

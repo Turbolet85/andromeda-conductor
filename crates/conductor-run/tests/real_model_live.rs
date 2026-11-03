@@ -2,7 +2,7 @@
 //!
 //! Gated behind `--features live-pulse` (the `live_suite.rs` precedent): a default `nextest` /
 //! `clippy` / release never compiles it, and the feature declares no dependency. It reads what
-//! `scripts/agent-run.{sh,ps1} run --live real-model` produced — the leg's frozen self-obs, the leg's
+//! `scripts/agent-run.sh run --live real-model` produced — the leg's frozen self-obs, the leg's
 //! journal and Pulse's own log — re-reads the attributed incident over MCP, and PRINTS. It asserts
 //! nothing beyond I/O plus one arithmetic check that runs LAST, after every line is out. The grading
 //! lives in `real_model_harvest.rs`, over the committed captures, each held by a sha256 digest pin.

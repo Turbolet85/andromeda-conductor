@@ -1103,14 +1103,14 @@ fn capture_block(committed: &str) -> &str {
 /// The 2026-09-23 drive's capture as graded and pinned: [`FROZEN_CAPTURE`] passed once through
 /// `elide_fingerprints` (its storm prefix), otherwise byte-identical. The original has carried the same
 /// bytes since it was elided in place on 2026-10-02 under the founder's ruling.
-const ELIDED_CAPTURE: &str = "conductor-0.3.0/chunks/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/evidence/rm-capture-2026-09-22-elided.txt";
+const ELIDED_CAPTURE: &str = "crates/conductor-run/tests/evidence/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/rm-capture-2026-09-22-elided.txt";
 const ELIDED_CAPTURE_SHA256: &str =
     "d57c2613698a3182862f370cb49968c185f606911cf50d33d4841ec62bb9c8b1";
 
 /// The original capture, frozen save once: elided in place on 2026-10-02 under the founder's ruling, so
 /// it no longer keeps its storm prefix.
 const FROZEN_CAPTURE: &str =
-    "conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/evidence/rm-capture.txt";
+    "crates/conductor-run/tests/evidence/2026-09-22-interpretation-proven-live/rm-capture.txt";
 
 /// What the rule measured on the one drive.
 const MEASURED: Grade = Grade::NoAttributableIncident;

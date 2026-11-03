@@ -1,0 +1,1 @@
+Linux-only base CI — one Linux CI job keeps every gate; the PowerShell twin leaves; the gate and test readers of the spine's six and the docs' 49 files re-based
