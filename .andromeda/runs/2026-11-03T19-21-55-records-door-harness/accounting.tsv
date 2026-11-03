@@ -1,0 +1,24 @@
+source	class	bytes
+.claude/docs/a11y-summary.md	placed	1332
+.claude/docs/commands.md	placed	6284
+.claude/docs/conventions.md	placed	9233
+.claude/docs/design-summary.md	placed	2946
+.claude/docs/gotchas.md	placed	10065
+.claude/docs/obs-summary.md	placed	4154
+.claude/docs/security-summary.md	placed	10715
+.claude/docs/session-learnings.md	placed	175547
+.claude/docs/stack.md	placed	6706
+.claude/docs/tests-summary.md	placed	14274
+.claude/docs/workflow.md	placed	3802
+.claude/rules/a11y.md	placed	5611
+.claude/rules/frontend.md	placed	17821
+.claude/rules/host-linux.md	placed	3464
+.claude/rules/observability.md	placed	8061
+.claude/rules/security.md	placed	30842
+.claude/rules/testing.md	placed	88410
+.claude/rules/verification-harness.md	placed	84771
+CLAUDE.md	placed	20477
+#bytes	504515
+#files	19
+#parts	908
+#sections	258
