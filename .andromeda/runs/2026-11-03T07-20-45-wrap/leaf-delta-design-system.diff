@@ -1,7 +1,0 @@
---- a/.andromeda/design-system.md
-+++ b/.andromeda/design-system.md
-@@ -120,3 +120,3 @@
- 
--**Platform:** Windows / macOS / Linux terminal — headless `conductor-cli` (`scripts/agent-run.sh`), the source of truth + release gate. Line-oriented (ratatui full-TUI deliberately omitted).
-+**Platform:** Linux terminal — headless `conductor-cli` (`scripts/agent-run.sh`), the source of truth + release gate. Line-oriented (ratatui full-TUI deliberately omitted).
- 

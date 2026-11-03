@@ -1,2 +1,0 @@
-some log line
-no marker here

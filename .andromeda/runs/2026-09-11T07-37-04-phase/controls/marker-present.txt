@@ -1,3 +1,0 @@
-some log line
-[probe] complete: 3/3 sections
-more

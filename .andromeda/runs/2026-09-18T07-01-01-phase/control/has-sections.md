@@ -1,7 +1,0 @@
-# Doc
-
-## Alpha
-
-text
-
-## Beta

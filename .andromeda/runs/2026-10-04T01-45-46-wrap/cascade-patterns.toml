@@ -1,7 +1,0 @@
-[[pattern]]
-id = "sec12"
-regex = '§\s?12\b'
-
-[[pattern]]
-id = "declog"
-fixed = 'Decisions Log'

@@ -1,4 +1,0 @@
-jobs:
-  a11y:
-    steps:
-      - run: echo no signature check here

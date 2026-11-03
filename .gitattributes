@@ -7,3 +7,4 @@
 # rule stays as the NAMED gate-correctness control for the one file whose bytes a gate compares,
 # so the guarantee survives any later narrowing of the wildcard.
 coverage-matrix.md text eol=lf
+.andromeda/db/sealed/** binary

@@ -1,2 +1,0 @@
-HKLM\SOFTWARE\Policies\Microsoft\Edge : ABSENT
-ModuleName msedgewebview2.dll fileversion 152.0.4191.66

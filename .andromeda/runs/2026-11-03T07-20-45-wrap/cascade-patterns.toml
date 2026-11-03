@@ -1,5 +1,0 @@
-# main's own patterns — edits-main.md (architecture 16, the SUT blake3 pin citation)
-[[pattern]]
-id = 'main-pulse-pin'
-regex = 'andromeda-pulse[^\n]{0,12}Cargo\.toml:[0-9]+'
-ignore_case = true

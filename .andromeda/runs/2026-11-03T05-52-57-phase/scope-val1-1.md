@@ -1,4 +1,0 @@
-old: operator carries it to the founder through overseer1. No deletion runs on the dev host from this chunk's agent.
-new: operator carries it to the founder through overseer1. [intent-incomplete, val-1: `inputs#I4` narrows the hand step to the deletions OUTSIDE git — the CI-side stale Windows caches and any directory outside git (none measured: `git ls-files --others` over both chunk dirs → 0)]
-old: Which acts are deletions — `git rm` of `agent-run.ps1`, the six, the 49, any directory, anything on a runner — is
-new: The `git rm` of `agent-run.ps1`, the six and the 49 is THIS chunk's own commit (`inputs#I4`), and the reconcile FOLLOWS it — a P5 dry-run read "every render equals the journal" while the files stood — gated on `rec.py` accepting the architecture pair as `--product` (refused at P5 by `rec.py v1.10`; halt there with the line). What remains a hand step is
