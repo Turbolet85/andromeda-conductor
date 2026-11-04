@@ -1,0 +1,465 @@
+[
+{
+"tool": "gate",
+"v": "1.26",
+"sha8": "3eb31cd0",
+"ts": "2026-11-03T23:24:51Z",
+"argv": [
+"scope",
+"--chunk",
+"2026-11-03-architecture-registry-check-retired",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base HEAD (no pre-CI commit) · lists new 0 · modify 5 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"list .andromeda/db/log/ (dir) ×0",
+"scope: clean — changed 1 · listed 1 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 39"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "HEAD",
+"base_why": "no pre-CI commit",
+"counts": {
+"changed": 1,
+"listed": 1,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 39,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.26",
+"sha8": "3eb31cd0",
+"ts": "2026-11-03T23:27:07Z",
+"argv": [
+"census",
+"--comm",
+"cargo",
+"--comm",
+"cargo-nextest",
+"--comm",
+"conductor",
+"--comm",
+"andromeda-pulse-mcp",
+"--comm",
+"agent-run",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"census · ps · comm cargo, cargo-nextest, conductor, andromeda-pulse-mcp, agent-run · args — · own tree excluded: 8",
+"census: none running"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"census": {
+"comm": [
+"cargo",
+"cargo-nextest",
+"conductor",
+"andromeda-pulse-mcp",
+"agent-run"
+],
+"args": [],
+"running": []
+}
+}
+},
+{
+"tool": "gate",
+"v": "1.26",
+"sha8": "3eb31cd0",
+"ts": "2026-11-03T23:42:09Z",
+"argv": [
+"run",
+"--chunk",
+"2026-11-03-architecture-registry-check-retired",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-11-03-architecture-registry-check-retired · entries 6",
+"logs $TMPDIR/andromeda-gate/2026-11-03-architecture-registry-check-retired/wrap-2026-11-03T23-24-25 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 85 · python 1",
+"walk-class rust 8 (crates/conductor-core/src/drift.rs, crates/conductor-core/src/load_envelope.rs, crates/conductor-core/src/scenario_catalog.rs, +5 in the trail) · uncommitted 86",
+"prose L59-67: No live leg and no boot-path: no Pulse is driven, and `agent-run.sh run` is the bundled de… (940 chars)",
+"  1 probe       green · exit 0 · 0.0s · 0 B → 1.log · test -z \"$(git ls-files -- scripts/arch-registry-check.py)… (103 chars)",
+"  2 probe       green · exit 0 · 0.0s · 123 B → 2.log · awk -F'\\t' '$1 == \"product\" { print $2 }' .andromeda/db/mo… (61 chars)",
+"  3 probe       green · exit 0 · 0.13s · 305 B → 3.log · python -X utf8 ~/.claude/skills/andromeda-tools/scripts/re… (103 chars)",
+"  4 probe       green · exit 0 · 6.01s · 3249 B → 4.log · python -X utf8 ~/.claude/skills/andromeda-tools/scripts/re… (87 chars)",
+"  5 probe       green · exit 0 · 0.0s · 0 B → 5.log · git diff --quiet 0cfc7b68e605c499f62525e9cbe51b2fa80e8397 … (346 chars)",
+"  6 unit        green · exit 0 · 6.9s · 151730 B → 6.log · bash scripts/agent-run.sh run",
+"entries 6 · green 6 · red 0 · recorded 0 · timeout 0 · not-run 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-11-03-architecture-registry-check-retired",
+"plan": "doc:2026-11-03-architecture-registry-check-retired/plan",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-11-03-architecture-registry-check-retired/wrap-2026-11-03T23-24-25",
+"delta": {
+"docs": [
+".andromeda/architecture-amendments.md",
+".andromeda/architecture.md",
+".andromeda/db/log/2026-11-03T05-44-03-session-2026-11-03.ndjson",
+".andromeda/db/moved",
+".andromeda/master-route.md",
+".claude/docs/session-learnings.md",
+".claude/docs/stack.md",
+".claude/session-handoff.md",
+"conductor-0.4.0/working-route.md",
+".andromeda/db/log/2026-11-03T22-58-14-2026-11-03-architecture-registry-check-retired.ndjson",
+".andromeda/db/log/2026-11-03T23-39-44-2026-11-03T23-24-25-wrap.ndjson",
+".andromeda/runs/2026-11-03T22-56-19-phase/a11y.md",
+".andromeda/runs/2026-11-03T22-56-19-phase/arch-history.md",
+".andromeda/runs/2026-11-03T22-56-19-phase/arch.md",
+".andromeda/runs/2026-11-03T22-56-19-phase/ci-no-marker.json",
+".andromeda/runs/2026-11-03T22-56-19-phase/design.md",
+".andromeda/runs/2026-11-03T22-56-19-phase/detail-2026-11-03-architecture-registry-check-retired.json",
+".andromeda/runs/2026-11-03T22-56-19-phase/evolve-2026-11-03-architecture-registry-check-retired.json",
+".andromeda/runs/2026-11-03T22-56-19-phase/fanout-2026-11-03-architecture-registry-check-retired.json",
+".andromeda/runs/2026-11-03T22-56-19-phase/gate-2026-11-03-architecture-registry-check-retired.json",
+".andromeda/runs/2026-11-03T22-56-19-phase/inputs-2026-11-03-architecture-registry-check-retired.json",
+".andromeda/runs/2026-11-03T22-56-19-phase/layouts.md",
+".andromeda/runs/2026-11-03T22-56-19-phase/master-desc.txt",
+".andromeda/runs/2026-11-03T22-56-19-phase/matrix-2026-11-03-architecture-registry-check-retired.json",
+".andromeda/runs/2026-11-03T22-56-19-phase/obs.md",
+".andromeda/runs/2026-11-03T22-56-19-phase/p5-card-1.md",
+".andromeda/runs/2026-11-03T22-56-19-phase/p5-controls.md",
+".andromeda/runs/2026-11-03T22-56-19-phase/planlint-2026-11-03-architecture-registry-check-retired.json",
+".andromeda/runs/2026-11-03T22-56-19-phase/rec-2026-11-03-architecture-registry-check-retired.json",
+".andromeda/runs/2026-11-03T22-56-19-phase/rec-read-2026-11-03-architecture-registry-check-retired.ndjson",
+".andromeda/runs/2026-11-03T22-56-19-phase/relay-1.md",
+".andromeda/runs/2026-11-03T22-56-19-phase/route-2026-11-03-architecture-registry-check-retired.json",
+".andromeda/runs/2026-11-03T22-56-19-phase/scope-cite-1.md",
+".andromeda/runs/2026-11-03T22-56-19-phase/scope-pin.json",
+".andromeda/runs/2026-11-03T22-56-19-phase/security-history.md",
+".andromeda/runs/2026-11-03T22-56-19-phase/security.md",
+".andromeda/runs/2026-11-03T22-56-19-phase/tests-history.md",
+".andromeda/runs/2026-11-03T22-56-19-phase/tests.md",
+".andromeda/runs/2026-11-03T23-17-49-implement/evolve-2026-11-03-architecture-registry-check-retired.json",
+".andromeda/runs/2026-11-03T23-17-49-implement/gate-2026-11-03-architecture-registry-check-retired.json",
+".andromeda/runs/2026-11-03T23-17-49-implement/outcome-2026-11-03-architecture-registry-check-retired.md",
+".andromeda/runs/2026-11-03T23-17-49-implement/rec-2026-11-03-architecture-registry-check-retired.json",
+".andromeda/runs/2026-11-03T23-24-25-wrap/apply-architecture.md",
+".andromeda/runs/2026-11-03T23-24-25-wrap/apply-obs-plan.md",
+".andromeda/runs/2026-11-03T23-24-25-wrap/apply-test-plan.md",
+".andromeda/runs/2026-11-03T23-24-25-wrap/architecture-entries.md",
+".andromeda/runs/2026-11-03T23-24-25-wrap/architecture-entry-1.md",
+".andromeda/runs/2026-11-03T23-24-25-wrap/cascade-2026-11-03-architecture-registry-check-retired-pre-pass.json",
+".andromeda/runs/2026-11-03T23-24-25-wrap/cascade-2026-11-03-architecture-registry-check-retired.json",
+".andromeda/runs/2026-11-03T23-24-25-wrap/cascade-dispositions.md",
+".andromeda/runs/2026-11-03T23-24-25-wrap/cascade-patterns.toml",
+".andromeda/runs/2026-11-03T23-24-25-wrap/citation-dispositions.md",
+".andromeda/runs/2026-11-03T23-24-25-wrap/citedisp-leaves.md",
+".andromeda/runs/2026-11-03T23-24-25-wrap/cites-2026-11-03-architecture-registry-check-retired.json",
+".andromeda/runs/2026-11-03T23-24-25-wrap/cites-land-2026-11-03-architecture-registry-check-retired.ndjson",
+".andromeda/runs/2026-11-03T23-24-25-wrap/classify-2026-11-03-architecture-registry-check-retired.json",
+".andromeda/runs/2026-11-03T23-24-25-wrap/curation.md",
+".andromeda/runs/2026-11-03T23-24-25-wrap/detail-2026-11-03-architecture-registry-check-retired.json",
+".andromeda/runs/2026-11-03T23-24-25-wrap/draft-.claude-docs-session-learnings.md",
+".andromeda/runs/2026-11-03T23-24-25-wrap/evolve-2026-11-03-architecture-registry-check-retired.json",
+".andromeda/runs/2026-11-03T23-24-25-wrap/fanout-2026-11-03-architecture-registry-check-retired.json",
+".andromeda/runs/2026-11-03T23-24-25-wrap/fanout-a11y-plan.md",
+".andromeda/runs/2026-11-03T23-24-25-wrap/fanout-architecture.md",
+".andromeda/runs/2026-11-03T23-24-25-wrap/fanout-design-system.md",
+".andromeda/runs/2026-11-03T23-24-25-wrap/fanout-layout-templates.md",
+".andromeda/runs/2026-11-03T23-24-25-wrap/fanout-obs-plan.md",
+".andromeda/runs/2026-11-03T23-24-25-wrap/fanout-results.md",
+".andromeda/runs/2026-11-03T23-24-25-wrap/fanout-security-plan.md",
+".andromeda/runs/2026-11-03T23-24-25-wrap/fanout-test-plan.md",
+".andromeda/runs/2026-11-03T23-24-25-wrap/gate-2026-11-03-architecture-registry-check-retired.json",
+".andromeda/runs/2026-11-03T23-24-25-wrap/health-2026-11-03-architecture-registry-check-retired.json",
+".andromeda/runs/2026-11-03T23-24-25-wrap/inputs-2026-11-03-architecture-registry-check-retired.json",
+".andromeda/runs/2026-11-03T23-24-25-wrap/leaf-.claude__docs__stack.md",
+".andromeda/runs/2026-11-03T23-24-25-wrap/leaf-architecture.md",
+".andromeda/runs/2026-11-03T23-24-25-wrap/leaf-delta-architecture.diff",
+".andromeda/runs/2026-11-03T23-24-25-wrap/new-text.md",
+".andromeda/runs/2026-11-03T23-24-25-wrap/obs-plan-entry-1.md",
+".andromeda/runs/2026-11-03T23-24-25-wrap/rec-2026-11-03-architecture-registry-check-retired.json",
+".andromeda/runs/2026-11-03T23-24-25-wrap/rec-no-marker.json",
+".andromeda/runs/2026-11-03T23-24-25-wrap/rec-read-2026-11-03-architecture-registry-check-retired.ndjson",
+".andromeda/runs/2026-11-03T23-24-25-wrap/relay-1.md",
+".andromeda/runs/2026-11-03T23-24-25-wrap/report-patterns.toml",
+".andromeda/runs/2026-11-03T23-24-25-wrap/route-batch.txt",
+".andromeda/runs/2026-11-03T23-24-25-wrap/run-node.txt",
+".andromeda/runs/2026-11-03T23-24-25-wrap/test-plan-entry-1.md"
+],
+"python": [
+"scripts/arch-registry-check.py"
+]
+},
+"unmapped": [],
+"walk_class": {
+"marked": {
+"rust": [
+"crates/conductor-core/src/drift.rs",
+"crates/conductor-core/src/load_envelope.rs",
+"crates/conductor-core/src/scenario_catalog.rs",
+"crates/conductor-core/tests/scenario_audit_gate.rs",
+"crates/conductor-core/tests/secret_scan_gate.rs",
+"crates/conductor-core/tests/workflow_env_gate.rs",
+"crates/conductor-run/tests/real_model_grading/capture_population.rs",
+"crates/conductor-run/tests/real_model_harvest.rs"
+]
+},
+"uncommitted": 86,
+"problem": null
+},
+"prose": [
+{
+"from": 59,
+"to": 67,
+"text": "No live leg and no boot-path: no Pulse is driven, and `agent-run.sh run` is the bundled default gate with no `SCENARIO`, so there is no smoke entry. The chunk has zero dependency delta (entry 5 guards `Cargo.lock` and every manifest), so `cargo audit` and `cargo deny check` run through CI's own steps on the wrap's push, not here. No acceptance needs CI and the diff is not OS-sensitive (a Python script, two rendered Markdown files, store records), so the plan lists no operator entry. Entries 1-4 read what steps 1-5 leave; entry 6 is the bundled gate, which includes `secret_scan_gate` over the git listing the `git rm` changes (test-plan §6 Repository-hygiene legs). The dry-run evidence `reconcile-dry-run.txt` (step 1) has no listed producer: it is a one-shot step outside the block, recorded once by implement, and no entry reads it — the row it forecasts is asserted by entry 2. P5's controls are in the run dir's `p5-controls.md`."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "test -z \"$(git ls-files -- scripts/arch-registry-check.py)\" && test ! -e scripts/arch-registry-check.py",
+"run_sha8": "4e321352",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-11-03-architecture-registry-check-retired/wrap-2026-11-03T23-24-25/1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "probe",
+"run": "awk -F'\\t' '$1 == \"product\" { print $2 }' .andromeda/db/moved",
+"run_sha8": "2e5a65fb",
+"expect": [
+"exit 0",
+"last line .andromeda/runs/2026-10-04T01-45-46-wrap/u35/logs/test-plan.md,.andromeda/runs/2026-09-13T11-34-19-code-audit/proposals.md"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-03-architecture-registry-check-retired/wrap-2026-11-03T23-24-25/2.log",
+"bytes": 123,
+"log_sha8": "6c354adc",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '.andromeda/runs/2026-10-04T01-45-46-wrap/u35/logs/test-plan.md,.andromeda/runs/2026-09-13T11-34-19-code-audit/proposals.md' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/rec.py query --root . \"select id from detector\"",
+"run_sha8": "51ea7f62",
+"expect": [
+"exit 0",
+"lacks det-i5onq3b3"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-03-architecture-registry-check-retired/wrap-2026-11-03T23-24-25/3.log",
+"bytes": 305,
+"log_sha8": "9ea9cacb",
+"exit": 0,
+"seconds": 0.13,
+"readings": [
+"exit 0 ✓",
+"lacks 'det-i5onq3b3' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/rec.py check --root . --no-heal",
+"run_sha8": "95bfcd08",
+"expect": [
+"exit 0",
+"contains check: clean",
+"lacks retired path present:"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-03-architecture-registry-check-retired/wrap-2026-11-03T23-24-25/4.log",
+"bytes": 3249,
+"log_sha8": "78419f0d",
+"exit": 0,
+"seconds": 6.01,
+"readings": [
+"exit 0 ✓",
+"contains 'check: clean' ✓",
+"lacks 'retired path present:' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "probe",
+"run": "git diff --quiet 0cfc7b68e605c499f62525e9cbe51b2fa80e8397 -- crates Cargo.toml Cargo.lock deny.toml rust-toolchain.toml .github scripts/agent-run.sh scripts/fixtures scripts/mutation-gate.py scripts/mutation-roster.toml scripts/code-graph.py scripts/code-graph-views.sql scripts/code-graph-cookbook.md scripts/scip_pb2.py scripts/requirements.txt",
+"run_sha8": "3a366479",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-11-03-architecture-registry-check-retired/wrap-2026-11-03T23-24-25/5.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run",
+"run_sha8": "21443cdf",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-11-03-architecture-registry-check-retired/wrap-2026-11-03T23-24-25/6.log",
+"bytes": 151730,
+"log_sha8": "8eb770f8",
+"exit": 0,
+"seconds": 6.9,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.26",
+"sha8": "3eb31cd0",
+"ts": "2026-11-03T23:42:24Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base HEAD (no pre-CI commit)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"hygiene: clean — read 80 (runs 75 · evidence 1 · inputs 4) · trails 24 not read · copies 2 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 75,
+"evidence": 1,
+"inputs": 4,
+"trails": 24,
+"copies": 2,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.26",
+"sha8": "3eb31cd0",
+"ts": "2026-11-03T23:42:25Z",
+"argv": [
+"scope",
+"--chunk",
+"2026-11-03-architecture-registry-check-retired",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base HEAD (no pre-CI commit) · lists new 0 · modify 5 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"list .andromeda/db/log/ (dir) ×0",
+"scope: clean — changed 1 · listed 1 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 86"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "HEAD",
+"base_why": "no pre-CI commit",
+"counts": {
+"changed": 1,
+"listed": 1,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 86,
+"unparsed": 0,
+"widening_without_word": 0
+}
+}
+]

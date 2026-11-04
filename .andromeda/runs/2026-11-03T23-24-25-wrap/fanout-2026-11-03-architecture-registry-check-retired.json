@@ -1,0 +1,500 @@
+[
+{
+"tool": "fanout",
+"v": "24",
+"sha8": "ffaf15ca",
+"ts": "2026-11-03T23:29:01Z",
+"argv": [
+"render",
+"--batch",
+"cites",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--report",
+"doc:2026-11-03-architecture-registry-check-retired/report",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"VERDICT: rendered 1 (cites 1) · batch cites · script ./.andromeda/runs/2026-11-03T23-24-25-wrap/prompts/cites.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-03T23-24-25-wrap/prompts/citedisp-leaves.md",
+"./.andromeda/runs/2026-11-03T23-24-25-wrap/prompts/cites.workflow.js",
+"./.andromeda/runs/2026-11-03T23-24-25-wrap/prompts/cites.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "24",
+"sha8": "ffaf15ca",
+"ts": "2026-11-03T23:29:45Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-03T23-24-25-wrap/prompts/cites.manifest.json",
+"--before",
+"tree b6ede497a5d42b432abf031787c1d1c5ca101887 index 2d4401ee53abad01d42b83ccb48b5e38e1bdccc1 head 0cfc7b68e605c499f62525e9cbe51b2fa80e8397",
+"--after",
+"tree 5e1bdda4a102b74ba905e5c5192cc62b13bcf62c index 2d4401ee53abad01d42b83ccb48b5e38e1bdccc1 head 0cfc7b68e605c499f62525e9cbe51b2fa80e8397",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch cites · 1 agents · 1 with every named path · trails: none",
+"[PATH_CHECK] PASS · index and head unchanged",
+"cites: 1 agents · 1 pass",
+"VERDICT: 1 of 1 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "cites",
+"agents": {
+"citedisp-leaves": {
+"failed": {},
+"yes": null
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [],
+"harness": [],
+"notes": []
+}
+},
+{
+"tool": "fanout",
+"v": "24",
+"sha8": "ffaf15ca",
+"ts": "2026-11-03T23:30:07Z",
+"argv": [
+"render",
+"--batch",
+"stage1",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--report",
+"doc:2026-11-03-architecture-registry-check-retired/report",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"VERDICT: rendered 7 (doc 7) · batch stage1 · script ./.andromeda/runs/2026-11-03T23-24-25-wrap/prompts/stage1.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-03T23-24-25-wrap/prompts/fanout-architecture.md",
+"./.andromeda/runs/2026-11-03T23-24-25-wrap/prompts/fanout-security-plan.md",
+"./.andromeda/runs/2026-11-03T23-24-25-wrap/prompts/fanout-design-system.md",
+"./.andromeda/runs/2026-11-03T23-24-25-wrap/prompts/fanout-layout-templates.md",
+"./.andromeda/runs/2026-11-03T23-24-25-wrap/prompts/fanout-test-plan.md",
+"./.andromeda/runs/2026-11-03T23-24-25-wrap/prompts/fanout-obs-plan.md",
+"./.andromeda/runs/2026-11-03T23-24-25-wrap/prompts/fanout-a11y-plan.md",
+"./.andromeda/runs/2026-11-03T23-24-25-wrap/prompts/stage1.workflow.js",
+"./.andromeda/runs/2026-11-03T23-24-25-wrap/prompts/stage1.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "24",
+"sha8": "ffaf15ca",
+"ts": "2026-11-03T23:31:09Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-03T23-24-25-wrap/prompts/stage1.manifest.json",
+"--before",
+"tree c2a3f7946126d9ca5f4a3d0e58cdfd195045b58f index 2d4401ee53abad01d42b83ccb48b5e38e1bdccc1 head 0cfc7b68e605c499f62525e9cbe51b2fa80e8397",
+"--after",
+"tree e605c28f19adddd5d3d149664fc36b76406f5412 index 2d4401ee53abad01d42b83ccb48b5e38e1bdccc1 head 0cfc7b68e605c499f62525e9cbe51b2fa80e8397",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch stage1 · 7 agents · 7 with every named path · trails: .andromeda/runs/2026-11-03T23-24-25-wrap/rec-read-2026-11-03-architecture-registry-check-retired.ndjson",
+"[PATH_CHECK] PASS · index and head unchanged",
+"doc: 7 agents · 7 pass",
+"proposals: architecture 1 · security-plan 0 · design-system 0 · layout-templates 0 · test-plan 0 · obs-plan 0 · a11y-plan 0",
+"VERDICT: 7 of 7 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "stage1",
+"agents": {
+"fanout-architecture": {
+"failed": {},
+"yes": null
+},
+"fanout-security-plan": {
+"failed": {},
+"yes": null
+},
+"fanout-design-system": {
+"failed": {},
+"yes": null
+},
+"fanout-layout-templates": {
+"failed": {},
+"yes": null
+},
+"fanout-test-plan": {
+"failed": {},
+"yes": null
+},
+"fanout-obs-plan": {
+"failed": {},
+"yes": null
+},
+"fanout-a11y-plan": {
+"failed": {},
+"yes": null
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [
+".andromeda/runs/2026-11-03T23-24-25-wrap/rec-read-2026-11-03-architecture-registry-check-retired.ndjson"
+],
+"harness": [],
+"notes": []
+}
+},
+{
+"tool": "fanout",
+"v": "24",
+"sha8": "ffaf15ca",
+"ts": "2026-11-03T23:32:46Z",
+"argv": [
+"render",
+"--batch",
+"apply",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--report",
+"doc:2026-11-03-architecture-registry-check-retired/report",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"VERDICT: rendered 3 (apply 3) · batch apply · script ./.andromeda/runs/2026-11-03T23-24-25-wrap/prompts/apply.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-03T23-24-25-wrap/prompts/apply-architecture.md",
+"./.andromeda/runs/2026-11-03T23-24-25-wrap/prompts/apply-test-plan.md",
+"./.andromeda/runs/2026-11-03T23-24-25-wrap/prompts/apply-obs-plan.md",
+"./.andromeda/runs/2026-11-03T23-24-25-wrap/prompts/apply.workflow.js",
+"./.andromeda/runs/2026-11-03T23-24-25-wrap/prompts/apply.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "24",
+"sha8": "ffaf15ca",
+"ts": "2026-11-03T23:33:53Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-03T23-24-25-wrap/prompts/apply.manifest.json",
+"--before",
+"tree 684228a678c17c680d2dfac7d1bf0bbbd072e4d5 index 2d4401ee53abad01d42b83ccb48b5e38e1bdccc1 head 0cfc7b68e605c499f62525e9cbe51b2fa80e8397",
+"--after",
+"tree d1413c5eb1529d43753d92355613671be305fff9 index 2d4401ee53abad01d42b83ccb48b5e38e1bdccc1 head 0cfc7b68e605c499f62525e9cbe51b2fa80e8397",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch apply · 3 agents · 3 with every named path · trails: .andromeda/runs/2026-11-03T23-24-25-wrap/rec-read-2026-11-03-architecture-registry-check-retired.ndjson",
+"[PATH_CHECK] PASS · index and head unchanged",
+"apply: 3 agents · 3 pass",
+"VERDICT: 3 of 3 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "apply",
+"agents": {
+"apply-architecture": {
+"failed": {},
+"yes": null
+},
+"apply-test-plan": {
+"failed": {},
+"yes": null
+},
+"apply-obs-plan": {
+"failed": {},
+"yes": null
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [
+".andromeda/runs/2026-11-03T23-24-25-wrap/rec-read-2026-11-03-architecture-registry-check-retired.ndjson"
+],
+"harness": [],
+"notes": []
+}
+},
+{
+"tool": "fanout",
+"v": "24",
+"sha8": "ffaf15ca",
+"ts": "2026-11-03T23:35:01Z",
+"argv": [
+"render",
+"--batch",
+"entry",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--report",
+"doc:2026-11-03-architecture-registry-check-retired/report",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"VERDICT: rendered 1 (entry 1) · batch entry · script ./.andromeda/runs/2026-11-03T23-24-25-wrap/prompts/entry.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-03T23-24-25-wrap/prompts/architecture-entries.md",
+"./.andromeda/runs/2026-11-03T23-24-25-wrap/prompts/entry.workflow.js",
+"./.andromeda/runs/2026-11-03T23-24-25-wrap/prompts/entry.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "24",
+"sha8": "ffaf15ca",
+"ts": "2026-11-03T23:36:05Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-03T23-24-25-wrap/prompts/entry.manifest.json",
+"--before",
+"tree 328855f40fd9ef8afb666708f2bbe69112d44316 index 2d4401ee53abad01d42b83ccb48b5e38e1bdccc1 head 0cfc7b68e605c499f62525e9cbe51b2fa80e8397",
+"--after",
+"tree aa8b2ac4f9526e3ef68c9c95206b0833e21a5c1c index 2d4401ee53abad01d42b83ccb48b5e38e1bdccc1 head 0cfc7b68e605c499f62525e9cbe51b2fa80e8397",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch entry · 1 agents · 1 with every named path · trails: .andromeda/runs/2026-11-03T23-24-25-wrap/rec-read-2026-11-03-architecture-registry-check-retired.ndjson",
+"[PATH_CHECK] PASS · index and head unchanged",
+"entry: 1 agents · 1 pass",
+"VERDICT: 1 of 1 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "entry",
+"agents": {
+"architecture-entries": {
+"failed": {},
+"yes": null
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [
+".andromeda/runs/2026-11-03T23-24-25-wrap/rec-read-2026-11-03-architecture-registry-check-retired.ndjson"
+],
+"harness": [],
+"notes": []
+}
+},
+{
+"tool": "fanout",
+"v": "24",
+"sha8": "ffaf15ca",
+"ts": "2026-11-03T23:37:01Z",
+"argv": [
+"render",
+"--batch",
+"leaf",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--report",
+"doc:2026-11-03-architecture-registry-check-retired/report",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"VERDICT: rendered 1 (leaf 1) · batch leaf · script ./.andromeda/runs/2026-11-03T23-24-25-wrap/prompts/leaf.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-03T23-24-25-wrap/prompts/leaf-architecture.md",
+"./.andromeda/runs/2026-11-03T23-24-25-wrap/prompts/leaf.workflow.js",
+"./.andromeda/runs/2026-11-03T23-24-25-wrap/prompts/leaf.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "24",
+"sha8": "ffaf15ca",
+"ts": "2026-11-03T23:38:02Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-03T23-24-25-wrap/prompts/leaf.manifest.json",
+"--before",
+"tree 32702bcbbc52060401e5ba1c5191d863fb26b9ee index 2d4401ee53abad01d42b83ccb48b5e38e1bdccc1 head 0cfc7b68e605c499f62525e9cbe51b2fa80e8397",
+"--after",
+"tree c2dea098a731347c578ae02e13795f685af8ebc6 index 2d4401ee53abad01d42b83ccb48b5e38e1bdccc1 head 0cfc7b68e605c499f62525e9cbe51b2fa80e8397",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch leaf · 1 agents · 1 with every named path · trails: none",
+"[PATH_CHECK] PASS · index and head unchanged",
+"leaf: 1 agents · 1 pass",
+"VERDICT: 1 of 1 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "leaf",
+"agents": {
+"leaf-architecture": {
+"failed": {},
+"yes": null
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [],
+"harness": [],
+"notes": []
+}
+},
+{
+"tool": "fanout",
+"v": "24",
+"sha8": "ffaf15ca",
+"ts": "2026-11-03T23:38:30Z",
+"argv": [
+"census",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"cites · 1 agents · first try 1 (cites 1/1) · wall 44 s",
+"stage1 · 7 agents · first try 7 (doc 7/7) · wall 62 s",
+"apply · 3 agents · first try 3 (apply 3/3) · wall 67 s",
+"entry · 1 agents · first try 1 (entry 1/1) · wall 64 s",
+"leaf · 1 agents · first try 1 (leaf 1/1) · wall 61 s",
+"cascade-tally.tsv: absent — no cascade tallied",
+"cascade-sample.txt: absent",
+"SIGNALS: [\"agents-cites:1\", \"first-cites:1\", \"wall-cites:44\", \"agents-doc:7\", \"first-doc:7\", \"wall-stage1:62\", \"agents-apply:3\", \"first-apply:3\", \"wall-apply:67\", \"agents-entry:1\", \"first-entry:1\", \"wall-entry:64\", \"agents-leaf:1\", \"first-leaf:1\", \"wall-leaf:61\", \"unchecked:0\"]",
+"VERDICT: 16 signals · 5 batch(es) · trail .andromeda/runs/2026-11-03T23-24-25-wrap/fanout-2026-11-03-architecture-registry-check-retired.json"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "census",
+"signals": [
+"agents-cites:1",
+"first-cites:1",
+"wall-cites:44",
+"agents-doc:7",
+"first-doc:7",
+"wall-stage1:62",
+"agents-apply:3",
+"first-apply:3",
+"wall-apply:67",
+"agents-entry:1",
+"first-entry:1",
+"wall-entry:64",
+"agents-leaf:1",
+"first-leaf:1",
+"wall-leaf:61",
+"unchecked:0"
+]
+}
+}
+]

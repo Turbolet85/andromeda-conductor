@@ -1,0 +1,8 @@
+## 2026-11-03-architecture-registry-check-retired — the architecture-registry check leaves the operator instruments
+**Section:** §Stack and Technologies (the «Operator instruments (host runtime)» row)
+**Change:**
+- The row's committed operator-local instruments are the code-graph pipeline (`scripts/code-graph.py` + `scripts/scip_pb2.py` + `scripts/requirements.txt`, since 2026-06-18) and the mutation-tally gate (`scripts/mutation-gate.py` + `scripts/mutation-roster.toml`, since 2026-09-13, its `selftest [--fixtures DIR]` verb since 2026-09-30). Was: these two and the architecture-registry check (`scripts/arch-registry-check.py`, stdlib only, since 2026-09-24); now: these two alone.
+- The size guidance leaves with that clause. Was: the check sizes §Established Decisions / §Occupied Resources against 60 % of the Read cap and proves a drafted compaction lossless; now: the body sets no size target for those sections.
+**Why:** the founder ruled the script retired (CARRY `cry-stwl3h5o`). The chunk removed `scripts/arch-registry-check.py` from git and retired its detector `D-arch-registry-size`, so the row no longer names a standing instrument. With the guidance gone, the earlier dated sidecar entries that ask an amendment to free bytes first (2026-10-07 / 2026-10-08) no longer bind later chunks. They stay as history only.
+**Kept:** both standing claims of the row. No CI step invokes any of the instruments, and none adds a sixth `agent-run.sh` command (the 5-command harness surface is unchanged). They are worded without a count of instruments.
+**Ref:** .andromeda/runs/2026-11-03T23-24-25-wrap/

@@ -1,0 +1,571 @@
+[
+{
+"tool": "rec",
+"v": "1.13",
+"sha8": "cc38f294",
+"ts": "2026-11-03T23:28:09Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-03-architecture-registry-check-retired",
+"--file",
+".andromeda/cache/docs/2026-11-03-architecture-registry-check-retired/report.md",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-03-architecture-registry-check-retired/report rev 1 · 38 new · 0 revised · 0 retired · 0 kept · tx 106"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-03T22-58-14-2026-11-03-architecture-registry-check-retired.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.13",
+"sha8": "cc38f294",
+"ts": "2026-11-03T23:28:14Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-03-architecture-registry-check-retired",
+"--section-file",
+".andromeda/runs/2026-11-03T23-24-25-wrap/new-text.md",
+"--heading",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-03-architecture-registry-check-retired/report rev 2 · 1 new · 0 revised · 0 retired · 38 kept · tx 107"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-03T22-58-14-2026-11-03-architecture-registry-check-retired.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.13",
+"sha8": "cc38f294",
+"ts": "2026-11-03T23:28:45Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-03T23-24-25-wrap/cites-land-2026-11-03-architecture-registry-check-retired.ndjson",
+"--base",
+"df7bf9a70d51f015fd0f825c7e45e25947576a37",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 0 fact(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.13",
+"sha8": "cc38f294",
+"ts": "2026-11-03T23:28:54Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-03T23-24-25-wrap/cites-land-2026-11-03-architecture-registry-check-retired.ndjson",
+"--base",
+"df7bf9a70d51f015fd0f825c7e45e25947576a37",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 0 fact(s) · 0 edge(s) · tx 109"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-03T22-58-14-2026-11-03-architecture-registry-check-retired.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.13",
+"sha8": "cc38f294",
+"ts": "2026-11-03T23:34:05Z",
+"argv": [
+"put",
+"--root",
+".",
+"--section",
+"Edits",
+"--file",
+".andromeda/runs/2026-11-03T23-24-25-wrap/apply-architecture.md",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"E1 · applied · fct-22zuwdf4",
+"dry-run · would land 1 record(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.13",
+"sha8": "cc38f294",
+"ts": "2026-11-03T23:34:10Z",
+"argv": [
+"put",
+"--root",
+".",
+"--section",
+"Edits",
+"--file",
+".andromeda/runs/2026-11-03T23-24-25-wrap/apply-architecture.md",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"E1 · applied · fct-22zuwdf4",
+"landed 1 record(s) · 0 edge(s) · tx 110"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-03T22-58-14-2026-11-03-architecture-registry-check-retired.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.13",
+"sha8": "cc38f294",
+"ts": "2026-11-03T23:36:30Z",
+"argv": [
+"amend",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-03T23-24-25-wrap/architecture-entries.md",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"2026-11-03-architecture-registry-check-retired — the architecture-registry check leaves th · on-form · 1621 B · amd-nt7kbm5m",
+"dry-run · would land 1 entr(ies) · 4 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.13",
+"sha8": "cc38f294",
+"ts": "2026-11-03T23:36:30Z",
+"argv": [
+"amend",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-03T23-24-25-wrap/architecture-entry-1.md",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"2026-11-03-architecture-registry-check-retired — the tokio 1.54.1 bump ratified · on-form · 832 B · amd-wtgvell5",
+"dry-run · would land 1 entr(ies) · 6 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.13",
+"sha8": "cc38f294",
+"ts": "2026-11-03T23:36:30Z",
+"argv": [
+"amend",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-03T23-24-25-wrap/test-plan-entry-1.md",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"2026-11-03-architecture-registry-check-retired — the tokio 1.54.1 bump ratified · on-form · 733 B · amd-vncwysas",
+"dry-run · would land 1 entr(ies) · 6 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.13",
+"sha8": "cc38f294",
+"ts": "2026-11-03T23:36:30Z",
+"argv": [
+"amend",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-03T23-24-25-wrap/obs-plan-entry-1.md",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"2026-11-03-architecture-registry-check-retired — the tokio 1.54.1 bump ratified · on-form · 702 B · amd-skzt3jfh",
+"dry-run · would land 1 entr(ies) · 4 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.13",
+"sha8": "cc38f294",
+"ts": "2026-11-03T23:36:36Z",
+"argv": [
+"amend",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-03T23-24-25-wrap/architecture-entries.md",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"2026-11-03-architecture-registry-check-retired — the architecture-registry check leaves th · on-form · 1621 B · amd-zaurnhym",
+"landed 1 entr(ies) · 4 edge(s) · tx 111"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-03T22-58-14-2026-11-03-architecture-registry-check-retired.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.13",
+"sha8": "cc38f294",
+"ts": "2026-11-03T23:36:36Z",
+"argv": [
+"amend",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-03T23-24-25-wrap/architecture-entry-1.md",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"2026-11-03-architecture-registry-check-retired — the tokio 1.54.1 bump ratified · on-form · 832 B · amd-vhjid66b",
+"landed 1 entr(ies) · 6 edge(s) · tx 112"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-03T22-58-14-2026-11-03-architecture-registry-check-retired.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.13",
+"sha8": "cc38f294",
+"ts": "2026-11-03T23:36:37Z",
+"argv": [
+"amend",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-03T23-24-25-wrap/test-plan-entry-1.md",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"2026-11-03-architecture-registry-check-retired — the tokio 1.54.1 bump ratified · on-form · 733 B · amd-mlxja62a",
+"landed 1 entr(ies) · 6 edge(s) · tx 113"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-03T22-58-14-2026-11-03-architecture-registry-check-retired.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.13",
+"sha8": "cc38f294",
+"ts": "2026-11-03T23:36:37Z",
+"argv": [
+"amend",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-03T23-24-25-wrap/obs-plan-entry-1.md",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"2026-11-03-architecture-registry-check-retired — the tokio 1.54.1 bump ratified · on-form · 702 B · amd-ouzweykr",
+"landed 1 entr(ies) · 4 edge(s) · tx 114"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-03T22-58-14-2026-11-03-architecture-registry-check-retired.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.13",
+"sha8": "cc38f294",
+"ts": "2026-11-03T23:38:14Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/stack.md",
+"--file",
+"./.andromeda/runs/2026-11-03T23-24-25-wrap/leaf-.claude__docs__stack.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/stack.md rev 2 · 0 new · 1 revised · 0 retired · tx 115"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-03T22-58-14-2026-11-03-architecture-registry-check-retired.ndjson",
+"./.claude/docs/stack.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.13",
+"sha8": "cc38f294",
+"ts": "2026-11-03T23:41:02Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-03T23-24-25-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 1 record(s) · 1 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.13",
+"sha8": "cc38f294",
+"ts": "2026-11-03T23:41:07Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-03T23-24-25-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 1 edge(s) · tx 119 · cry-lmljzbre … cry-lmljzbre"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-03T22-58-14-2026-11-03-architecture-registry-check-retired.ndjson",
+"./conductor-0.4.0/working-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.13",
+"sha8": "cc38f294",
+"ts": "2026-11-03T23:41:30Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-03T23-24-25-wrap/run-node.txt",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--marker",
+"2026-11-03-architecture-registry-check-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 121 · run-3k76k73v … run-3k76k73v"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-03T22-58-14-2026-11-03-architecture-registry-check-retired.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.13",
+"sha8": "cc38f294",
+"ts": "2026-11-03T23:42:31Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-03-architecture-registry-check-retired",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"unchanged · 4 file(s) of 2026-11-03-architecture-registry-check-retired"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

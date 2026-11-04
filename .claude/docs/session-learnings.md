@@ -1,6 +1,15 @@
 # Session Learnings
 
 _This file is curated by `/wrap-session`. Learnings captured here are too detailed or specific for CLAUDE.md but worth preserving as reference material for future sessions._
+## 2026-11-03 — A chunk's own evidence file fails `rec.py check` until it is landed
+`rec.py check` counts every regular file in a pending chunk's working folder that has not been landed as a failure
+(`records: docs · unlanded {n}`, then `check: {n} failure(s)`), even when every other store reading is clean. So a plan
+step that writes evidence into the working folder and a later step that asserts `check: clean` need a land between
+them: `gate.py hygiene` first, then `rec.py land --chunk {marker}`, the same pair implement fires at its end. A second
+land later keeps an unchanged file at its rev. The operator ruled this land the tool's own step, not a workaround.
+
+---
+
 ## 2026-11-03 — Cite another repository's file by the text it holds, never by a line number
 A master citation `{repo} {file}:{N}` into a sibling repository cannot be kept current by this project's tools: the
 citation sweep resolves `{file}` in THIS tree (so a reader checks the number against the wrong file and fails), and

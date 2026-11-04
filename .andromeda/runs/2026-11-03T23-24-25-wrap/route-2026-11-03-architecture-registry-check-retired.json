@@ -1,0 +1,71 @@
+[
+{
+"tool": "route",
+"v": "1.12",
+"sha8": "cf1a5917",
+"ts": "2026-11-04T00:02:54Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-03-architecture-registry-check-retired",
+"--date",
+"2026-11-04",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-stwl3h5o strip CARRY: 834ch \"CARRY: the founder's ruling, item 6 of `\"",
+"pin cry-b7jcaggf strip CARRY: 546ch \"CARRY: measured at 2026-11-03-linux-only\"",
+"pin cry-qkxs4v53 strip CARRY: 491ch \"CARRY: the founder confirmed by dialog (\"",
+"pin next markerless chk-xph7chux holds no freight",
+"2026-11-03-architecture-registry-check-retired · strip 3 block(s) · spent in the spine",
+"dry-run · would flip 2026-11-03-architecture-registry-check-retired pending -> complete"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.12",
+"sha8": "cf1a5917",
+"ts": "2026-11-04T00:03:00Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-03-architecture-registry-check-retired",
+"--date",
+"2026-11-04",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-stwl3h5o strip CARRY: 834ch \"CARRY: the founder's ruling, item 6 of `\"",
+"pin cry-b7jcaggf strip CARRY: 546ch \"CARRY: measured at 2026-11-03-linux-only\"",
+"pin cry-qkxs4v53 strip CARRY: 491ch \"CARRY: the founder confirmed by dialog (\"",
+"pin next markerless chk-xph7chux holds no freight",
+"flip 2026-11-03-architecture-registry-check-retired pending -> complete · tx 128",
+"compacted 1 complete line(s) — their freight spent in the spine, no archive (U61)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-03T22-58-14-2026-11-03-architecture-registry-check-retired.ndjson",
+"./.andromeda/master-route.md",
+"./conductor-0.4.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

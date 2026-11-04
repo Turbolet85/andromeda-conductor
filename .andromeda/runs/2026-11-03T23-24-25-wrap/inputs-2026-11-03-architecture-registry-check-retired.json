@@ -1,0 +1,135 @@
+[
+{
+"tool": "inputs",
+"v": "1.5",
+"sha8": "8811349b",
+"ts": "2026-11-03T23:25:01Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-03-architecture-registry-check-retired",
+"--message-file",
+".andromeda/runs/2026-11-03T23-24-25-wrap/relay-1.md",
+"--origin",
+"overseer (founder-delegated), /andromeda-wrap-session invocation, 2026-11-03 23:24Z",
+"--kind",
+"relay",
+"--why",
+"the wrap directive: run whole; the implement step-5 early land accepted as the tool own step; commit, push, read CI on the pushed tip before the card; the card items",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: overseer (founder-delegated), /andromeda-wrap-session invocation, 2026-11-03 23:24Z",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: overseer (founder-delegated), /andromeda-wrap-session invocation, 2026-11-03 23:24Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "bdebaa62f0fb25bb169c1829c59c0712148c507f31629ddf8be54e49d54c08cc",
+"copy": "I2-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-03T23:25:00Z",
+"step": "wrap",
+"why": "the wrap directive: run whole; the implement step-5 early land accepted as the tool own step; commit, push, read CI on the pushed tip before the card; the card items"
+}
+},
+{
+"tool": "inputs",
+"v": "1.5",
+"sha8": "8811349b",
+"ts": "2026-11-03T23:25:05Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-03-architecture-registry-check-retired",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: pc-overseer (founder-delegated), relaying overseer1, 2026-11-03 ~22:50Z",
+"I1 cited scope.md:8 · research.md:8 · plan.md:12 · plan.md:29 · plan.md:147",
+"I2 n/a — a message has no live source · copy message · message: overseer (founder-delegated), /andromeda-wrap-session invocation, 2026-11-03 23:24Z",
+"I2 UNCITED",
+"inputs: 2 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 1,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.5",
+"sha8": "8811349b",
+"ts": "2026-11-03T23:28:14Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-03-architecture-registry-check-retired",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: pc-overseer (founder-delegated), relaying overseer1, 2026-11-03 ~22:50Z",
+"I1 cited scope.md:8 · research.md:8 · plan.md:12 · plan.md:29 · plan.md:147",
+"I2 n/a — a message has no live source · copy message · message: overseer (founder-delegated), /andromeda-wrap-session invocation, 2026-11-03 23:24Z",
+"I2 cited report.md:27 · report.md:32 · report.md:44 · report.md:50 · report.md:66",
+"inputs: 2 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

@@ -1,0 +1,2 @@
+proposals: []
+note: No drift in design-system. The chunk adds no UI surface (report fct-mpwihwpd), so D-design-tokens has nothing to check. The moved counts it lists (arch-reg, size-guide, arch-md, tokio-bump, product-row; fct-u7ginvxt) have 0 design-system sites, as the sweep confirms. The report retires no platform or harness verdict (fct-odmitcmz none, fct-rr6oz7p4 none), so D-platform-claim has no trigger. No design-system passage names the retired script, detector or rendered pair: a find for arch-reg|architecture|registry|size gate|.andromeda/ returns 0 hits.

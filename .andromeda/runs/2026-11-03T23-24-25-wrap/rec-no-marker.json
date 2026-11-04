@@ -1,0 +1,134 @@
+[
+{
+"tool": "rec",
+"v": "1.13",
+"sha8": "cc38f294",
+"ts": "2026-11-03T23:39:39Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/docs/session-learnings.md",
+"--file",
+".andromeda/runs/2026-11-03T23-24-25-wrap/draft-.claude-docs-session-learnings.md",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land .claude/docs/session-learnings.md rev 2 · 4 node(s) · 3 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.13",
+"sha8": "cc38f294",
+"ts": "2026-11-03T23:39:44Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/docs/session-learnings.md",
+"--file",
+".andromeda/runs/2026-11-03T23-24-25-wrap/draft-.claude-docs-session-learnings.md",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/session-learnings.md rev 2 · 2 new · 0 revised · 0 retired · tx 117"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-03T23-39-44-2026-11-03T23-24-25-wrap.ndjson",
+"./.claude/docs/session-learnings.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.13",
+"sha8": "cc38f294",
+"ts": "2026-11-03T23:42:31Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"sealed 2026-09-13T11-34-19-code-audit · 25 file(s) · no new part · tx 122 · 1 removed · 0 set aside",
+"sealed 2026-10-04T01-45-46-wrap · 62 file(s) · no new part · tx 123 · 1 removed · 0 set aside",
+"sealed 2026-11-03T19-22-13-records-door-runs · 2 file(s) · 2026-11-03T19-22-13-records-door-runs.parquet · tx 124 · 2 removed · 0 set aside",
+"sealed 2026-11-03T22-56-19-phase · 27 file(s) · 2026-11-03T22-56-19-phase.parquet · tx 125 · 27 removed · 14 set aside",
+"sealed 2026-11-03T23-17-49-implement · 4 file(s) · 2026-11-03T23-17-49-implement.parquet · tx 126 · 4 removed · 0 set aside",
+"seal · 5 run(s) · own 2026-11-03T23-24-25-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.14",
+"sha8": "cc24672b",
+"ts": "2026-11-04T00:02:26Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"kept 2026-09-13T11-34-19-code-audit · product only (1 path(s) the product row holds) — never sealed, never removed",
+"kept 2026-10-04T01-45-46-wrap · product only (1 path(s) the product row holds) — never sealed, never removed",
+"seal · 0 run(s) (dry-run) · own 2026-11-03T23-24-25-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.14",
+"sha8": "cc24672b",
+"ts": "2026-11-04T00:02:33Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-03T23-24-25-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"kept 2026-09-13T11-34-19-code-audit · product only (1 path(s) the product row holds) — never sealed, never removed",
+"kept 2026-10-04T01-45-46-wrap · product only (1 path(s) the product row holds) — never sealed, never removed",
+"seal · 0 run(s) · own 2026-11-03T23-24-25-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

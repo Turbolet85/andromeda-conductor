@@ -1,0 +1,2 @@
+proposals: []
+note: No drift found. The report adds no surface (fct-mpwihwpd), so D-layout-surface has nothing to check. Its moved counts (arch-reg, size-guide, arch-md, tokio-bump, product-row) and the Retired items (arch-registry-check.py, D-arch-registry-size, the rendered pair .andromeda/architecture.md and .andromeda/architecture-amendments.md) get 0 hits in layout-templates (find regex 'architecture|arch-registry|tokio|\.andromeda/' returned 0 hits). Spec claims disproved and Harness / gate surface both read none, so D-platform-claim has no trigger.
